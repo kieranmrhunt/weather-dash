@@ -1,0 +1,1073 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Reading Atmospheric Observatory — Live Conditions</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  /* ============================================================
+     Reading Atmospheric Observatory — live conditions dashboard
+     Field set mirrors UOR_weather_report.py (METFiDAS 5-min CSV).
+     Single file, vanilla JS, no frameworks, no storage.
+     ============================================================ */
+
+  :root{
+    --bg:#0a0d14;
+    --bg-grad-top:#0c1019;
+    --bg-grad-bot:#070a10;
+    --panel:#11161f;
+    --panel-2:#0e131b;
+    --line:rgba(255,255,255,.07);
+    --line-strong:rgba(255,255,255,.14);
+    --ink:#ece9e0;
+    --ink-dim:#9aa1ae;
+    --ink-faint:#5d6573;
+    --accent:#e6b34a;          /* overwritten per-condition by JS */
+    --accent-soft:rgba(230,179,74,.16);
+    --warm:#e8754a; --cool:#5b9bd5; --good:#7fcf9a; --bad:#e0607a;
+    --mono:'IBM Plex Mono',ui-monospace,Menlo,Consolas,monospace;
+    --serif:'Fraunces',Georgia,serif;
+    --body:'EB Garamond',Georgia,serif;
+    --r:16px;
+    --shadow:0 18px 50px -28px rgba(0,0,0,.85);
+  }
+
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0;
+    background:
+      radial-gradient(1200px 700px at 78% -8%, rgba(70,90,140,.16), transparent 60%),
+      linear-gradient(180deg,var(--bg-grad-top),var(--bg-grad-bot));
+    background-attachment:fixed;
+    color:var(--ink);
+    font-family:var(--body);
+    font-size:18px;
+    line-height:1.5;
+    min-height:100vh;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  .wrap{max-width:1180px;margin:0 auto;padding:22px clamp(14px,3vw,30px) 60px}
+
+  /* ---------- header ---------- */
+  header.top{
+    display:flex;flex-wrap:wrap;align-items:flex-end;gap:18px 26px;
+    padding-bottom:18px;margin-bottom:22px;border-bottom:1px solid var(--line);
+  }
+  .brand{display:flex;flex-direction:column;gap:2px;min-width:0}
+  .eyebrow{
+    font-family:var(--mono);font-size:11px;letter-spacing:.32em;text-transform:uppercase;
+    color:var(--ink-faint);
+  }
+  .brand h1{
+    font-family:var(--serif);font-weight:400;font-size:clamp(22px,3.6vw,30px);
+    line-height:1.05;margin:3px 0 0;letter-spacing:-.01em;
+  }
+  .brand h1 em{font-style:italic;color:var(--accent);transition:color .6s}
+  .coords{font-family:var(--mono);font-size:11.5px;color:var(--ink-dim);margin-top:5px;letter-spacing:.04em}
+
+  .clocks{margin-left:auto;display:flex;gap:26px;text-align:right}
+  .clk{display:flex;flex-direction:column;gap:3px}
+  .clk .lab{font-family:var(--mono);font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-faint)}
+  .clk .val{font-family:var(--mono);font-size:19px;font-weight:500;color:var(--ink);font-variant-numeric:tabular-nums}
+  .clk .val.obs{color:var(--accent);transition:color .6s}
+
+  /* ---------- control bar ---------- */
+  .controls{display:flex;flex-wrap:wrap;gap:14px 22px;align-items:center;margin-bottom:26px}
+  .seg{display:inline-flex;background:var(--panel-2);border:1px solid var(--line);border-radius:11px;padding:4px;gap:3px}
+  .seg button{
+    font-family:var(--mono);font-size:12px;letter-spacing:.03em;
+    color:var(--ink-dim);background:transparent;border:0;border-radius:8px;
+    padding:7px 12px;cursor:pointer;transition:background .18s,color .18s;white-space:nowrap;
+  }
+  .seg button:hover{color:var(--ink)}
+  .seg button[aria-pressed="true"]{background:var(--accent-soft);color:var(--accent)}
+  .seg-label{font-family:var(--mono);font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-faint);margin-right:-12px}
+  .units{margin-left:auto;display:flex;gap:18px}
+
+  /* ---------- hero ---------- */
+  .hero{
+    display:grid;grid-template-columns:1.05fr .95fr;gap:0;
+    border:1px solid var(--line);border-radius:var(--r);overflow:hidden;
+    background:var(--panel);box-shadow:var(--shadow);margin-bottom:18px;
+  }
+  .hero-read{padding:clamp(20px,3vw,34px);display:flex;flex-direction:column;justify-content:center;gap:4px}
+  .now-row{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
+  .bigtemp{
+    font-family:var(--serif);font-weight:300;font-size:clamp(64px,13vw,118px);
+    line-height:.86;letter-spacing:-.03em;font-variant-numeric:tabular-nums;
+  }
+  .bigtemp .deg{font-size:.42em;color:var(--ink-dim);vertical-align:top;margin-left:2px}
+  .cond-word{
+    font-family:var(--serif);font-style:italic;font-weight:400;
+    font-size:clamp(22px,4.2vw,34px);color:var(--accent);transition:color .6s;line-height:1;
+  }
+  .temp-word{font-family:var(--mono);font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-dim);margin-top:2px}
+  .badges{display:flex;flex-wrap:wrap;gap:7px;margin:14px 0 2px}
+  .badge{
+    font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;
+    padding:4px 9px;border-radius:20px;border:1px solid var(--line-strong);color:var(--ink-dim);
+    display:inline-flex;align-items:center;gap:6px;
+  }
+  .badge .dot{width:6px;height:6px;border-radius:50%;background:var(--accent)}
+  .badge.warn{border-color:rgba(224,96,122,.4);color:#f0a9b6}
+  .badge.warn .dot{background:var(--bad)}
+  .badge.cool .dot{background:var(--cool)}
+  .narr{
+    font-family:var(--body);font-size:clamp(16px,2.1vw,19px);color:var(--ink);
+    margin-top:16px;max-width:46ch;line-height:1.42;opacity:.94;
+  }
+  .feels{font-family:var(--mono);font-size:12px;color:var(--ink-dim);margin-top:14px;letter-spacing:.02em}
+  .feels b{color:var(--ink);font-weight:500}
+
+  .hero-sky{position:relative;min-height:300px;border-left:1px solid var(--line);overflow:hidden;transition:background .8s ease}
+  .hero-sky svg{position:absolute;inset:0;width:100%;height:100%;display:block}
+  .sky-meta{
+    position:absolute;left:0;right:0;bottom:0;padding:14px 18px;
+    display:flex;justify-content:space-between;gap:10px;
+    font-family:var(--mono);font-size:11px;color:rgba(255,255,255,.82);
+    background:linear-gradient(0deg,rgba(0,0,0,.42),transparent);letter-spacing:.04em;
+  }
+  .sky-meta span b{font-weight:600}
+
+  /* ---------- instrument grid ---------- */
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:18px;margin-bottom:18px}
+  .card{
+    background:var(--panel);border:1px solid var(--line);border-radius:var(--r);
+    padding:18px 18px 16px;display:flex;flex-direction:column;min-height:188px;box-shadow:var(--shadow);
+  }
+  .card h2{
+    font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;
+    color:var(--ink-faint);margin:0 0 10px;display:flex;justify-content:space-between;align-items:center;
+  }
+  .card h2 .tag{color:var(--accent);transition:color .6s}
+  .readout{font-family:var(--serif);font-weight:400;font-size:42px;line-height:1;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+  .readout .u{font-family:var(--mono);font-size:14px;color:var(--ink-dim);margin-left:6px;letter-spacing:0}
+  .sub{font-family:var(--mono);font-size:11.5px;color:var(--ink-dim);margin-top:6px;letter-spacing:.02em;line-height:1.55}
+  .sub .k{color:var(--ink-faint)}
+  .sub b{color:var(--ink);font-weight:500}
+  .flex1{flex:1}
+  .center{align-items:center;text-align:center}
+
+  /* compass */
+  .compass{margin:2px auto 0;width:150px;height:150px}
+  .compass text{font-family:var(--mono)}
+  .needle{transition:transform 1s cubic-bezier(.34,1.2,.46,1)}
+
+  /* gauge */
+  .gauge{width:100%;max-width:230px;margin:0 auto}
+  .gauge .needle{transition:transform 1.1s cubic-bezier(.34,1.1,.5,1)}
+  .tend{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:12px}
+  .tend svg{width:13px;height:13px}
+
+  /* rainfall bars */
+  .rain-bars{display:flex;align-items:flex-end;gap:10px;height:84px;margin-top:6px}
+  .rb{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;height:100%;justify-content:flex-end}
+  .rb .bar{width:100%;border-radius:5px 5px 0 0;background:linear-gradient(180deg,var(--cool),rgba(91,155,213,.25));min-height:2px;transition:height .8s ease}
+  .rb .v{font-family:var(--mono);font-size:11px;color:var(--ink);font-variant-numeric:tabular-nums}
+  .rb .l{font-family:var(--mono);font-size:9.5px;color:var(--ink-faint);letter-spacing:.06em}
+
+  /* sun arc */
+  .sunpath{width:100%;margin-top:2px}
+  .sun-stats{display:flex;justify-content:space-between;font-family:var(--mono);font-size:11px;color:var(--ink-dim);margin-top:8px}
+  .sun-stats b{color:var(--ink);font-weight:500}
+
+  /* humidity dial */
+  .hum-wrap{display:flex;align-items:center;gap:16px;margin-top:2px}
+  .hum-dial{width:96px;height:96px;flex:none}
+  .hum-dial .arc-fill{transition:stroke-dashoffset 1s ease}
+
+  /* ---------- soil core (signature) ---------- */
+  .soil{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:20px clamp(16px,2.5vw,26px) 22px;margin-bottom:18px;box-shadow:var(--shadow)}
+  .soil h2{font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-faint);margin:0 0 4px}
+  .soil .lede{font-family:var(--body);color:var(--ink-dim);font-size:15px;margin:0 0 16px;max-width:60ch}
+  .core{display:grid;grid-template-columns:118px 1fr;gap:clamp(14px,3vw,34px)}
+  .core-col{position:relative;border-radius:12px;overflow:hidden;min-height:340px;
+    background:linear-gradient(180deg,
+      #1c3550 0%, #244a4f 8%,
+      #3c4a2a 12%, #5a4326 20%,
+      #4a3320 40%, #3a2718 65%, #2c1d12 100%);
+    border:1px solid var(--line);}
+  .core-col .grassline{position:absolute;left:0;right:0;top:12%;height:2px;background:rgba(255,255,255,.22)}
+  .core-col .depth-tick{position:absolute;left:0;right:0;height:1px;background:rgba(255,255,255,.10)}
+  .core-col .depth-tick span{position:absolute;right:5px;top:-7px;font-family:var(--mono);font-size:8.5px;color:rgba(255,255,255,.5)}
+  .rows{display:flex;flex-direction:column;gap:3px}
+  .srow{
+    display:grid;grid-template-columns:1fr auto auto;align-items:center;gap:12px;
+    padding:8px 12px;border-radius:9px;border:1px solid transparent;cursor:default;
+    transition:background .18s,border-color .18s,transform .18s;
+  }
+  .srow:hover{background:var(--panel-2);border-color:var(--line);transform:translateX(2px)}
+  .srow .name{font-family:var(--body);font-size:15.5px;color:var(--ink)}
+  .srow .name small{font-family:var(--mono);font-size:10px;color:var(--ink-faint);letter-spacing:.08em;margin-left:7px;text-transform:uppercase}
+  .srow .chip{font-family:var(--mono);font-size:11px;padding:2px 8px;border-radius:20px;color:#0a0d14;font-weight:600;font-variant-numeric:tabular-nums;justify-self:end}
+  .srow .temp{font-family:var(--serif);font-size:21px;font-variant-numeric:tabular-nums;justify-self:end;min-width:74px;text-align:right}
+  .srow.sep{margin-top:6px}
+  .srow .name.head{font-family:var(--mono);font-size:9.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-faint)}
+
+  /* ---------- extremes ---------- */
+  .extremes{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:20px clamp(16px,2.5vw,24px) 8px;box-shadow:var(--shadow)}
+  .extremes h2{font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-faint);margin:0 0 16px;display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+  .extremes h2 .since{color:var(--ink-faint);font-weight:400;letter-spacing:.08em}
+  .ext-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:2px 30px}
+  .ext-row{display:grid;grid-template-columns:1fr auto auto;gap:10px;align-items:baseline;padding:11px 0;border-bottom:1px solid var(--line)}
+  .ext-row .lbl{font-family:var(--body);font-size:16px;color:var(--ink-dim)}
+  .ext-row .hi,.ext-row .lo{font-family:var(--mono);font-size:13px;font-variant-numeric:tabular-nums;text-align:right}
+  .ext-row .hi b,.ext-row .lo b{font-family:var(--serif);font-size:17px;font-weight:400;margin-right:3px}
+  .ext-row .hi{color:var(--ink)}
+  .ext-row .lo{color:var(--ink-dim)}
+  .ext-row .t{color:var(--ink-faint);font-size:10.5px}
+
+  /* ---------- footer ---------- */
+  footer{margin-top:30px;padding-top:18px;border-top:1px solid var(--line);
+    font-family:var(--mono);font-size:11px;color:var(--ink-faint);line-height:1.7;letter-spacing:.02em}
+  footer .status{display:inline-flex;align-items:center;gap:7px;margin-bottom:8px}
+  footer .status .led{width:8px;height:8px;border-radius:50%;background:var(--good);box-shadow:0 0 8px var(--good)}
+  footer a{color:var(--ink-dim);text-decoration:none;border-bottom:1px dotted var(--ink-faint)}
+  footer a:hover{color:var(--accent)}
+
+  /* tooltip */
+  .tip{position:fixed;z-index:50;pointer-events:none;background:#05070b;border:1px solid var(--line-strong);
+    border-radius:9px;padding:9px 12px;font-family:var(--mono);font-size:11px;color:var(--ink);
+    box-shadow:0 12px 30px -10px rgba(0,0,0,.8);opacity:0;transform:translateY(4px);transition:opacity .14s;max-width:230px;line-height:1.5}
+  .tip.on{opacity:1;transform:translateY(0)}
+  .tip .tt{color:var(--accent)}
+
+  /* atmospherics */
+  @keyframes spin{to{transform:rotate(360deg)}}
+  @keyframes fall{0%{transform:translateY(-12px);opacity:0}10%{opacity:.7}100%{transform:translateY(120px);opacity:0}}
+  @keyframes drift{0%{transform:translateX(-8px)}100%{transform:translateX(8px)}}
+  @keyframes twinkle{0%,100%{opacity:.25}50%{opacity:.95}}
+  .rays{transform-origin:center;animation:spin 90s linear infinite}
+  .raindrop{animation:fall 1.1s linear infinite}
+  .cloud{animation:drift 9s ease-in-out infinite alternate}
+  .fogband{animation:drift 14s ease-in-out infinite alternate}
+  .star{animation:twinkle 3.2s ease-in-out infinite}
+
+  :focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:6px}
+
+  @media (max-width:760px){
+    body{font-size:17px}
+    .hero{grid-template-columns:1fr}
+    .hero-sky{border-left:0;border-top:1px solid var(--line);min-height:240px;order:-1}
+    .clocks{margin-left:0;width:100%;justify-content:flex-start;gap:30px;text-align:left}
+    .clk .val{font-size:17px}
+    .units{margin-left:0;width:100%}
+    .core{grid-template-columns:74px 1fr;gap:14px}
+    .core-col{min-height:300px}
+    .srow .temp{min-width:62px;font-size:19px}
+  }
+  @media (prefers-reduced-motion:reduce){
+    *{animation:none!important;transition:none!important}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="top">
+    <div class="brand">
+      <div class="eyebrow">University of Reading &middot; METFiDAS</div>
+      <h1>Atmospheric Observatory <em>&mdash; live conditions</em></h1>
+      <div class="coords">51.4414&deg;N&nbsp; 0.9418&deg;W &middot; 66&nbsp;m AMSL &middot; all times UTC</div>
+    </div>
+    <div class="clocks">
+      <div class="clk"><span class="lab">UTC now</span><span class="val" id="clkNow">--:--:--</span></div>
+      <div class="clk"><span class="lab">Observation</span><span class="val obs" id="clkObs">--:--</span></div>
+    </div>
+  </header>
+
+  <div class="controls">
+    <span class="seg-label">Conditions</span>
+    <div class="seg" id="scenarioSeg" role="group" aria-label="Choose a weather scenario"></div>
+    <div class="units">
+      <div class="seg" id="tempSeg" role="group" aria-label="Temperature units">
+        <button data-u="C" aria-pressed="true">&deg;C</button>
+        <button data-u="F" aria-pressed="false">&deg;F</button>
+      </div>
+      <div class="seg" id="windSeg" role="group" aria-label="Wind units">
+        <button data-u="ms" aria-pressed="true">m/s</button>
+        <button data-u="mph" aria-pressed="false">mph</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-read">
+      <div class="now-row">
+        <div class="bigtemp" id="heroTemp"></div>
+        <div>
+          <div class="cond-word" id="heroCond"></div>
+          <div class="temp-word" id="heroTempWord"></div>
+        </div>
+      </div>
+      <div class="badges" id="heroBadges"></div>
+      <p class="narr" id="heroNarr"></p>
+      <div class="feels" id="heroFeels"></div>
+    </div>
+    <div class="hero-sky" id="heroSky">
+      <div class="sky-meta" id="skyMeta"></div>
+    </div>
+  </section>
+
+  <!-- INSTRUMENT GRID -->
+  <section class="grid" id="grid"></section>
+
+  <!-- SOIL CORE -->
+  <section class="soil">
+    <h2>Ground &amp; soil core</h2>
+    <p class="lede">Surface temperatures and the soil profile beneath grass, sensor by sensor. Hover a depth to read its place in the column.</p>
+    <div class="core">
+      <div class="core-col" id="coreCol"></div>
+      <div class="rows" id="coreRows"></div>
+    </div>
+  </section>
+
+  <!-- EXTREMES -->
+  <section class="extremes">
+    <h2>Extremes &amp; totals <span class="since" id="extSince">since 0000 UTC</span></h2>
+    <div class="ext-grid" id="extGrid"></div>
+  </section>
+
+  <footer>
+    <div class="status"><span class="led" id="led"></span><span id="statusTxt">self-check &mdash; running&hellip;</span></div>
+    <div>Data fields mirror the METFiDAS 5-minute report (air, surface &amp; soil temperatures, humidity, rainfall, sunshine &amp; irradiance, pressure, wind, cloud base, visibility, present weather). Values are populated automatically from the live METFiDAS, ceilometer and SWS-250 feeds; the published page is a static GitHub Pages snapshot.</div>
+    <div style="margin-top:6px">Provided without guarantee of accuracy. &middot; <a href="http://www.met.reading.ac.uk/weatherdata/Reading_AWS_weather_report.html">Reading current conditions</a> &middot; <a href="http://www.met.reading.ac.uk/weatherdata/Reading_AWS_weather_yesterday.html">yesterday summary</a></div>
+  </footer>
+
+</div>
+
+<div class="tip" id="tip"></div>
+
+<script>
+/* ============================================================
+   1. DATA  — populated by weather_dash_update.py.
+   Field names follow UOR_weather_report.py. Replace with a live
+   feed (parse the report HTML / 5-min CSV) to make this real.
+   Temperatures in degC, wind in m/s, pressure hPa, irradiance W/m2,
+   distances in metres, sunshine accum in hours.
+============================================================ */
+const LAT = 51.4414, LON = -0.9418;
+
+const DATA = {
+  "live": {
+    "label": "Live now · 19 Jun 2026 1920 UTC",
+    "y": 2026,
+    "mo": 6,
+    "d": 19,
+    "time": "1920",
+    "ww": 0,
+    "Td": 22.1,
+    "Tw": 18.1,
+    "Tdew": 14.7,
+    "VP": 16.7,
+    "RH": 63,
+    "delT": -1.4,
+    "Tgrass": 22.8,
+    "Tconc": 28.0,
+    "Tsoil": 23.6,
+    "soil": {
+      "c5": 23.3,
+      "c10": 22.0,
+      "c20": 0.0,
+      "c30": 19.1,
+      "c50": 0.0,
+      "c100": 15.4
+    },
+    "rain5": 0.0,
+    "rain1h": 0.0,
+    "rain3h": 0.0,
+    "rain6h": 0.0,
+    "rainAccum": 0.0,
+    "cloudBase": null,
+    "vis": 75000,
+    "Sdur5": 5.0,
+    "SdurAccum": 14.8,
+    "Sg": 66,
+    "SgAccum": 28.55,
+    "Sb": 109,
+    "Sd": 25,
+    "Rn": -15,
+    "G": 13,
+    "Pmsl": 1013.5,
+    "delP1": 0.6,
+    "delP3": 1.0,
+    "dir": 235,
+    "U10": 3.2,
+    "U10max": 6.6,
+    "U10maxAcc": 9.8,
+    "U2run": 1.8,
+    "U10run": 2.3,
+    "ext": {
+      "Td": {
+        "mx": 27.7,
+        "mxt": "1330",
+        "mn": 13.5,
+        "mnt": "0419"
+      },
+      "RH": {
+        "mx": 97,
+        "mxt": "0105",
+        "mn": 33,
+        "mnt": "1419"
+      },
+      "Pmsl": {
+        "mx": 1014.1,
+        "mxt": "0016",
+        "mn": 1012.0,
+        "mnt": "1346"
+      },
+      "Tgrass": {
+        "mn": 9.4,
+        "mnt": "0322"
+      },
+      "Sg": {
+        "mx": 1152,
+        "mxt": "1157"
+      }
+    }
+  }
+};
+const SCENARIO_ORDER = ['live'];
+
+/* present-weather code table (subset, from the report script) */
+const WW = {0:"No significant weather",4:"Haze or smoke or dust",11:"Diamond Dust",20:"Fog in last hour",21:"Precipitation in last hour",22:"Drizzle in last hour",23:"Rain in last hour",24:"Snow in last hour",28:"Blowing or drifting snow",29:"Blowing or drifting snow",30:"Fog",31:"Fog in patches",32:"Fog becoming thinner",33:"Fog, no appreciable change",34:"Fog becoming thicker",35:"Freezing fog",40:"Indeterminate precipitation type",51:"Slight drizzle",52:"Moderate drizzle",53:"Heavy drizzle",57:"Slight drizzle and rain",58:"Moderate or heavy drizzle and rain",61:"Slight rain",62:"Moderate rain",63:"Heavy rain",67:"Slight rain and snow",68:"Moderate or heavy rain and snow",71:"Slight snow",72:"Moderate snow",73:"Heavy snow",74:"Slight ice pellets",75:"Moderate ice pellets",76:"Heavy ice pellets",77:"Snow grains",78:"Ice crystals",81:"Slight rain showers",82:"Moderate rain showers",83:"Heavy rain showers",85:"Slight snow showers",86:"Moderate snow showers",87:"Heavy snow showers",89:"Hail or small hail"};
+
+/* ============================================================
+   2. STATE + unit helpers
+============================================================ */
+const state = { scn:'live', tUnit:'C', wUnit:'ms' };
+
+const c2f = c => c*9/5+32;
+function fmtT(c, dp=1){
+  if(c===null||c===undefined) return 'n/a';
+  const v = state.tUnit==='F' ? c2f(c) : c;
+  return v.toFixed(dp);
+}
+const tUnitLabel = () => state.tUnit==='F' ? '\u00B0F' : '\u00B0C';
+function fmtW(ms, dp=1){
+  const v = state.wUnit==='mph' ? ms*2.236936 : ms;
+  return v.toFixed(dp);
+}
+const wUnitLabel = () => state.wUnit==='mph' ? 'mph' : 'm/s';
+const pad4 = t => String(t).padStart(4,'0');
+const hhmm = t => { const s=pad4(t); return s.slice(0,2)+':'+s.slice(2); };
+
+/* ============================================================
+   3. SOLAR POSITION (SunCalc-style) — drives the living sky
+============================================================ */
+const RAD = Math.PI/180;
+function solar(date){
+  const dms=86400000, J1970=2440588, J2000=2451545;
+  const days = date.valueOf()/dms - .5 + J1970 - J2000;
+  const M = RAD*(357.5291 + .98560028*days);
+  const C = RAD*(1.9148*Math.sin(M)+.02*Math.sin(2*M)+.0003*Math.sin(3*M));
+  const L = M + C + RAD*102.9372 + Math.PI;
+  const e = RAD*23.4397;
+  const dec = Math.asin(Math.sin(e)*Math.sin(L));
+  const ra = Math.atan2(Math.cos(e)*Math.sin(L), Math.cos(L));
+  const lw = RAD*-LON;
+  const theta = RAD*(280.16 + 360.9856235*days) - lw;
+  const H = theta - ra;
+  const phi = RAD*LAT;
+  const alt = Math.asin(Math.sin(phi)*Math.sin(dec)+Math.cos(phi)*Math.cos(dec)*Math.cos(H));
+  let az = Math.atan2(Math.sin(H), Math.cos(H)*Math.sin(phi)-Math.tan(dec)*Math.cos(phi));
+  az = (az/RAD + 180) % 360;
+  return { alt: alt/RAD, az };
+}
+function obsDate(s){ return new Date(Date.UTC(s.y, s.mo-1, s.d, +s.time.slice(0,2), +s.time.slice(2))); }
+function sunTimes(s){
+  // scan the day at 1-min steps for the -0.833 deg crossings
+  const base = Date.UTC(s.y, s.mo-1, s.d, 0, 0);
+  let rise=null, set=null, prev=null, max=-90;
+  for(let m=0;m<=1440;m+=2){
+    const a = solar(new Date(base+m*60000)).alt;
+    if(a>max) max=a;
+    if(prev!==null){
+      if(prev< -0.833 && a>=-0.833 && rise===null) rise = base+(m-1)*60000;
+      if(prev>=-0.833 && a< -0.833 && rise!==null && set===null) set = base+(m-1)*60000;
+    }
+    prev=a;
+  }
+  return {rise, set, maxAlt:max};
+}
+const fmtClock = ms => ms===null ? '--:--' : (d=>String(d.getUTCHours()).padStart(2,'0')+':'+String(d.getUTCMinutes()).padStart(2,'0'))(new Date(ms));
+
+/* ============================================================
+   4. DERIVATIONS — turn numbers into language
+============================================================ */
+function compass(deg){
+  const pts=['N','NNE','NE','ENE','E','ESE','SE','SSE','S','SSW','SW','WSW','W','WNW','NW','NNW'];
+  return pts[Math.round(((deg%360)/22.5))%16];
+}
+function beaufort(ms){
+  const t=[[.5,'Calm'],[1.5,'Light air'],[3.3,'Light breeze'],[5.5,'Gentle breeze'],
+    [7.9,'Moderate breeze'],[10.7,'Fresh breeze'],[13.8,'Strong breeze'],[17.1,'Near gale'],
+    [20.7,'Gale'],[24.4,'Severe gale'],[28.4,'Storm']];
+  for(const [lim,name] of t) if(ms<lim) return name;
+  return 'Violent storm';
+}
+function tempWord(c){
+  if(c<-3) return 'Bitterly cold'; if(c<1) return 'Freezing'; if(c<5) return 'Cold';
+  if(c<9) return 'Chilly'; if(c<13) return 'Cool'; if(c<17) return 'Mild';
+  if(c<21) return 'Pleasantly warm'; if(c<26) return 'Warm'; if(c<30) return 'Hot';
+  return 'Very hot';
+}
+function pressureTendency(delP3){
+  const a=Math.abs(delP3);
+  if(a<0.5) return {word:'Steady',dir:'flat'};
+  const rising=delP3>0, rate = a<1.6?'slowly':a<3.5?'':'rapidly';
+  const w=(rising?'Rising':'Falling')+(rate?' '+rate:'');
+  return {word:w,dir:rising?'up':'down'};
+}
+function tempTendency(delT){
+  const a=Math.abs(delT);
+  if(a<0.3) return {word:'steady',dir:'flat'};
+  return {word:(delT>0?'rising':'falling'), dir:delT>0?'up':'down'};
+}
+function visWord(m){
+  if(m<200) return 'Dense fog'; if(m<1000) return 'Fog'; if(m<4000) return 'Poor / misty';
+  if(m<10000) return 'Moderate'; if(m<20000) return 'Good'; if(m<40000) return 'Very good';
+  return 'Excellent';
+}
+function humWord(rh){
+  if(rh>=98) return 'Saturated'; if(rh>=90) return 'Very humid'; if(rh>=75) return 'Humid';
+  if(rh>=55) return 'Comfortable'; if(rh>=40) return 'Dry'; return 'Very dry';
+}
+function apparentTemp(Ta, RH, ws){
+  const e = (RH/100)*6.105*Math.exp(17.27*Ta/(237.7+Ta)); // vapour pressure hPa
+  return Ta + 0.33*e - 0.70*ws - 4.00;                    // Steadman apparent temperature
+}
+/* condition key drives accent + sky scene */
+function condition(s, sun){
+  const ww=s.ww, isDay = sun.alt > -0.833;
+  if([30,31,32,33,34,35].includes(ww)) return {key:'fog', label:'Foggy'};
+  if([51,52,53].includes(ww)) return {key:'rain', label:'Drizzle'};
+  if([61,62,63].includes(ww)) return {key:'rain', label: ww===63?'Heavy rain':ww===61?'Light rain':'Raining'};
+  if([81,82,83].includes(ww)) return {key:'rain', label:'Showers'};
+  if([71,72,73].includes(ww)) return {key:'snow', label:'Snow'};
+  // no significant weather -> derive from sun & cloud
+  if(!isDay){
+    return s.cloudBase===null
+      ? {key:'clear-night', label:'Clear'}
+      : {key:'cloudy-night', label:'Cloudy'};
+  }
+  const sunFrac = s.Sdur5/5;
+  if(sunFrac>=0.8) return {key:'sunny', label:'Sunny'};
+  if(sunFrac>=0.3) return {key:'partly', label:'Sunny spells'};
+  if(s.cloudBase===null && s.Sg>250) return {key:'fair', label:'Bright'};
+  if(s.Sg<120) return {key:'overcast', label:'Overcast'};
+  return {key:'cloudy', label:'Cloudy'};
+}
+const ACCENT = {
+  sunny:'#f0b637', fair:'#7fc0e6', partly:'#e8c25e', cloudy:'#9aa6b6', overcast:'#8089a0',
+  rain:'#5fa8e0', snow:'#9fd9e6', fog:'#a59bc4', 'clear-night':'#8a9cff', 'cloudy-night':'#7c8aa8'
+};
+function setAccent(key){
+  const a=ACCENT[key]||'#e6b34a';
+  document.documentElement.style.setProperty('--accent',a);
+  document.documentElement.style.setProperty('--accent-soft',hexA(a,.16));
+}
+function hexA(hex,a){const n=parseInt(hex.slice(1),16);return `rgba(${n>>16&255},${n>>8&255},${n&255},${a})`}
+
+/* temperature -> colour chip (cool blue .. warm red) */
+function tempColor(c){
+  const t=Math.max(-8,Math.min(34,c)), f=(t+8)/42; // 0..1
+  const stops=[[59,123,191],[110,170,200],[140,190,150],[230,200,90],[232,120,74],[210,70,80]];
+  const x=f*(stops.length-1), i=Math.floor(x), fr=x-i;
+  const a=stops[i], b=stops[Math.min(i+1,stops.length-1)];
+  const m=(j)=>Math.round(a[j]+(b[j]-a[j])*fr);
+  return `rgb(${m(0)},${m(1)},${m(2)})`;
+}
+
+/* narrative sentence */
+function narrative(s, cond, sun, td){
+  const dt = obsDate(s);
+  const hr = dt.getUTCHours();
+  const partOfDay = hr<5?'overnight':hr<8?'early morning':hr<12?'morning':hr<14?'around midday':hr<18?'afternoon':hr<21?'evening':'night';
+  const wind = beaufort(s.U10).toLowerCase();
+  const fromDir = compass(s.dir);
+  const press = pressureTendency(s.delP3);
+  const tt = tempTendency(s.delT);
+
+  let lead;
+  switch(cond.key){
+    case 'sunny': lead=`Bright sunshine this ${partOfDay}`; break;
+    case 'partly': lead=`Sunny spells this ${partOfDay}`; break;
+    case 'fair': lead=`A fair, fairly bright ${partOfDay}`; break;
+    case 'cloudy': case 'cloudy-night': lead=`Cloudy skies ${partOfDay==='night'?'tonight':'this '+partOfDay}`; break;
+    case 'overcast': lead=`Grey and overcast this ${partOfDay}`; break;
+    case 'rain': lead=`${cond.label} this ${partOfDay}`; break;
+    case 'fog': lead=`Fog has settled over the observatory this ${partOfDay}`; break;
+    case 'clear-night': lead=`Clear skies overhead tonight`; break;
+    default: lead=`${cond.label} this ${partOfDay}`;
+  }
+  const tempClause = `${tempWord(td).toLowerCase()} at ${fmtT(td)}\u00B0, ${tt.word==='steady'?'holding steady':'temperature '+tt.word}`;
+  const windClause = s.U10<0.6 ? 'the air all but still' : `a ${wind} from the ${fromDir}`;
+  const pressClause = press.dir==='flat'
+    ? 'Pressure is steady'
+    : `Pressure is ${press.word.toLowerCase()} (${(s.delP3>0?'+':'')}${s.delP3.toFixed(1)} hPa in 3 h)`;
+  let tail='';
+  if(cond.key==='rain') tail = press.dir==='down' ? ', with the falling barometer hinting the wet spell has more to give.' : ', though the barometer suggests the rain is easing.';
+  else if(cond.key==='fog') tail = ', likely to lift once the sun gains height.';
+  else if(cond.key==='sunny'||cond.key==='fair') tail = press.dir==='up' ? ', and the rising barometer favours the bright weather holding.' : '.';
+  else if(cond.key==='clear-night') tail = ' — clear and calm, ideal for radiative cooling toward dawn.';
+  else tail='.';
+
+  return `${lead}: ${tempClause}. ${windClause.charAt(0).toUpperCase()+windClause.slice(1)}. ${pressClause}${tail}`;
+}
+
+/* ============================================================
+   5. SKY SCENE (signature)
+============================================================ */
+function skyGradient(key, sun){
+  const low = sun.alt>-6 && sun.alt<8; // golden / twilight
+  switch(key){
+    case 'sunny': return low?'linear-gradient(165deg,#23406b,#9c6a4a 70%,#e0a86a)':'linear-gradient(165deg,#1b4a7c,#3a7bb5 52%,#9fcbe8)';
+    case 'fair': case 'partly': return 'linear-gradient(165deg,#274d77,#4e84b3 55%,#a9cbe2)';
+    case 'cloudy': return 'linear-gradient(165deg,#33414f,#586478 58%,#9aa6b4)';
+    case 'overcast': return 'linear-gradient(165deg,#2c3540,#48505d 60%,#727a88)';
+    case 'rain': return 'linear-gradient(165deg,#242c38,#3a4350 55%,#566070)';
+    case 'snow': return 'linear-gradient(165deg,#3a4350,#5a6472 55%,#aeb8c6)';
+    case 'fog': return 'linear-gradient(165deg,#3a3a44,#565260 58%,#857f8e)';
+    case 'clear-night': return 'linear-gradient(165deg,#070b20,#121a40 52%,#27305e)';
+    case 'cloudy-night': return 'linear-gradient(165deg,#0c1018,#1c2330 60%,#333c4c)';
+    default: return 'linear-gradient(165deg,#1b4a7c,#3a7bb5,#9fcbe8)';
+  }
+}
+function buildScene(key, sun, times, s){
+  const W=400,H=300, night = sun.alt<=-0.833;
+  let g='';
+  // sun / moon position along an arc
+  if(times.rise!==null && times.set!==null && !night){
+    const day = times.set-times.rise;
+    const frac = Math.max(0,Math.min(1,(obsDate(s).valueOf()-times.rise)/day));
+    const x = 40 + frac*(W-80);
+    const peak = Math.max(40, 150 - times.maxAlt*1.7);
+    const y = H-70 - Math.sin(frac*Math.PI)*(H-70-peak);
+    const dim = (key==='overcast'||key==='fog'||key==='cloudy');
+    if(!dim){
+      g+=`<g transform="translate(${x},${y})"><g class="rays" opacity="${key==='sunny'?.8:.45}">`;
+      for(let i=0;i<12;i++) g+=`<rect x="-1.2" y="-34" width="2.4" height="11" rx="1" fill="#ffe6a8" transform="rotate(${i*30})"/>`;
+      g+=`</g><circle r="20" fill="#ffe08a"/><circle r="20" fill="none" stroke="rgba(255,255,255,.4)" stroke-width="1"/></g>`;
+    } else {
+      g+=`<circle cx="${x}" cy="${y}" r="22" fill="rgba(255,240,210,.18)"/>`;
+    }
+  }
+  if(night){
+    // stars
+    for(let i=0;i<26;i++){
+      const sx=15+((i*53)%(W-30)), sy=15+((i*97)%140), r=Math.random()*1.1+.4;
+      g+=`<circle class="star" style="animation-delay:${(i%7)*.4}s" cx="${sx}" cy="${sy}" r="${r}" fill="#fff"/>`;
+    }
+    if(key==='clear-night'){
+      g+=`<g transform="translate(${W-78},58)"><circle r="22" fill="#e8ecff"/><circle cx="9" cy="-5" r="22" fill="${ '#121a40' }" opacity=".0"/><circle cx="8" cy="-4" r="20" fill="rgba(20,26,64,.92)"/></g>`;
+    }
+  }
+  // clouds
+  const clouds = {cloudy:3,'cloudy-night':3,overcast:4,rain:4,fair:1,partly:2,snow:3}[key]||0;
+  for(let i=0;i<clouds;i++){
+    const cx=60+i*95, cy=55+(i%2)*40, sc=.8+(i%3)*.18, op = key==='overcast'?.92:.8;
+    g+=`<g class="cloud" style="animation-delay:${i*1.3}s" transform="translate(${cx},${cy}) scale(${sc})">
+      <ellipse cx="0" cy="0" rx="34" ry="17" fill="rgba(236,240,246,${op})"/>
+      <ellipse cx="24" cy="6" rx="26" ry="14" fill="rgba(224,230,240,${op})"/>
+      <ellipse cx="-22" cy="6" rx="22" ry="12" fill="rgba(224,230,240,${op})"/></g>`;
+  }
+  // rain
+  if(key==='rain'){
+    for(let i=0;i<34;i++){
+      const rx=12+((i*53)%(W-20)), delay=(i%11)*.1, dur=.9+(i%5)*.08;
+      g+=`<line class="raindrop" style="animation-delay:${delay}s;animation-duration:${dur}s" x1="${rx}" y1="120" x2="${rx-5}" y2="135" stroke="rgba(190,215,240,.6)" stroke-width="1.4" stroke-linecap="round"/>`;
+    }
+  }
+  // fog bands
+  if(key==='fog'){
+    for(let i=0;i<5;i++){
+      const fy=120+i*34;
+      g+=`<rect class="fogband" style="animation-delay:${i*.8}s" x="-20" y="${fy}" width="${W+40}" height="20" rx="10" fill="rgba(220,218,228,${.16+i*.04})"/>`;
+    }
+  }
+  return `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid slice" aria-hidden="true">${g}</svg>`;
+}
+
+/* ============================================================
+   6. INSTRUMENT CARDS
+============================================================ */
+function svgCompass(dir, spd, gust){
+  const a=(dir-90)*RAD;
+  const r=54, cx=75, cy=75;
+  const x2=cx+Math.cos(a)*r, y2=cy+Math.sin(a)*r;
+  let ticks='';
+  for(let i=0;i<16;i++){
+    const ang=(i*22.5-90)*RAD, major=i%4===0;
+    const r1=major?58:62, r2=66;
+    ticks+=`<line x1="${cx+Math.cos(ang)*r1}" y1="${cy+Math.sin(ang)*r1}" x2="${cx+Math.cos(ang)*r2}" y2="${cy+Math.sin(ang)*r2}" stroke="${major?'rgba(255,255,255,.4)':'rgba(255,255,255,.16)'}" stroke-width="${major?1.5:1}"/>`;
+  }
+  const card=['N','E','S','W'];
+  let labels='';
+  card.forEach((c,i)=>{const ang=(i*90-90)*RAD;labels+=`<text x="${cx+Math.cos(ang)*42}" y="${cy+Math.sin(ang)*42+4}" text-anchor="middle" font-size="11" fill="var(--ink-dim)">${c}</text>`;});
+  return `<svg class="compass" viewBox="0 0 150 150">
+    <circle cx="${cx}" cy="${cy}" r="66" fill="none" stroke="var(--line)" />
+    ${ticks}${labels}
+    <g class="needle" style="transform-origin:${cx}px ${cy}px;transform:rotate(0deg)">
+      <line x1="${cx}" y1="${cy}" x2="${x2}" y2="${y2}" stroke="var(--accent)" stroke-width="3" stroke-linecap="round"/>
+      <polygon points="${x2},${y2} ${x2-Math.cos(a-.4)*9},${y2-Math.sin(a-.4)*9} ${x2-Math.cos(a+.4)*9},${y2-Math.sin(a+.4)*9}" fill="var(--accent)"/>
+    </g>
+    <circle cx="${cx}" cy="${cy}" r="4" fill="var(--ink)"/>
+  </svg>`;
+}
+function svgGauge(p){
+  // arc 960..1050 across 220deg
+  const lo=960,hi=1050, span=220, start=-200;
+  const frac=Math.max(0,Math.min(1,(p-lo)/(hi-lo)));
+  const ang=(start+frac*span);
+  const cx=110,cy=110,r=82;
+  const arc=(a0,a1,col,w)=>{
+    const p0=[cx+Math.cos(a0*RAD)*r,cy+Math.sin(a0*RAD)*r], p1=[cx+Math.cos(a1*RAD)*r,cy+Math.sin(a1*RAD)*r];
+    const large=(a1-a0)>180?1:0;
+    return `<path d="M${p0[0]} ${p0[1]} A${r} ${r} 0 ${large} 1 ${p1[0]} ${p1[1]}" fill="none" stroke="${col}" stroke-width="${w}" stroke-linecap="round"/>`;
+  };
+  const nx=cx+Math.cos(ang*RAD)*(r-10), ny=cy+Math.sin(ang*RAD)*(r-10);
+  let ticks='';
+  for(let v=960;v<=1050;v+=10){
+    const tf=(v-lo)/(hi-lo), ta=(start+tf*span)*RAD;
+    ticks+=`<text x="${cx+Math.cos(ta)*(r+13)}" y="${cy+Math.sin(ta)*(r+13)+3}" text-anchor="middle" font-size="8.5" fill="var(--ink-faint)">${v}</text>`;
+  }
+  return `<svg class="gauge" viewBox="0 0 220 165">
+    ${arc(start,start+span,'var(--line-strong)',7)}
+    ${arc(start,ang,'var(--accent)',7)}
+    ${ticks}
+    <g class="needle" style="transform-origin:${cx}px ${cy}px">
+      <line x1="${cx}" y1="${cy}" x2="${nx}" y2="${ny}" stroke="var(--ink)" stroke-width="2.5" stroke-linecap="round"/>
+    </g>
+    <circle cx="${cx}" cy="${cy}" r="5" fill="var(--ink)"/>
+    <text x="${cx}" y="150" text-anchor="middle" font-family="var(--mono)" font-size="10" fill="var(--ink-faint)">hPa</text>
+  </svg>`;
+}
+function tendArrow(dir){
+  if(dir==='up') return `<svg viewBox="0 0 24 24" fill="none"><path d="M12 19V5M5 12l7-7 7 7" stroke="var(--good)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+  if(dir==='down') return `<svg viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12l7 7 7-7" stroke="var(--bad)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+  return `<svg viewBox="0 0 24 24" fill="none"><path d="M5 12h14" stroke="var(--ink-dim)" stroke-width="2.2" stroke-linecap="round"/></svg>`;
+}
+function svgHumDial(rh){
+  const r=40,c=Math.PI*2*r, off=c*(1-rh/100);
+  return `<svg class="hum-dial" viewBox="0 0 100 100">
+    <circle cx="50" cy="50" r="${r}" fill="none" stroke="var(--line-strong)" stroke-width="9"/>
+    <circle class="arc-fill" cx="50" cy="50" r="${r}" fill="none" stroke="var(--cool)" stroke-width="9"
+      stroke-linecap="round" stroke-dasharray="${c}" stroke-dashoffset="${off}" transform="rotate(-90 50 50)"/>
+    <text x="50" y="48" text-anchor="middle" font-family="var(--serif)" font-size="24" fill="var(--ink)">${rh}</text>
+    <text x="50" y="64" text-anchor="middle" font-family="var(--mono)" font-size="9" fill="var(--ink-faint)">% RH</text>
+  </svg>`;
+}
+function svgSunPath(times, s, sun){
+  const W=240,H=80, pad=18;
+  let path=`M${pad} ${H-12}`;
+  for(let i=0;i<=40;i++){const f=i/40; path+=` L${pad+f*(W-2*pad)} ${H-12-Math.sin(f*Math.PI)*48}`;}
+  let marker='';
+  if(times.rise!==null && times.set!==null && sun.alt>-6){
+    const f=Math.max(0,Math.min(1,(obsDate(s).valueOf()-times.rise)/(times.set-times.rise)));
+    marker=`<circle cx="${pad+f*(W-2*pad)}" cy="${H-12-Math.sin(f*Math.PI)*48}" r="6" fill="var(--accent)"/>`;
+  }
+  return `<svg class="sunpath" viewBox="0 0 ${W} ${H}">
+    <line x1="${pad}" y1="${H-12}" x2="${W-pad}" y2="${H-12}" stroke="var(--line)"/>
+    <path d="${path}" fill="none" stroke="var(--line-strong)" stroke-dasharray="3 3"/>${marker}</svg>`;
+}
+
+function renderGrid(s, sun, times){
+  const press=pressureTendency(s.delP3), tt=tempTendency(s.delT);
+  const cb = s.cloudBase===null ? 'None detected' : s.cloudBase;
+  const cbFt = s.cloudBase===null ? '—' : Math.round(s.cloudBase/0.3048).toLocaleString();
+  const dewSpread = (s.Td - s.Tdew).toFixed(1);
+
+  const cards = [
+    // WIND
+    {h:['Wind','10&nbsp;m'], body:`
+      ${svgCompass(s.dir, s.U10, s.U10max)}
+      <div class="sub center" style="margin-top:8px">
+        <span style="font-family:var(--serif);font-size:30px;color:var(--ink)">${fmtW(s.U10)}</span>
+        <span class="u" style="font-family:var(--mono);font-size:12px;color:var(--ink-dim)"> ${wUnitLabel()}</span>
+        &nbsp;from&nbsp;<b>${compass(s.dir)}</b> (${pad4(s.dir).slice(1)}&deg;)<br>
+        <span class="k">gust</span> <b>${fmtW(s.U10max)}</b> ${wUnitLabel()} &middot; <span class="k">day max</span> <b>${fmtW(s.U10maxAcc)}</b><br>
+        ${beaufort(s.U10)}
+      </div>`},
+    // PRESSURE
+    {h:['Pressure','MSL'], body:`
+      ${svgGauge(s.Pmsl)}
+      <div class="sub center" style="margin-top:2px">
+        <span style="font-family:var(--serif);font-size:30px;color:var(--ink)">${s.Pmsl.toFixed(1)}</span> hPa<br>
+        <span class="tend">${tendArrow(press.dir)} ${press.word}</span><br>
+        <span class="k">1 h</span> <b>${(s.delP1>0?'+':'')}${s.delP1.toFixed(1)}</b> &middot;
+        <span class="k">3 h</span> <b>${(s.delP3>0?'+':'')}${s.delP3.toFixed(1)}</b> hPa
+      </div>`},
+    // TEMP / HUMIDITY
+    {h:['Air &amp; moisture','2&nbsp;m'], body:`
+      <div class="hum-wrap">
+        ${svgHumDial(s.RH)}
+        <div class="sub" style="font-size:12.5px">
+          <span class="k">Air</span> <b>${fmtT(s.Td)}${tUnitLabel()}</b>, ${tt.word==='steady'?'steady':tt.word}<br>
+          <span class="k">Dew point</span> <b>${fmtT(s.Tdew)}${tUnitLabel()}</b><br>
+          <span class="k">Wet bulb</span> <b>${fmtT(s.Tw)}${tUnitLabel()}</b><br>
+          <span class="k">Vapour</span> <b>${s.VP.toFixed(1)}</b> hPa<br>
+          <span class="k">Spread</span> <b>${dewSpread}</b> deg &middot; ${humWord(s.RH)}
+        </div>
+      </div>
+      <div class="sub" style="margin-top:auto;padding-top:10px;color:var(--ink-faint)">1-hour change ${(parseFloat(fmtT(s.delT,1))>0?'+':'')}${fmtT(Math.abs(s.delT)===s.delT?s.delT:s.delT)} deg</div>`},
+    // SUN / SOLAR
+    {h:['Sunshine &amp; sun','Kipp&nbsp;CMP'], body:`
+      ${svgSunPath(times, s, sun)}
+      <div class="sun-stats">
+        <span><span class="k">rise</span> <b>${fmtClock(times.rise)}</b></span>
+        <span><span class="k">elev</span> <b>${sun.alt.toFixed(1)}&deg;</b></span>
+        <span><span class="k">set</span> <b>${fmtClock(times.set)}</b></span>
+      </div>
+      <div class="sub" style="margin-top:10px">
+        <span class="k">Sunshine today</span> <b>${s.SdurAccum.toFixed(1)} h</b><br>
+        <span class="k">Global irradiance</span> <b>${s.Sg}</b> W/m&sup2; (now) &middot; <b>${s.SgAccum.toFixed(1)}</b> MJ/m&sup2; today<br>
+        <span class="k">Direct / diffuse</span> <b>${s.Sb}</b> / <b>${s.Sd}</b> &middot; <span class="k">net</span> <b>${s.Rn}</b> W/m&sup2;
+      </div>`},
+    // RAIN
+    {h:['Rainfall','tipping&nbsp;bucket'], body:(()=>{
+      const series=[['5 min',s.rain5],['1 h',s.rain1h],['3 h',s.rain3h],['6 h',s.rain6h]];
+      const mx=Math.max(0.5,...series.map(x=>x[1]));
+      const bars=series.map(([l,v])=>`<div class="rb"><span class="v">${v.toFixed(1)}</span><div class="bar" style="height:${Math.max(2,(v/mx)*100)}%"></div><span class="l">${l}</span></div>`).join('');
+      return `<div class="rain-bars">${bars}</div>
+        <div class="sub" style="margin-top:12px"><span class="k">Since 0000 UTC</span>
+        <span style="font-family:var(--serif);font-size:24px;color:var(--ink)"> ${s.rainAccum.toFixed(1)}</span> mm</div>`;
+    })()},
+    // SKY: cloud + visibility
+    {h:['Cloud &amp; visibility','ceilometer / SWS-250'], body:`
+      <div class="readout">${cb}<span class="u">${s.cloudBase===null?'':'m'}</span></div>
+      <div class="sub"><span class="k">lowest cloud base</span>${s.cloudBase===null?'':` &middot; ${cbFt} ft`}</div>
+      <div class="sub" style="margin-top:14px">
+        <span class="k">Visibility</span>
+        <span style="font-family:var(--serif);font-size:22px;color:var(--ink)"> ${s.vis>=1000?(s.vis/1000).toFixed(1)+' km':s.vis+' m'}</span><br>
+        ${visWord(s.vis)} &middot; <span class="k">present wx</span> <b>${WW[s.ww]||'—'}</b>
+      </div>`}
+  ];
+
+  document.getElementById('grid').innerHTML = cards.map(c=>`
+    <div class="card center">
+      <h2><span>${c.h[0]}</span><span class="tag">${c.h[1]}</span></h2>
+      ${c.body}
+    </div>`).join('');
+
+  // animate needles after insertion
+  requestAnimationFrame(()=>{
+    const cn=document.querySelector('.compass .needle');
+    if(cn) cn.style.transform=`rotate(${s.dir}deg)`;
+  });
+}
+
+/* ============================================================
+   7. SOIL CORE
+============================================================ */
+function renderSoil(s){
+  const depths=[['5 cm','c5',0.05],['10 cm','c10',0.10],['20 cm','c20',0.20],['30 cm','c30',0.30],['50 cm','c50',0.50],['100 cm','c100',1.00]];
+  // column ticks (12% is grass line; map 0..1 m to 12%..100%)
+  let colTicks='<div class="grassline"></div>';
+  depths.forEach(([lbl,k,m])=>{
+    const top=12+(m/1.0)*82;
+    colTicks+=`<div class="depth-tick" data-key="${k}" style="top:${top}%"><span>${lbl}</span></div>`;
+  });
+  document.getElementById('coreCol').innerHTML=colTicks;
+
+  const surf=[['Grass','Tgrass','grass minimum surface'],['Concrete slab','Tconc','urban analogue'],['Bare soil','Tsoil','exposed surface']];
+  let rows=`<div class="srow"><span class="name head">Surface</span><span></span><span></span></div>`;
+  surf.forEach(([nm,k,note])=>{
+    const v=s[k]; const col=tempColor(v);
+    rows+=`<div class="srow" data-tip="${nm} — ${note}. ${fmtT(v)}${tUnitLabel()}.">
+      <span class="name">${nm}</span>
+      <span class="chip" style="background:${col}">${fmtT(v)}</span>
+      <span class="temp">${fmtT(v)}<span style="font-family:var(--mono);font-size:12px;color:var(--ink-dim)">${tUnitLabel()}</span></span></div>`;
+  });
+  rows+=`<div class="srow sep"><span class="name head">Soil under grass</span><span></span><span></span></div>`;
+  depths.forEach(([lbl,k])=>{
+    const v=s.soil[k]; const col=tempColor(v);
+    rows+=`<div class="srow" data-key="${k}" data-tip="Soil at ${lbl} depth: ${fmtT(v)}${tUnitLabel()}.">
+      <span class="name">${lbl} depth <small>soil</small></span>
+      <span class="chip" style="background:${col}">${fmtT(v)}</span>
+      <span class="temp">${fmtT(v)}<span style="font-family:var(--mono);font-size:12px;color:var(--ink-dim)">${tUnitLabel()}</span></span></div>`;
+  });
+  document.getElementById('coreRows').innerHTML=rows;
+
+  // hover wiring
+  const tip=document.getElementById('tip');
+  document.querySelectorAll('#coreRows .srow[data-tip]').forEach(row=>{
+    row.addEventListener('mouseenter',e=>{
+      tip.innerHTML=`<span class="tt">&bull;</span> ${row.dataset.tip}`;
+      tip.classList.add('on');
+      const k=row.dataset.key;
+      if(k){const t=document.querySelector(`.depth-tick[data-key="${k}"]`); if(t)t.style.background='var(--accent)';}
+    });
+    row.addEventListener('mousemove',e=>{
+      tip.style.left=Math.min(window.innerWidth-240, e.clientX+14)+'px';
+      tip.style.top=(e.clientY+14)+'px';
+    });
+    row.addEventListener('mouseleave',()=>{
+      tip.classList.remove('on');
+      const k=row.dataset.key;
+      if(k){const t=document.querySelector(`.depth-tick[data-key="${k}"]`); if(t)t.style.background='rgba(255,255,255,.10)';}
+    });
+  });
+}
+
+/* ============================================================
+   8. EXTREMES
+============================================================ */
+function renderExtremes(s){
+  const e=s.ext;
+  const rows=[
+    {lbl:'Air temperature', hi:`<b>${fmtT(e.Td.mx)}</b>${tUnitLabel()}`, ht:e.Td.mxt, lo:`<b>${fmtT(e.Td.mn)}</b>${tUnitLabel()}`, lt:e.Td.mnt},
+    {lbl:'Relative humidity', hi:`<b>${e.RH.mx}</b>%`, ht:e.RH.mxt, lo:`<b>${e.RH.mn}</b>%`, lt:e.RH.mnt},
+    {lbl:'MSL pressure', hi:`<b>${e.Pmsl.mx.toFixed(1)}</b>`, ht:e.Pmsl.mxt, lo:`<b>${e.Pmsl.mn.toFixed(1)}</b>`, lt:e.Pmsl.mnt},
+    {lbl:'Grass minimum', hi:`—`, ht:'', lo:`<b>${fmtT(e.Tgrass.mn)}</b>${tUnitLabel()}`, lt:e.Tgrass.mnt},
+    {lbl:'Peak global irradiance', hi:`<b>${e.Sg.mx}</b> W/m&sup2;`, ht:e.Sg.mxt, lo:`—`, lt:''},
+    {lbl:'Maximum wind gust', hi:`<b>${fmtW(s.U10maxAcc)}</b> ${wUnitLabel()}`, ht:'', lo:`—`, lt:''},
+    {lbl:'Rainfall total', hi:`<b>${s.rainAccum.toFixed(1)}</b> mm`, ht:'', lo:`—`, lt:''},
+    {lbl:'Sunshine total', hi:`<b>${s.SdurAccum.toFixed(1)}</b> h`, ht:'', lo:`—`, lt:''},
+  ];
+  document.getElementById('extGrid').innerHTML=rows.map(r=>`
+    <div class="ext-row">
+      <span class="lbl">${r.lbl}</span>
+      <span class="hi">${r.hi}${r.ht?` <span class="t">${hhmm(r.ht)}</span>`:''}</span>
+      <span class="lo">${r.lo}${r.lt?` <span class="t">${hhmm(r.lt)}</span>`:''}</span>
+    </div>`).join('');
+}
+
+/* ============================================================
+   9. RENDER ALL
+============================================================ */
+function render(){
+  const s=DATA[state.scn];
+  const sun=solar(obsDate(s));
+  const times=sunTimes(s);
+  const cond=condition(s, sun);
+  setAccent(cond.key);
+
+  // hero
+  document.getElementById('heroTemp').innerHTML=`${fmtT(s.Td,0)}<span class="deg">${tUnitLabel()}</span>`;
+  document.getElementById('heroCond').textContent=cond.label;
+  document.getElementById('heroTempWord').textContent=tempWord(s.Td);
+  document.getElementById('heroNarr').textContent=narrative(s, cond, sun, s.Td);
+
+  const at=apparentTemp(s.Td, s.RH, s.U10);
+  document.getElementById('heroFeels').innerHTML=
+    `Feels like <b>${fmtT(at,0)}${tUnitLabel()}</b> &nbsp;&middot;&nbsp; dew point <b>${fmtT(s.Tdew)}${tUnitLabel()}</b> &nbsp;&middot;&nbsp; wind ${beaufort(s.U10).toLowerCase()} from ${compass(s.dir)}`;
+
+  // badges
+  const badges=[];
+  if(s.Tgrass<0) badges.push({t:'Grass frost',w:true});
+  if(s.Td<0) badges.push({t:'Air frost',w:true});
+  if(s.U10max>=13.9) badges.push({t:'Gusty',w:true});
+  if(s.vis<1000) badges.push({t:'Fog — low visibility',w:true});
+  if(s.RH>=95) badges.push({t:'Air saturated',w:false,c:true});
+  if(s.rain1h>0) badges.push({t:`${s.rain1h.toFixed(1)} mm last hour`,w:false,c:true});
+  if(cond.key==='sunny'&&s.Sg>700) badges.push({t:'Strong sun',w:false});
+  if(s.delP3<=-3) badges.push({t:'Falling barometer',w:true});
+  if(badges.length===0) badges.push({t:'Quiet conditions',w:false});
+  document.getElementById('heroBadges').innerHTML=badges.map(b=>
+    `<span class="badge ${b.w?'warn':''} ${b.c?'cool':''}"><span class="dot"></span>${b.t}</span>`).join('');
+
+  // sky
+  const sky=document.getElementById('heroSky');
+  sky.style.background=skyGradient(cond.key, sun);
+  sky.querySelector('svg')?.remove();
+  sky.insertAdjacentHTML('afterbegin', buildScene(cond.key, sun, times, s));
+  document.getElementById('skyMeta').innerHTML=
+    `<span><b>${cond.label}</b> &middot; ${WW[s.ww]||''}</span><span>sun ${sun.alt>0?sun.alt.toFixed(0)+'&deg; up':'below horizon'}</span>`;
+
+  // observation clock
+  document.getElementById('clkObs').textContent=hhmm(s.time)+' UTC';
+
+  renderGrid(s, sun, times);
+  renderSoil(s);
+  renderExtremes(s);
+}
+
+/* ============================================================
+   10. CONTROLS
+============================================================ */
+function buildControls(){
+  const seg=document.getElementById('scenarioSeg');
+  seg.innerHTML=SCENARIO_ORDER.map(k=>
+    `<button data-scn="${k}" aria-pressed="${k===state.scn}">${DATA[k].label}</button>`).join('');
+  seg.addEventListener('click',e=>{
+    const b=e.target.closest('button'); if(!b)return;
+    state.scn=b.dataset.scn;
+    seg.querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed', x===b));
+    render();
+  });
+  bindUnit('tempSeg','tUnit'); bindUnit('windSeg','wUnit');
+}
+function bindUnit(id, key){
+  const seg=document.getElementById(id);
+  seg.addEventListener('click',e=>{
+    const b=e.target.closest('button'); if(!b)return;
+    state[key]=b.dataset.u;
+    seg.querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed', x===b));
+    render();
+  });
+}
+
+/* live UTC clock */
+function tickClock(){
+  const d=new Date();
+  const p=n=>String(n).padStart(2,'0');
+  document.getElementById('clkNow').textContent=`${p(d.getUTCHours())}:${p(d.getUTCMinutes())}:${p(d.getUTCSeconds())}`;
+}
+
+/* ============================================================
+   11. SELF-CHECK  (test-harness habit, console + footer LED)
+============================================================ */
+function selfTest(){
+  const fails=[];
+  const assert=(c,m)=>{ if(!c) fails.push(m); };
+  // temperature wording monotonic-ish at key thresholds
+  assert(tempWord(35).includes('hot')||tempWord(35).includes('Very'),'tempWord hot');
+  assert(tempWord(-10)==='Bitterly cold','tempWord cold');
+  // pressure tendency signs
+  assert(pressureTendency(4).dir==='up' && pressureTendency(-4).dir==='down','tendency sign');
+  assert(pressureTendency(0.1).dir==='flat','tendency flat');
+  // compass round-trips
+  assert(compass(0)==='N' && compass(180)==='S' && compass(270)==='W','compass cardinals');
+  // every scenario: condition + narrative produce strings, no NaN
+  SCENARIO_ORDER.forEach(k=>{
+    const s=DATA[k], sun=solar(obsDate(s)), cond=condition(s,sun);
+    assert(typeof cond.label==='string' && cond.label.length>0, k+' label');
+    const n=narrative(s,cond,sun,s.Td);
+    assert(!/NaN|undefined/.test(n), k+' narrative clean');
+    assert(ACCENT[cond.key], k+' accent defined for '+cond.key);
+    const t=sunTimes(s);
+    assert(t.maxAlt> -30, k+' solar runs');
+  });
+  // apparent temp finite
+  assert(Number.isFinite(apparentTemp(24,49,3.6)),'apparent temp finite');
+  // unit conversion
+  assert(Math.abs(c2f(0)-32)<1e-9 && Math.abs(c2f(100)-212)<1e-9,'C->F');
+
+  const led=document.getElementById('led'), txt=document.getElementById('statusTxt');
+  if(fails.length===0){
+    txt.textContent=`self-check passed \u00B7 ${SCENARIO_ORDER.length} scenarios, all derivations clean`;
+    console.log('%c[dashboard] self-check: PASS','color:#7fcf9a');
+  } else {
+    led.style.background='var(--bad)'; led.style.boxShadow='0 0 8px var(--bad)';
+    txt.textContent=`self-check: ${fails.length} issue(s) \u2014 see console`;
+    console.warn('[dashboard] self-check FAIL:', fails);
+  }
+}
+
+/* ============================================================
+   12. INIT
+============================================================ */
+buildControls();
+render();
+tickClock(); setInterval(tickClock,1000);
+selfTest();
+</script>
+</body>
+</html>
