@@ -1,15 +1,15 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Reading Atmospheric Observatory — Live Conditions</title>
+<title>Reading Atmospheric Observatory â€” Live Conditions</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:wght@300;400;500;600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   /* ============================================================
-     Reading Atmospheric Observatory — live conditions dashboard
+     Reading Atmospheric Observatory â€” live conditions dashboard
      Field set mirrors UOR_weather_report.py (METFiDAS 5-min CSV).
      Single file, vanilla JS, no frameworks, no storage.
      ============================================================ */
@@ -29,8 +29,8 @@
     --accent-soft:rgba(230,179,74,.16);
     --warm:#e8754a; --cool:#5b9bd5; --good:#7fcf9a; --bad:#e0607a;
     --mono:'IBM Plex Mono',ui-monospace,Menlo,Consolas,monospace;
-    --serif:'Fraunces',Georgia,serif;
-    --body:'EB Garamond',Georgia,serif;
+    --serif:'IBM Plex Serif',Georgia,serif;
+    --body:'IBM Plex Sans',Arial,Helvetica,sans-serif;
     --r:16px;
     --shadow:0 18px 50px -28px rgba(0,0,0,.85);
   }
@@ -359,7 +359,7 @@
 
 <script>
 /* ============================================================
-   1. DATA  — populated by weather_dash_update.py.
+   1. DATA  â€” illustrative scenarios.
    Field names follow UOR_weather_report.py. Replace with a live
    feed (parse the report HTML / 5-min CSV) to make this real.
    Temperatures in degC, wind in m/s, pressure hPa, irradiance W/m2,
@@ -477,7 +477,7 @@ function fmtDeltaT(c, dp=1){
   const sign = v>0 ? '+' : '';
   return sign + v.toFixed(dp);
 }
-const tUnitLabel = () => state.tUnit==='F' ? '°F' : '°C';
+const tUnitLabel = () => state.tUnit==='F' ? 'Â°F' : 'Â°C';
 function fmtW(ms, dp=1){
   if(!isNum(ms)) return 'n/a';
   const v = state.wUnit==='mph' ? ms*2.236936 : ms;
@@ -511,7 +511,7 @@ function hhmm(t){
 }
 
 /* ============================================================
-   3. SOLAR POSITION (SunCalc-style) — drives the living sky
+   3. SOLAR POSITION (SunCalc-style) â€” drives the living sky
 ============================================================ */
 const RAD = Math.PI/180;
 function solar(date){
@@ -551,10 +551,10 @@ function sunTimes(s){
 const fmtClock = ms => ms===null ? '--:--' : (d=>String(d.getUTCHours()).padStart(2,'0')+':'+String(d.getUTCMinutes()).padStart(2,'0'))(new Date(ms));
 
 /* ============================================================
-   4. DERIVATIONS — turn numbers into language
+   4. DERIVATIONS â€” turn numbers into language
 ============================================================ */
 function compass(deg){
-  if(!isNum(deg)) return '—';
+  if(!isNum(deg)) return 'â€”';
   const pts=['N','NNE','NE','ENE','E','ESE','SE','SSE','S','SSW','SW','WSW','W','WNW','NW','NNW'];
   return pts[Math.round((((deg%360)+360)%360)/22.5)%16];
 }
@@ -689,7 +689,7 @@ function narrative(s, cond, sun, td){
     default: lead=`${cond.label} this ${partOfDay}`;
   }
   const tempClause = isNum(td)
-    ? `${tempWord(td).toLowerCase()} at ${fmtT(td)}°, ${tt.word==='steady'?'holding steady':'temperature '+tt.word}`
+    ? `${tempWord(td).toLowerCase()} at ${fmtT(td)}Â°, ${tt.word==='steady'?'holding steady':'temperature '+tt.word}`
     : 'temperature unavailable from the latest feed';
   const windClause = !isNum(s.U10)
     ? 'wind data are unavailable'
@@ -701,7 +701,7 @@ function narrative(s, cond, sun, td){
   if(cond.key==='rain') tail = press.dir==='down' ? ', with the falling barometer hinting the wet spell has more to give.' : ', though the barometer suggests the rain is easing.';
   else if(cond.key==='fog') tail = ', likely to lift once the sun gains height.';
   else if(cond.key==='sunny'||cond.key==='fair') tail = press.dir==='up' ? ', and the rising barometer favours the bright weather holding.' : '.';
-  else if(cond.key==='clear-night') tail = ' — clear and calm, ideal for radiative cooling toward dawn.';
+  else if(cond.key==='clear-night') tail = ' â€” clear and calm, ideal for radiative cooling toward dawn.';
 
   return `${lead}: ${tempClause}. ${windClause.charAt(0).toUpperCase()+windClause.slice(1)}. ${pressClause}${tail}`;
 }
@@ -881,7 +881,7 @@ function svgSunPath(times, s, sun){
 function renderGrid(s, sun, times){
   const press=pressureTendency(s.delP3), tt=tempTendency(s.delT);
   const cb = isNum(s.cloudBase) ? fmtInt(s.cloudBase) : 'None detected';
-  const cbFt = isNum(s.cloudBase) ? Math.round(s.cloudBase/0.3048).toLocaleString() : '—';
+  const cbFt = isNum(s.cloudBase) ? Math.round(s.cloudBase/0.3048).toLocaleString() : 'â€”';
   const dewSpread = isNum(s.Td) && isNum(s.Tdew) ? (s.Td - s.Tdew).toFixed(1) : 'n/a';
   const ae = s.ae || {};
   const aeSource = ae.source || 'not located';
@@ -958,7 +958,7 @@ function renderGrid(s, sun, times){
       <div class="sub" style="margin-top:14px">
         <span class="k">Visibility</span>
         <span style="font-family:var(--serif);font-size:22px;color:var(--ink)"> ${fmtDistance(s.vis)}</span><br>
-        ${visWord(s.vis)} &middot; <span class="k">present wx</span> <b>${WW[s.ww]||'—'}</b>
+        ${visWord(s.vis)} &middot; <span class="k">present wx</span> <b>${WW[s.ww]||'â€”'}</b>
       </div>`}
   ];
 
@@ -993,7 +993,7 @@ function renderSoil(s){
     const v = key.startsWith('c') ? s.soil[key] : s[key];
     const has=isNum(v), col=tempColor(v);
     const val=has?fmtT(v):'n/a';
-    return `<div class="srow ${has?'':'na'}" data-key="${key}" data-tip="${name}${small?' '+small:''} — ${note}. ${val}${has?tUnitLabel():''}.">
+    return `<div class="srow ${has?'':'na'}" data-key="${key}" data-tip="${name}${small?' '+small:''} â€” ${note}. ${val}${has?tUnitLabel():''}.">
       <span class="name">${name}${small?` <small>${small}</small>`:''}</span>
       <span class="chip" style="background:${col}">${val}</span>
       <span class="temp">${val}${has?`<span style="font-family:var(--mono);font-size:12px;color:var(--ink-dim)">${tUnitLabel()}</span>`:''}</span></div>`;
@@ -1050,18 +1050,18 @@ function renderSoil(s){
 ============================================================ */
 function renderExtremes(s){
   const e=s.ext || {};
-  const extT = v => isNum(v) ? `<b>${fmtT(v)}</b>${tUnitLabel()}` : '—';
-  const extN = (v,dp=1,suffix='') => isNum(v) ? `<b>${v.toFixed(dp)}</b>${suffix}` : '—';
-  const extI = (v,suffix='') => isNum(v) ? `<b>${Math.round(v)}</b>${suffix}` : '—';
+  const extT = v => isNum(v) ? `<b>${fmtT(v)}</b>${tUnitLabel()}` : 'â€”';
+  const extN = (v,dp=1,suffix='') => isNum(v) ? `<b>${v.toFixed(dp)}</b>${suffix}` : 'â€”';
+  const extI = (v,suffix='') => isNum(v) ? `<b>${Math.round(v)}</b>${suffix}` : 'â€”';
   const rows=[
     {lbl:'Air temperature', hi:extT(e.Td?.mx), ht:e.Td?.mxt, lo:extT(e.Td?.mn), lt:e.Td?.mnt},
     {lbl:'Relative humidity', hi:extI(e.RH?.mx,'%'), ht:e.RH?.mxt, lo:extI(e.RH?.mn,'%'), lt:e.RH?.mnt},
     {lbl:'MSL pressure', hi:extN(e.Pmsl?.mx,1), ht:e.Pmsl?.mxt, lo:extN(e.Pmsl?.mn,1), lt:e.Pmsl?.mnt},
-    {lbl:'Grass minimum', hi:'—', ht:'', lo:extT(e.Tgrass?.mn), lt:e.Tgrass?.mnt},
-    {lbl:'Peak global irradiance', hi:extI(e.Sg?.mx,' W/m&sup2;'), ht:e.Sg?.mxt, lo:'—', lt:''},
-    {lbl:'Maximum wind gust', hi:isNum(s.U10maxAcc)?`<b>${fmtW(s.U10maxAcc)}</b> ${wUnitLabel()}`:'—', ht:'', lo:'—', lt:''},
-    {lbl:'Rainfall total', hi:isNum(s.rainAccum)?`<b>${fmtRain(s.rainAccum)}</b> mm`:'—', ht:'', lo:'—', lt:''},
-    {lbl:'Sunshine total', hi:isNum(s.SdurAccum)?`<b>${fmtNum(s.SdurAccum,1)}</b> h`:'—', ht:'', lo:'—', lt:''},
+    {lbl:'Grass minimum', hi:'â€”', ht:'', lo:extT(e.Tgrass?.mn), lt:e.Tgrass?.mnt},
+    {lbl:'Peak global irradiance', hi:extI(e.Sg?.mx,' W/m&sup2;'), ht:e.Sg?.mxt, lo:'â€”', lt:''},
+    {lbl:'Maximum wind gust', hi:isNum(s.U10maxAcc)?`<b>${fmtW(s.U10maxAcc)}</b> ${wUnitLabel()}`:'â€”', ht:'', lo:'â€”', lt:''},
+    {lbl:'Rainfall total', hi:isNum(s.rainAccum)?`<b>${fmtRain(s.rainAccum)}</b> mm`:'â€”', ht:'', lo:'â€”', lt:''},
+    {lbl:'Sunshine total', hi:isNum(s.SdurAccum)?`<b>${fmtNum(s.SdurAccum,1)}</b> h`:'â€”', ht:'', lo:'â€”', lt:''},
   ];
   document.getElementById('extGrid').innerHTML=rows.map(r=>`
     <div class="ext-row">
@@ -1099,7 +1099,7 @@ function render(){
   if(isNum(s.Tgrass) && s.Tgrass<0) badges.push({t:'Grass frost',w:true});
   if(isNum(s.Td) && s.Td<0) badges.push({t:'Air frost',w:true});
   if(isNum(s.U10max) && s.U10max>=13.9) badges.push({t:'Gusty',w:true});
-  if(isNum(s.vis) && s.vis<1000) badges.push({t:'Fog — low visibility',w:true});
+  if(isNum(s.vis) && s.vis<1000) badges.push({t:'Fog â€” low visibility',w:true});
   if(isNum(s.RH) && s.RH>=95) badges.push({t:'Air saturated',w:false,c:true});
   if(isNum(s.rain1h) && s.rain1h>0) badges.push({t:`${s.rain1h.toFixed(1)} mm last hour`,w:false,c:true});
   if(cond.key==='sunny' && isNum(s.Sg) && s.Sg>700) badges.push({t:'Strong sun',w:false});
@@ -1193,11 +1193,11 @@ function selfTest(){
 
   const led=document.getElementById('led'), txt=document.getElementById('statusTxt');
   if(fails.length===0){
-    txt.textContent=`self-check passed · ${SCENARIO_ORDER.length} live scenario(s), null-safe rendering`;
+    txt.textContent=`self-check passed Â· ${SCENARIO_ORDER.length} live scenario(s), null-safe rendering`;
     console.log('%c[dashboard] self-check: PASS','color:#7fcf9a');
   } else {
     led.style.background='var(--bad)'; led.style.boxShadow='0 0 8px var(--bad)';
-    txt.textContent=`self-check: ${fails.length} issue(s) — see console`;
+    txt.textContent=`self-check: ${fails.length} issue(s) â€” see console`;
     console.warn('[dashboard] self-check FAIL:', fails);
   }
 }
