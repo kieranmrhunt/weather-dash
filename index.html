@@ -171,7 +171,7 @@
   .rb{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;height:100%;justify-content:flex-end}
   .rb .bar{width:100%;border-radius:5px 5px 0 0;background:linear-gradient(180deg,var(--cool),rgba(91,155,213,.25));min-height:2px;transition:height .8s ease}
   .rb .v{font-family:var(--mono);font-size:11px;color:var(--ink);font-variant-numeric:tabular-nums}
-  .rb .l{font-family:var(--mono);font-size:9.5px;color:var(--ink-faint);letter-spacing:.06em}
+  .rb .l{font-family:var(--mono);font-size:9.5px;color:var(--ink-faint);letter-spacing:.06em;white-space:nowrap;min-height:1.25em;line-height:1.25}
 
   /* sun arc */
   .sunpath{width:100%;margin-top:2px}
@@ -213,7 +213,7 @@
   .srow .name small{font-family:var(--mono);font-size:10px;color:var(--ink-faint);letter-spacing:.08em;margin-left:7px;text-transform:uppercase}
   .srow .chip{font-family:var(--mono);font-size:11px;padding:2px 8px;border-radius:20px;color:#0a0d14;font-weight:600;font-variant-numeric:tabular-nums;justify-self:end;min-width:42px;text-align:center}
   .srow .temp{font-family:var(--serif);font-size:21px;font-variant-numeric:tabular-nums;justify-self:end;min-width:74px;text-align:right}
-  .srow.sep{margin-top:6px}
+  .srow.sep{margin-top:0}
   .srow.na{opacity:.66}
   .srow.na .chip{background:rgba(255,255,255,.08)!important;color:var(--ink-faint);border:1px solid var(--line)}
   .srow.na .temp{color:var(--ink-faint);font-family:var(--mono);font-size:13px}
@@ -254,7 +254,7 @@
   @keyframes twinkle{0%,100%{opacity:.25}50%{opacity:.95}}
   .rays{transform-origin:center;animation:spin 90s linear infinite}
   .raindrop{animation:fall 1.1s linear infinite}
-  .cloud{animation:drift 9s ease-in-out infinite alternate}
+  .cloud-drift{animation:drift 9s ease-in-out infinite alternate;transform-box:fill-box;transform-origin:center}
   .fogband{animation:drift 14s ease-in-out infinite alternate}
   .star{animation:twinkle 3.2s ease-in-out infinite}
 
@@ -416,6 +416,12 @@ const DATA = {
     "U10maxAcc": 6.7,
     "U2run": 1.8,
     "U10run": 2.3,
+    "ae": {
+      "pg": 33.0,
+      "time": "1000",
+      "source": "METFiDAS-Incoming/Level1/2026/2026-AVG5-171.csv",
+      "unit": "V/m"
+    },
     "ext": {
       "Td": {
         "mx": 22.1,
@@ -479,6 +485,11 @@ function fmtW(ms, dp=1){
 }
 const wUnitLabel = () => state.wUnit==='mph' ? 'mph' : 'm/s';
 function fmtNum(v, dp=1){ return isNum(v) ? v.toFixed(dp) : 'n/a'; }
+function fmtSigned(v, dp=0){
+  if(!isNum(v)) return 'n/a';
+  const sign = v>0 ? '+' : '';
+  return sign + v.toFixed(dp);
+}
 function fmtInt(v){ return isNum(v) ? String(Math.round(v)) : 'n/a'; }
 function fmtSolar(v){ return isNum(v) ? String(Math.round(v)) : 'n/a'; }
 function fmtRain(v){ return isNum(v) ? v.toFixed(1) : 'n/a'; }
@@ -586,6 +597,14 @@ function humWord(rh){
   if(!isNum(rh)) return 'humidity unavailable';
   if(rh>=98) return 'Saturated'; if(rh>=90) return 'Very humid'; if(rh>=75) return 'Humid';
   if(rh>=55) return 'Comfortable'; if(rh>=40) return 'Dry'; return 'Very dry';
+}
+function aeWord(pg){
+  if(!isNum(pg)) return 'latest field-mill value unavailable';
+  const a=Math.abs(pg);
+  if(a<50) return 'near-zero field';
+  if(a<250) return pg>0 ? 'fair-weather positive field' : 'weak negative field';
+  if(a<800) return pg>0 ? 'enhanced positive field' : 'enhanced negative field';
+  return 'strongly disturbed electric field';
 }
 function apparentTemp(Ta, RH, ws){
   if(!isNum(Ta) || !isNum(RH) || !isNum(ws)) return null;
@@ -708,10 +727,12 @@ function skyGradient(key, sun){
 function buildScene(key, sun, times, s){
   const W=400,H=300, night = sun.alt<=-0.833;
   let g='';
-  const cloudShape=(cx,cy,sc=1,op=.78)=>`<g class="cloud" transform="translate(${cx},${cy}) scale(${sc})">
-      <ellipse cx="0" cy="0" rx="34" ry="17" fill="rgba(236,240,246,${op})"/>
-      <ellipse cx="24" cy="6" rx="26" ry="14" fill="rgba(224,230,240,${op})"/>
-      <ellipse cx="-22" cy="6" rx="22" ry="12" fill="rgba(224,230,240,${op})"/></g>`;
+  const cloudShape=(cx,cy,sc=1,op=.78,delay=0)=>`<g transform="translate(${cx},${cy}) scale(${sc})">
+      <g class="cloud-drift" style="animation-delay:${delay}s">
+        <ellipse cx="0" cy="0" rx="34" ry="17" fill="rgba(236,240,246,${op})"/>
+        <ellipse cx="24" cy="6" rx="26" ry="14" fill="rgba(224,230,240,${op})"/>
+        <ellipse cx="-22" cy="6" rx="22" ry="12" fill="rgba(224,230,240,${op})"/>
+      </g></g>`;
 
   // sun / moon position along an arc
   if(times.rise!==null && times.set!==null && !night){
@@ -741,6 +762,8 @@ function buildScene(key, sun, times, s){
   }
 
   // A soft cloud deck keeps overcast/cloudy/rain scenes visibly cloudy.
+  // Clouds are always positioned by an outer group; only the inner group drifts, so
+  // CSS animation cannot overwrite the placement transform and make clouds vanish.
   if(['overcast','rain','cloudy','cloudy-night'].includes(key)){
     const op = key==='overcast' ? .72 : key==='rain' ? .62 : .48;
     g+=`<g opacity="${op}"><ellipse cx="80" cy="92" rx="130" ry="34" fill="rgba(230,235,244,.52)"/>
@@ -748,12 +771,13 @@ function buildScene(key, sun, times, s){
       <ellipse cx="360" cy="105" rx="110" ry="32" fill="rgba(205,215,230,.46)"/></g>`;
   }
 
-  const clouds = {cloudy:3,'cloudy-night':3,overcast:5,rain:4,fair:0,partly:2,snow:3}[key]||0;
+  const cloudCounts = {sunny:2,fair:2,partly:3,cloudy:3,'cloudy-night':3,overcast:5,rain:4,snow:3};
+  const clouds = cloudCounts[key] || 0;
   for(let i=0;i<clouds;i++){
-    const cx=45+i*82, cy=58+(i%2)*38, sc=.78+(i%3)*.17, op = key==='overcast'?.88:key==='rain'?.78:.76;
-    g+=cloudShape(cx,cy,sc,op).replace('class="cloud"',`class="cloud" style="animation-delay:${i*1.3}s"`);
+    const cx=45+i*82, cy=58+(i%2)*38, sc=.78+(i%3)*.17;
+    const op = key==='overcast'?.88:key==='rain'?.78:(key==='sunny'||key==='fair')?.38:.72;
+    g+=cloudShape(cx,cy,sc,op,i*1.3);
   }
-  if(key==='partly') g+=cloudShape(320,82,.72,.64);
 
   // rain
   if(key==='rain'){
@@ -859,6 +883,9 @@ function renderGrid(s, sun, times){
   const cb = isNum(s.cloudBase) ? fmtInt(s.cloudBase) : 'None detected';
   const cbFt = isNum(s.cloudBase) ? Math.round(s.cloudBase/0.3048).toLocaleString() : '—';
   const dewSpread = isNum(s.Td) && isNum(s.Tdew) ? (s.Td - s.Tdew).toFixed(1) : 'n/a';
+  const ae = s.ae || {};
+  const aeSource = ae.source || 'not located';
+  const aeTime = ae.time ? hhmm(ae.time)+' UTC' : 'latest available';
 
   const cards = [
     // WIND
@@ -868,6 +895,7 @@ function renderGrid(s, sun, times){
         <span style="font-family:var(--serif);font-size:30px;color:var(--ink)">${fmtW(s.U10)}</span>
         <span class="u" style="font-family:var(--mono);font-size:12px;color:var(--ink-dim)"> ${isNum(s.U10)?wUnitLabel():''}</span>
         ${isNum(s.dir)?`&nbsp;from&nbsp;<b>${compass(s.dir)}</b> (${fmtInt(s.dir).padStart(3,'0')}&deg;)`:''}<br>
+        ${isNum(s.dir)?`<span class="k">blowing towards</span> <b>${compass((s.dir+180)%360)}</b><br>`:''}
         <span class="k">gust</span> <b>${fmtW(s.U10max)}</b> ${isNum(s.U10max)?wUnitLabel():''} &middot; <span class="k">day max</span> <b>${fmtW(s.U10maxAcc)}</b><br>
         ${beaufort(s.U10)}
       </div>`},
@@ -915,6 +943,14 @@ function renderGrid(s, sun, times){
         <div class="sub" style="margin-top:12px"><span class="k">Since 0000 UTC</span>
         <span style="font-family:var(--serif);font-size:24px;color:var(--ink)"> ${fmtRain(s.rainAccum)}</span> ${isNum(s.rainAccum)?'mm':''}</div>`;
     })()},
+    // ATMOSPHERIC ELECTRICITY
+    {h:['Atmospheric electricity','field mill'], body:`
+      <div class="readout">${fmtSigned(ae.pg,0)}<span class="u">${isNum(ae.pg)?(ae.unit||'V/m'):''}</span></div>
+      <div class="sub"><span class="k">potential gradient / electric field</span><br>${aeWord(ae.pg)}</div>
+      <div class="sub" style="margin-top:14px">
+        <span class="k">Observation</span> <b>${aeTime}</b><br>
+        <span class="k">Source</span> <b>${aeSource}</b>
+      </div>`},
     // SKY: cloud + visibility
     {h:['Cloud &amp; visibility','ceilometer / SWS-250'], body:`
       <div class="readout">${cb}<span class="u">${isNum(s.cloudBase)?'m':''}</span></div>
@@ -932,10 +968,12 @@ function renderGrid(s, sun, times){
       ${c.body}
     </div>`).join('');
 
-  // Rotate the wind-vane needle to the direction the wind is from.
+  // The text reports the meteorological direction the wind is from.
+  // The arrow shows the direction the air is blowing towards, to avoid visually
+  // reading a SW arrow as 'wind going to the SW'.
   requestAnimationFrame(()=>{
     const cn=document.querySelector('.compass .needle');
-    if(cn && isNum(s.dir)) cn.style.transform=`rotate(${s.dir}deg)`;
+    if(cn && isNum(s.dir)) cn.style.transform=`rotate(${(s.dir+180)%360}deg)`;
   });
 }
 
@@ -976,6 +1014,14 @@ function renderSoil(s){
 
   document.getElementById('coreCol').innerHTML=colSlots;
   document.getElementById('coreRows').innerHTML=rows;
+  requestAnimationFrame(()=>{
+    const rowEls=[...document.querySelectorAll('#coreRows .srow')];
+    const slotEls=[...document.querySelectorAll('#coreCol .core-slot')];
+    slotEls.forEach((slot,i)=>{
+      const row=rowEls[i];
+      if(row) slot.style.height = `${row.getBoundingClientRect().height}px`;
+    });
+  });
 
   const tip=document.getElementById('tip');
   document.querySelectorAll('#coreRows .srow[data-tip]').forEach(rowEl=>{
@@ -1036,7 +1082,7 @@ function render(){
   setAccent(cond.key);
 
   // hero
-  document.getElementById('heroTemp').innerHTML=`${fmtT(s.Td,0)}<span class="deg">${isNum(s.Td)?tUnitLabel():''}</span>`;
+  document.getElementById('heroTemp').innerHTML=`${fmtT(s.Td,1)}<span class="deg">${isNum(s.Td)?tUnitLabel():''}</span>`;
   document.getElementById('heroCond').textContent=cond.label;
   document.getElementById('heroTempWord').textContent=tempWord(s.Td);
   document.getElementById('heroNarr').textContent=narrative(s, cond, sun, s.Td);
