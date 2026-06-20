@@ -141,10 +141,12 @@
     padding:18px 18px 16px;display:flex;flex-direction:column;min-height:188px;box-shadow:var(--shadow);
   }
   .card h2{
-    font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;
-    color:var(--ink-faint);margin:0 0 10px;display:flex;justify-content:space-between;align-items:center;
+    font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;
+    color:var(--ink-faint);margin:0 0 12px;display:flex;justify-content:center;align-items:baseline;
+    gap:.85em;flex-wrap:wrap;text-align:center;line-height:1.35;
   }
-  .card h2 .tag{color:var(--accent);transition:color .6s}
+  .card h2 .var{color:var(--accent);transition:color .6s}
+  .card h2 .instr{color:var(--ink-faint);font-weight:500;letter-spacing:.11em;text-transform:uppercase}
   .readout{font-family:var(--serif);font-weight:400;font-size:42px;line-height:1;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
   .readout .u{font-family:var(--mono);font-size:14px;color:var(--ink-dim);margin-left:6px;letter-spacing:0}
   .sub{font-family:var(--mono);font-size:11.5px;color:var(--ink-dim);margin-top:6px;letter-spacing:.02em;line-height:1.55}
@@ -184,29 +186,37 @@
   /* ---------- soil core (signature) ---------- */
   .soil{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:20px clamp(16px,2.5vw,26px) 22px;margin-bottom:18px;box-shadow:var(--shadow)}
   .soil h2{font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-faint);margin:0 0 4px}
-  .soil .lede{font-family:var(--body);color:var(--ink-dim);font-size:15px;margin:0 0 16px;max-width:60ch}
-  .core{display:grid;grid-template-columns:118px 1fr;gap:clamp(14px,3vw,34px)}
-  .core-col{position:relative;border-radius:12px;overflow:hidden;min-height:340px;
-    background:linear-gradient(180deg,
-      #1c3550 0%, #244a4f 8%,
-      #3c4a2a 12%, #5a4326 20%,
-      #4a3320 40%, #3a2718 65%, #2c1d12 100%);
-    border:1px solid var(--line);}
-  .core-col .grassline{position:absolute;left:0;right:0;top:12%;height:2px;background:rgba(255,255,255,.22)}
-  .core-col .depth-tick{position:absolute;left:0;right:0;height:1px;background:rgba(255,255,255,.10)}
-  .core-col .depth-tick span{position:absolute;right:5px;top:-7px;font-family:var(--mono);font-size:8.5px;color:rgba(255,255,255,.5)}
+  .soil .lede{font-family:var(--body);color:var(--ink-dim);font-size:15px;margin:0 0 16px;max-width:64ch}
+  .core{display:grid;grid-template-columns:126px 1fr;gap:clamp(14px,3vw,34px);align-items:start}
+  .core-col{display:flex;flex-direction:column;gap:3px;min-height:0;position:relative;border:0;background:transparent;overflow:visible}
+  .core-slot{
+    min-height:41px;border-radius:9px;border:1px solid var(--line);position:relative;display:flex;align-items:center;
+    gap:8px;padding:6px 8px;background:linear-gradient(90deg,rgba(255,255,255,.035),rgba(255,255,255,.012));
+    transition:background .18s,border-color .18s,opacity .18s;
+  }
+  .core-slot.surface{background:linear-gradient(90deg,rgba(68,92,57,.30),rgba(255,255,255,.018))}
+  .core-slot.soil{background:linear-gradient(90deg,rgba(92,62,34,.36),rgba(45,30,18,.28))}
+  .core-slot.head{min-height:35px;border-color:transparent;background:transparent;justify-content:flex-end;padding-right:7px}
+  .core-slot .profile-bar{width:9px;height:72%;border-radius:9px;box-shadow:0 0 12px rgba(0,0,0,.25);flex:none}
+  .core-slot .depth-label{font-family:var(--mono);font-size:10px;letter-spacing:.08em;color:var(--ink-dim);white-space:nowrap}
+  .core-slot.head .depth-label{color:var(--ink-faint);text-transform:uppercase;letter-spacing:.2em;font-size:9.5px}
+  .core-slot.na{opacity:.55}
+  .core-slot.active{border-color:var(--accent);background:var(--accent-soft)}
   .rows{display:flex;flex-direction:column;gap:3px}
   .srow{
     display:grid;grid-template-columns:1fr auto auto;align-items:center;gap:12px;
-    padding:8px 12px;border-radius:9px;border:1px solid transparent;cursor:default;
-    transition:background .18s,border-color .18s,transform .18s;
+    min-height:41px;padding:8px 12px;border-radius:9px;border:1px solid transparent;cursor:default;
+    transition:background .18s,border-color .18s,transform .18s,opacity .18s;
   }
-  .srow:hover{background:var(--panel-2);border-color:var(--line);transform:translateX(2px)}
+  .srow:hover,.srow.active{background:var(--panel-2);border-color:var(--line);transform:translateX(2px)}
   .srow .name{font-family:var(--body);font-size:15.5px;color:var(--ink)}
   .srow .name small{font-family:var(--mono);font-size:10px;color:var(--ink-faint);letter-spacing:.08em;margin-left:7px;text-transform:uppercase}
-  .srow .chip{font-family:var(--mono);font-size:11px;padding:2px 8px;border-radius:20px;color:#0a0d14;font-weight:600;font-variant-numeric:tabular-nums;justify-self:end}
+  .srow .chip{font-family:var(--mono);font-size:11px;padding:2px 8px;border-radius:20px;color:#0a0d14;font-weight:600;font-variant-numeric:tabular-nums;justify-self:end;min-width:42px;text-align:center}
   .srow .temp{font-family:var(--serif);font-size:21px;font-variant-numeric:tabular-nums;justify-self:end;min-width:74px;text-align:right}
   .srow.sep{margin-top:6px}
+  .srow.na{opacity:.66}
+  .srow.na .chip{background:rgba(255,255,255,.08)!important;color:var(--ink-faint);border:1px solid var(--line)}
+  .srow.na .temp{color:var(--ink-faint);font-family:var(--mono);font-size:13px}
   .srow .name.head{font-family:var(--mono);font-size:9.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-faint)}
 
   /* ---------- extremes ---------- */
@@ -257,8 +267,11 @@
     .clocks{margin-left:0;width:100%;justify-content:flex-start;gap:30px;text-align:left}
     .clk .val{font-size:17px}
     .units{margin-left:0;width:100%}
-    .core{grid-template-columns:74px 1fr;gap:14px}
-    .core-col{min-height:300px}
+    .core{grid-template-columns:82px 1fr;gap:14px}
+    .core-slot .depth-label{font-size:9px}
+    .core-slot{padding-left:6px;padding-right:5px}
+    .srow{grid-template-columns:1fr auto;gap:8px}
+    .srow .chip{display:none}
     .srow .temp{min-width:62px;font-size:19px}
   }
   @media (prefers-reduced-motion:reduce){
@@ -321,7 +334,7 @@
   <!-- SOIL CORE -->
   <section class="soil">
     <h2>Ground &amp; soil core</h2>
-    <p class="lede">Surface temperatures and the soil profile beneath grass, sensor by sensor. Hover a depth to read its place in the column.</p>
+    <p class="lede">Surface temperatures and soil temperatures beneath grass. Missing sensors are shown as n/a rather than plotted as zero.</p>
     <div class="core">
       <div class="core-col" id="coreCol"></div>
       <div class="rows" id="coreRows"></div>
@@ -374,9 +387,9 @@ const DATA = {
     "soil": {
       "c5": 21.1,
       "c10": 20.1,
-      "c20": 0.0,
+      "c20": null,
       "c30": 19.0,
-      "c50": 0.0,
+      "c50": null,
       "c100": 15.5
     },
     "rain5": 0.0,
@@ -443,20 +456,48 @@ const WW = {0:"No significant weather",4:"Haze or smoke or dust",11:"Diamond Dus
 ============================================================ */
 const state = { scn:'live', tUnit:'C', wUnit:'ms' };
 
+const isNum = v => typeof v === 'number' && Number.isFinite(v);
+const valOr = (v,d=0) => isNum(v) ? v : d;
 const c2f = c => c*9/5+32;
+const cDelta2f = c => c*9/5;
 function fmtT(c, dp=1){
-  if(c===null||c===undefined) return 'n/a';
+  if(!isNum(c)) return 'n/a';
   const v = state.tUnit==='F' ? c2f(c) : c;
   return v.toFixed(dp);
 }
-const tUnitLabel = () => state.tUnit==='F' ? '\u00B0F' : '\u00B0C';
+function fmtDeltaT(c, dp=1){
+  if(!isNum(c)) return 'n/a';
+  const v = state.tUnit==='F' ? cDelta2f(c) : c;
+  const sign = v>0 ? '+' : '';
+  return sign + v.toFixed(dp);
+}
+const tUnitLabel = () => state.tUnit==='F' ? '°F' : '°C';
 function fmtW(ms, dp=1){
+  if(!isNum(ms)) return 'n/a';
   const v = state.wUnit==='mph' ? ms*2.236936 : ms;
   return v.toFixed(dp);
 }
 const wUnitLabel = () => state.wUnit==='mph' ? 'mph' : 'm/s';
-const pad4 = t => String(t).padStart(4,'0');
-const hhmm = t => { const s=pad4(t); return s.slice(0,2)+':'+s.slice(2); };
+function fmtNum(v, dp=1){ return isNum(v) ? v.toFixed(dp) : 'n/a'; }
+function fmtInt(v){ return isNum(v) ? String(Math.round(v)) : 'n/a'; }
+function fmtSolar(v){ return isNum(v) ? String(Math.round(v)) : 'n/a'; }
+function fmtRain(v){ return isNum(v) ? v.toFixed(1) : 'n/a'; }
+function fmtDistance(m){
+  if(!isNum(m)) return 'n/a';
+  if(m>=1000) return (m/1000).toFixed(1)+' km';
+  return Math.round(m)+' m';
+}
+function pad4(t){
+  if(t===null || t===undefined) return '----';
+  const s=String(t).trim();
+  if(!s || s==='----' || /^-+$/.test(s)) return '----';
+  return s.padStart(4,'0');
+}
+function hhmm(t){
+  const s=pad4(t);
+  if(s==='----') return '--:--';
+  return s.slice(0,2)+':'+s.slice(2);
+}
 
 /* ============================================================
    3. SOLAR POSITION (SunCalc-style) — drives the living sky
@@ -480,7 +521,7 @@ function solar(date){
   az = (az/RAD + 180) % 360;
   return { alt: alt/RAD, az };
 }
-function obsDate(s){ return new Date(Date.UTC(s.y, s.mo-1, s.d, +s.time.slice(0,2), +s.time.slice(2))); }
+function obsDate(s){ const t=pad4(s.time); return new Date(Date.UTC(s.y, s.mo-1, s.d, +(t.slice(0,2)||0), +(t.slice(2)||0))); }
 function sunTimes(s){
   // scan the day at 1-min steps for the -0.833 deg crossings
   const base = Date.UTC(s.y, s.mo-1, s.d, 0, 0);
@@ -502,10 +543,12 @@ const fmtClock = ms => ms===null ? '--:--' : (d=>String(d.getUTCHours()).padStar
    4. DERIVATIONS — turn numbers into language
 ============================================================ */
 function compass(deg){
+  if(!isNum(deg)) return '—';
   const pts=['N','NNE','NE','ENE','E','ESE','SE','SSE','S','SSW','SW','WSW','W','WNW','NW','NNW'];
-  return pts[Math.round(((deg%360)/22.5))%16];
+  return pts[Math.round((((deg%360)+360)%360)/22.5)%16];
 }
 function beaufort(ms){
+  if(!isNum(ms)) return 'wind unavailable';
   const t=[[.5,'Calm'],[1.5,'Light air'],[3.3,'Light breeze'],[5.5,'Gentle breeze'],
     [7.9,'Moderate breeze'],[10.7,'Fresh breeze'],[13.8,'Strong breeze'],[17.1,'Near gale'],
     [20.7,'Gale'],[24.4,'Severe gale'],[28.4,'Storm']];
@@ -513,12 +556,14 @@ function beaufort(ms){
   return 'Violent storm';
 }
 function tempWord(c){
+  if(!isNum(c)) return 'Temperature unavailable';
   if(c<-3) return 'Bitterly cold'; if(c<1) return 'Freezing'; if(c<5) return 'Cold';
   if(c<9) return 'Chilly'; if(c<13) return 'Cool'; if(c<17) return 'Mild';
   if(c<21) return 'Pleasantly warm'; if(c<26) return 'Warm'; if(c<30) return 'Hot';
   return 'Very hot';
 }
 function pressureTendency(delP3){
+  if(!isNum(delP3)) return {word:'Unavailable',dir:'flat'};
   const a=Math.abs(delP3);
   if(a<0.5) return {word:'Steady',dir:'flat'};
   const rising=delP3>0, rate = a<1.6?'slowly':a<3.5?'':'rapidly';
@@ -526,42 +571,60 @@ function pressureTendency(delP3){
   return {word:w,dir:rising?'up':'down'};
 }
 function tempTendency(delT){
+  if(!isNum(delT)) return {word:'unavailable',dir:'flat'};
   const a=Math.abs(delT);
   if(a<0.3) return {word:'steady',dir:'flat'};
   return {word:(delT>0?'rising':'falling'), dir:delT>0?'up':'down'};
 }
 function visWord(m){
+  if(!isNum(m)) return 'Visibility unavailable';
   if(m<200) return 'Dense fog'; if(m<1000) return 'Fog'; if(m<4000) return 'Poor / misty';
   if(m<10000) return 'Moderate'; if(m<20000) return 'Good'; if(m<40000) return 'Very good';
   return 'Excellent';
 }
 function humWord(rh){
+  if(!isNum(rh)) return 'humidity unavailable';
   if(rh>=98) return 'Saturated'; if(rh>=90) return 'Very humid'; if(rh>=75) return 'Humid';
   if(rh>=55) return 'Comfortable'; if(rh>=40) return 'Dry'; return 'Very dry';
 }
 function apparentTemp(Ta, RH, ws){
+  if(!isNum(Ta) || !isNum(RH) || !isNum(ws)) return null;
   const e = (RH/100)*6.105*Math.exp(17.27*Ta/(237.7+Ta)); // vapour pressure hPa
   return Ta + 0.33*e - 0.70*ws - 4.00;                    // Steadman apparent temperature
 }
 /* condition key drives accent + sky scene */
+function expectedGlobal(sun){
+  if(!sun || !isNum(sun.alt) || sun.alt<=0) return 0;
+  const sinAlt=Math.sin(sun.alt*RAD);
+  return Math.min(1050, 1080*Math.pow(Math.max(0,sinAlt),1.15));
+}
 function condition(s, sun){
-  const ww=s.ww, isDay = sun.alt > -0.833;
+  const ww = Number.isFinite(Number(s.ww)) ? Number(s.ww) : 0;
   if([30,31,32,33,34,35].includes(ww)) return {key:'fog', label:'Foggy'};
   if([51,52,53].includes(ww)) return {key:'rain', label:'Drizzle'};
-  if([61,62,63].includes(ww)) return {key:'rain', label: ww===63?'Heavy rain':ww===61?'Light rain':'Raining'};
+  if([57,58,61,62,63,67,68].includes(ww)) return {key:'rain', label: ww===63?'Heavy rain':ww===61?'Light rain':'Raining'};
   if([81,82,83].includes(ww)) return {key:'rain', label:'Showers'};
-  if([71,72,73].includes(ww)) return {key:'snow', label:'Snow'};
-  // no significant weather -> derive from sun & cloud
-  if(!isDay){
-    return s.cloudBase===null
-      ? {key:'clear-night', label:'Clear'}
-      : {key:'cloudy-night', label:'Cloudy'};
-  }
-  const sunFrac = s.Sdur5/5;
-  if(sunFrac>=0.8) return {key:'sunny', label:'Sunny'};
-  if(sunFrac>=0.3) return {key:'partly', label:'Sunny spells'};
-  if(s.cloudBase===null && s.Sg>250) return {key:'fair', label:'Bright'};
-  if(s.Sg<120) return {key:'overcast', label:'Overcast'};
+  if([71,72,73,74,75,76,77,78,85,86,87,89].includes(ww)) return {key:'snow', label:'Wintry'};
+
+  // No significant present-weather code: infer sky conservatively.
+  // Do not call an evening / twilight observation overcast just because Sg is small.
+  const isNight = sun.alt <= -0.833;
+  const isTwilight = sun.alt <= 3;
+  const cloudDetected = isNum(s.cloudBase);
+  const sunFrac = isNum(s.Sdur5) ? Math.max(0,Math.min(1,s.Sdur5/5)) : null;
+  const expected = expectedGlobal(sun);
+  const solarRatio = expected>80 && isNum(s.Sg) ? s.Sg/expected : null;
+
+  if(!isNight && isNum(s.vis) && s.vis<1000 && isNum(s.RH) && s.RH>=95) return {key:'fog', label:'Foggy'};
+  if(isNight) return cloudDetected ? {key:'cloudy-night', label:'Cloudy'} : {key:'clear-night', label:'Clear'};
+
+  if(!cloudDetected && isTwilight) return {key:'fair', label:'Clear'};
+  if(sunFrac!==null && sunFrac>=0.80) return {key:'sunny', label:'Sunny'};
+  if(sunFrac!==null && sunFrac>=0.25) return {key:'partly', label:'Sunny spells'};
+  if(!cloudDetected) return {key:'fair', label:sun.alt<7?'Clear':'Bright'};
+  if(isNum(s.cloudBase) && s.cloudBase>5000 && (solarRatio===null || solarRatio>0.35)) return {key:'fair', label:'Bright'};
+  if(solarRatio!==null && solarRatio<0.22 && (sunFrac===null || sunFrac<0.10)) return {key:'overcast', label:'Overcast'};
+  if(solarRatio!==null && solarRatio>0.45) return {key:'partly', label:'Bright intervals'};
   return {key:'cloudy', label:'Cloudy'};
 }
 const ACCENT = {
@@ -577,6 +640,7 @@ function hexA(hex,a){const n=parseInt(hex.slice(1),16);return `rgba(${n>>16&255}
 
 /* temperature -> colour chip (cool blue .. warm red) */
 function tempColor(c){
+  if(!isNum(c)) return 'rgba(255,255,255,.16)';
   const t=Math.max(-8,Math.min(34,c)), f=(t+8)/42; // 0..1
   const stops=[[59,123,191],[110,170,200],[140,190,150],[230,200,90],[232,120,74],[210,70,80]];
   const x=f*(stops.length-1), i=Math.floor(x), fr=x-i;
@@ -590,8 +654,6 @@ function narrative(s, cond, sun, td){
   const dt = obsDate(s);
   const hr = dt.getUTCHours();
   const partOfDay = hr<5?'overnight':hr<8?'early morning':hr<12?'morning':hr<14?'around midday':hr<18?'afternoon':hr<21?'evening':'night';
-  const wind = beaufort(s.U10).toLowerCase();
-  const fromDir = compass(s.dir);
   const press = pressureTendency(s.delP3);
   const tt = tempTendency(s.delT);
 
@@ -599,7 +661,7 @@ function narrative(s, cond, sun, td){
   switch(cond.key){
     case 'sunny': lead=`Bright sunshine this ${partOfDay}`; break;
     case 'partly': lead=`Sunny spells this ${partOfDay}`; break;
-    case 'fair': lead=`A fair, fairly bright ${partOfDay}`; break;
+    case 'fair': lead=`A clear or bright ${partOfDay}`; break;
     case 'cloudy': case 'cloudy-night': lead=`Cloudy skies ${partOfDay==='night'?'tonight':'this '+partOfDay}`; break;
     case 'overcast': lead=`Grey and overcast this ${partOfDay}`; break;
     case 'rain': lead=`${cond.label} this ${partOfDay}`; break;
@@ -607,17 +669,20 @@ function narrative(s, cond, sun, td){
     case 'clear-night': lead=`Clear skies overhead tonight`; break;
     default: lead=`${cond.label} this ${partOfDay}`;
   }
-  const tempClause = `${tempWord(td).toLowerCase()} at ${fmtT(td)}\u00B0, ${tt.word==='steady'?'holding steady':'temperature '+tt.word}`;
-  const windClause = s.U10<0.6 ? 'the air all but still' : `a ${wind} from the ${fromDir}`;
-  const pressClause = press.dir==='flat'
-    ? 'Pressure is steady'
-    : `Pressure is ${press.word.toLowerCase()} (${(s.delP3>0?'+':'')}${s.delP3.toFixed(1)} hPa in 3 h)`;
-  let tail='';
+  const tempClause = isNum(td)
+    ? `${tempWord(td).toLowerCase()} at ${fmtT(td)}°, ${tt.word==='steady'?'holding steady':'temperature '+tt.word}`
+    : 'temperature unavailable from the latest feed';
+  const windClause = !isNum(s.U10)
+    ? 'wind data are unavailable'
+    : s.U10<0.6 ? 'the air all but still' : `a ${beaufort(s.U10).toLowerCase()} from the ${compass(s.dir)}`;
+  const pressClause = !isNum(s.delP3)
+    ? 'Pressure tendency is unavailable'
+    : press.dir==='flat' ? 'Pressure is steady' : `Pressure is ${press.word.toLowerCase()} (${(s.delP3>0?'+':'')}${s.delP3.toFixed(1)} hPa in 3 h)`;
+  let tail='.';
   if(cond.key==='rain') tail = press.dir==='down' ? ', with the falling barometer hinting the wet spell has more to give.' : ', though the barometer suggests the rain is easing.';
   else if(cond.key==='fog') tail = ', likely to lift once the sun gains height.';
   else if(cond.key==='sunny'||cond.key==='fair') tail = press.dir==='up' ? ', and the rising barometer favours the bright weather holding.' : '.';
   else if(cond.key==='clear-night') tail = ' — clear and calm, ideal for radiative cooling toward dawn.';
-  else tail='.';
 
   return `${lead}: ${tempClause}. ${windClause.charAt(0).toUpperCase()+windClause.slice(1)}. ${pressClause}${tail}`;
 }
@@ -643,6 +708,11 @@ function skyGradient(key, sun){
 function buildScene(key, sun, times, s){
   const W=400,H=300, night = sun.alt<=-0.833;
   let g='';
+  const cloudShape=(cx,cy,sc=1,op=.78)=>`<g class="cloud" transform="translate(${cx},${cy}) scale(${sc})">
+      <ellipse cx="0" cy="0" rx="34" ry="17" fill="rgba(236,240,246,${op})"/>
+      <ellipse cx="24" cy="6" rx="26" ry="14" fill="rgba(224,230,240,${op})"/>
+      <ellipse cx="-22" cy="6" rx="22" ry="12" fill="rgba(224,230,240,${op})"/></g>`;
+
   // sun / moon position along an arc
   if(times.rise!==null && times.set!==null && !night){
     const day = times.set-times.rise;
@@ -650,34 +720,41 @@ function buildScene(key, sun, times, s){
     const x = 40 + frac*(W-80);
     const peak = Math.max(40, 150 - times.maxAlt*1.7);
     const y = H-70 - Math.sin(frac*Math.PI)*(H-70-peak);
-    const dim = (key==='overcast'||key==='fog'||key==='cloudy');
-    if(!dim){
+    const veiled = (key==='overcast'||key==='fog'||key==='cloudy'||key==='rain');
+    if(!veiled){
       g+=`<g transform="translate(${x},${y})"><g class="rays" opacity="${key==='sunny'?.8:.45}">`;
       for(let i=0;i<12;i++) g+=`<rect x="-1.2" y="-34" width="2.4" height="11" rx="1" fill="#ffe6a8" transform="rotate(${i*30})"/>`;
       g+=`</g><circle r="20" fill="#ffe08a"/><circle r="20" fill="none" stroke="rgba(255,255,255,.4)" stroke-width="1"/></g>`;
     } else {
-      g+=`<circle cx="${x}" cy="${y}" r="22" fill="rgba(255,240,210,.18)"/>`;
+      g+=`<circle cx="${x}" cy="${y}" r="24" fill="rgba(255,240,210,.18)"/>`;
     }
   }
   if(night){
-    // stars
+    // deterministic star field, so unit toggles do not reshuffle the sky
     for(let i=0;i<26;i++){
-      const sx=15+((i*53)%(W-30)), sy=15+((i*97)%140), r=Math.random()*1.1+.4;
+      const sx=15+((i*53)%(W-30)), sy=15+((i*97)%140), r=(i%5)*0.18+.55;
       g+=`<circle class="star" style="animation-delay:${(i%7)*.4}s" cx="${sx}" cy="${sy}" r="${r}" fill="#fff"/>`;
     }
     if(key==='clear-night'){
-      g+=`<g transform="translate(${W-78},58)"><circle r="22" fill="#e8ecff"/><circle cx="9" cy="-5" r="22" fill="${ '#121a40' }" opacity=".0"/><circle cx="8" cy="-4" r="20" fill="rgba(20,26,64,.92)"/></g>`;
+      g+=`<g transform="translate(${W-78},58)"><circle r="22" fill="#e8ecff"/><circle cx="8" cy="-4" r="20" fill="rgba(20,26,64,.92)"/></g>`;
     }
   }
-  // clouds
-  const clouds = {cloudy:3,'cloudy-night':3,overcast:4,rain:4,fair:1,partly:2,snow:3}[key]||0;
-  for(let i=0;i<clouds;i++){
-    const cx=60+i*95, cy=55+(i%2)*40, sc=.8+(i%3)*.18, op = key==='overcast'?.92:.8;
-    g+=`<g class="cloud" style="animation-delay:${i*1.3}s" transform="translate(${cx},${cy}) scale(${sc})">
-      <ellipse cx="0" cy="0" rx="34" ry="17" fill="rgba(236,240,246,${op})"/>
-      <ellipse cx="24" cy="6" rx="26" ry="14" fill="rgba(224,230,240,${op})"/>
-      <ellipse cx="-22" cy="6" rx="22" ry="12" fill="rgba(224,230,240,${op})"/></g>`;
+
+  // A soft cloud deck keeps overcast/cloudy/rain scenes visibly cloudy.
+  if(['overcast','rain','cloudy','cloudy-night'].includes(key)){
+    const op = key==='overcast' ? .72 : key==='rain' ? .62 : .48;
+    g+=`<g opacity="${op}"><ellipse cx="80" cy="92" rx="130" ry="34" fill="rgba(230,235,244,.52)"/>
+      <ellipse cx="245" cy="78" rx="145" ry="38" fill="rgba(218,226,238,.48)"/>
+      <ellipse cx="360" cy="105" rx="110" ry="32" fill="rgba(205,215,230,.46)"/></g>`;
   }
+
+  const clouds = {cloudy:3,'cloudy-night':3,overcast:5,rain:4,fair:0,partly:2,snow:3}[key]||0;
+  for(let i=0;i<clouds;i++){
+    const cx=45+i*82, cy=58+(i%2)*38, sc=.78+(i%3)*.17, op = key==='overcast'?.88:key==='rain'?.78:.76;
+    g+=cloudShape(cx,cy,sc,op).replace('class="cloud"',`class="cloud" style="animation-delay:${i*1.3}s"`);
+  }
+  if(key==='partly') g+=cloudShape(320,82,.72,.64);
+
   // rain
   if(key==='rain'){
     for(let i=0;i<34;i++){
@@ -699,9 +776,7 @@ function buildScene(key, sun, times, s){
    6. INSTRUMENT CARDS
 ============================================================ */
 function svgCompass(dir, spd, gust){
-  const a=(dir-90)*RAD;
-  const r=54, cx=75, cy=75;
-  const x2=cx+Math.cos(a)*r, y2=cy+Math.sin(a)*r;
+  const cx=75, cy=75, r=66;
   let ticks='';
   for(let i=0;i<16;i++){
     const ang=(i*22.5-90)*RAD, major=i%4===0;
@@ -711,13 +786,14 @@ function svgCompass(dir, spd, gust){
   const card=['N','E','S','W'];
   let labels='';
   card.forEach((c,i)=>{const ang=(i*90-90)*RAD;labels+=`<text x="${cx+Math.cos(ang)*42}" y="${cy+Math.sin(ang)*42+4}" text-anchor="middle" font-size="11" fill="var(--ink-dim)">${c}</text>`;});
+  const arrow = isNum(dir) ? `<g class="needle" style="transform-origin:${cx}px ${cy}px;transform:rotate(0deg)">
+      <line x1="${cx}" y1="${cy+24}" x2="${cx}" y2="${cy-54}" stroke="var(--accent)" stroke-width="3" stroke-linecap="round"/>
+      <polygon points="${cx},${cy-64} ${cx-7},${cy-47} ${cx+7},${cy-47}" fill="var(--accent)"/>
+      <line x1="${cx}" y1="${cy+24}" x2="${cx}" y2="${cy+40}" stroke="rgba(255,255,255,.45)" stroke-width="2" stroke-linecap="round"/>
+    </g>` : `<text x="${cx}" y="${cy+4}" text-anchor="middle" font-size="13" fill="var(--ink-dim)">n/a</text>`;
   return `<svg class="compass" viewBox="0 0 150 150">
-    <circle cx="${cx}" cy="${cy}" r="66" fill="none" stroke="var(--line)" />
-    ${ticks}${labels}
-    <g class="needle" style="transform-origin:${cx}px ${cy}px;transform:rotate(0deg)">
-      <line x1="${cx}" y1="${cy}" x2="${x2}" y2="${y2}" stroke="var(--accent)" stroke-width="3" stroke-linecap="round"/>
-      <polygon points="${x2},${y2} ${x2-Math.cos(a-.4)*9},${y2-Math.sin(a-.4)*9} ${x2-Math.cos(a+.4)*9},${y2-Math.sin(a+.4)*9}" fill="var(--accent)"/>
-    </g>
+    <circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="var(--line)" />
+    ${ticks}${labels}${arrow}
     <circle cx="${cx}" cy="${cy}" r="4" fill="var(--ink)"/>
   </svg>`;
 }
@@ -780,45 +856,45 @@ function svgSunPath(times, s, sun){
 
 function renderGrid(s, sun, times){
   const press=pressureTendency(s.delP3), tt=tempTendency(s.delT);
-  const cb = s.cloudBase===null ? 'None detected' : s.cloudBase;
-  const cbFt = s.cloudBase===null ? '—' : Math.round(s.cloudBase/0.3048).toLocaleString();
-  const dewSpread = (s.Td - s.Tdew).toFixed(1);
+  const cb = isNum(s.cloudBase) ? fmtInt(s.cloudBase) : 'None detected';
+  const cbFt = isNum(s.cloudBase) ? Math.round(s.cloudBase/0.3048).toLocaleString() : '—';
+  const dewSpread = isNum(s.Td) && isNum(s.Tdew) ? (s.Td - s.Tdew).toFixed(1) : 'n/a';
 
   const cards = [
     // WIND
-    {h:['Wind','10&nbsp;m'], body:`
+    {h:['Wind','10 m vector mean'], body:`
       ${svgCompass(s.dir, s.U10, s.U10max)}
       <div class="sub center" style="margin-top:8px">
         <span style="font-family:var(--serif);font-size:30px;color:var(--ink)">${fmtW(s.U10)}</span>
-        <span class="u" style="font-family:var(--mono);font-size:12px;color:var(--ink-dim)"> ${wUnitLabel()}</span>
-        &nbsp;from&nbsp;<b>${compass(s.dir)}</b> (${pad4(s.dir).slice(1)}&deg;)<br>
-        <span class="k">gust</span> <b>${fmtW(s.U10max)}</b> ${wUnitLabel()} &middot; <span class="k">day max</span> <b>${fmtW(s.U10maxAcc)}</b><br>
+        <span class="u" style="font-family:var(--mono);font-size:12px;color:var(--ink-dim)"> ${isNum(s.U10)?wUnitLabel():''}</span>
+        ${isNum(s.dir)?`&nbsp;from&nbsp;<b>${compass(s.dir)}</b> (${fmtInt(s.dir).padStart(3,'0')}&deg;)`:''}<br>
+        <span class="k">gust</span> <b>${fmtW(s.U10max)}</b> ${isNum(s.U10max)?wUnitLabel():''} &middot; <span class="k">day max</span> <b>${fmtW(s.U10maxAcc)}</b><br>
         ${beaufort(s.U10)}
       </div>`},
     // PRESSURE
-    {h:['Pressure','MSL'], body:`
-      ${svgGauge(s.Pmsl)}
+    {h:['Pressure','MSL barometer'], body:`
+      ${svgGauge(valOr(s.Pmsl,1013.25))}
       <div class="sub center" style="margin-top:2px">
-        <span style="font-family:var(--serif);font-size:30px;color:var(--ink)">${s.Pmsl.toFixed(1)}</span> hPa<br>
+        <span style="font-family:var(--serif);font-size:30px;color:var(--ink)">${fmtNum(s.Pmsl,1)}</span> ${isNum(s.Pmsl)?'hPa':''}<br>
         <span class="tend">${tendArrow(press.dir)} ${press.word}</span><br>
-        <span class="k">1 h</span> <b>${(s.delP1>0?'+':'')}${s.delP1.toFixed(1)}</b> &middot;
-        <span class="k">3 h</span> <b>${(s.delP3>0?'+':'')}${s.delP3.toFixed(1)}</b> hPa
+        <span class="k">1 h</span> <b>${fmtNum(s.delP1,1)}</b> &middot;
+        <span class="k">3 h</span> <b>${fmtNum(s.delP3,1)}</b> hPa
       </div>`},
     // TEMP / HUMIDITY
-    {h:['Air &amp; moisture','2&nbsp;m'], body:`
+    {h:['Air &amp; moisture','2 m screen'], body:`
       <div class="hum-wrap">
-        ${svgHumDial(s.RH)}
+        ${svgHumDial(valOr(s.RH,0))}
         <div class="sub" style="font-size:12.5px">
-          <span class="k">Air</span> <b>${fmtT(s.Td)}${tUnitLabel()}</b>, ${tt.word==='steady'?'steady':tt.word}<br>
-          <span class="k">Dew point</span> <b>${fmtT(s.Tdew)}${tUnitLabel()}</b><br>
-          <span class="k">Wet bulb</span> <b>${fmtT(s.Tw)}${tUnitLabel()}</b><br>
-          <span class="k">Vapour</span> <b>${s.VP.toFixed(1)}</b> hPa<br>
+          <span class="k">Air</span> <b>${fmtT(s.Td)}${isNum(s.Td)?tUnitLabel():''}</b>, ${tt.word==='steady'?'steady':tt.word}<br>
+          <span class="k">Dew point</span> <b>${fmtT(s.Tdew)}${isNum(s.Tdew)?tUnitLabel():''}</b><br>
+          <span class="k">Wet bulb</span> <b>${fmtT(s.Tw)}${isNum(s.Tw)?tUnitLabel():''}</b><br>
+          <span class="k">Vapour</span> <b>${fmtNum(s.VP,1)}</b> ${isNum(s.VP)?'hPa':''}<br>
           <span class="k">Spread</span> <b>${dewSpread}</b> deg &middot; ${humWord(s.RH)}
         </div>
       </div>
-      <div class="sub" style="margin-top:auto;padding-top:10px;color:var(--ink-faint)">1-hour change ${(parseFloat(fmtT(s.delT,1))>0?'+':'')}${fmtT(Math.abs(s.delT)===s.delT?s.delT:s.delT)} deg</div>`},
+      <div class="sub" style="margin-top:auto;padding-top:10px;color:var(--ink-faint)">1-hour change <b>${fmtDeltaT(s.delT)}</b> ${isNum(s.delT)?tUnitLabel():''}</div>`},
     // SUN / SOLAR
-    {h:['Sunshine &amp; sun','Kipp&nbsp;CMP'], body:`
+    {h:['Sunshine &amp; radiation','solar instruments'], body:`
       ${svgSunPath(times, s, sun)}
       <div class="sun-stats">
         <span><span class="k">rise</span> <b>${fmtClock(times.rise)}</b></span>
@@ -826,40 +902,40 @@ function renderGrid(s, sun, times){
         <span><span class="k">set</span> <b>${fmtClock(times.set)}</b></span>
       </div>
       <div class="sub" style="margin-top:10px">
-        <span class="k">Sunshine today</span> <b>${s.SdurAccum.toFixed(1)} h</b><br>
-        <span class="k">Global irradiance</span> <b>${s.Sg}</b> W/m&sup2; (now) &middot; <b>${s.SgAccum.toFixed(1)}</b> MJ/m&sup2; today<br>
-        <span class="k">Direct / diffuse</span> <b>${s.Sb}</b> / <b>${s.Sd}</b> &middot; <span class="k">net</span> <b>${s.Rn}</b> W/m&sup2;
+        <span class="k">Sunshine today</span> <b>${fmtNum(s.SdurAccum,1)} h</b><br>
+        <span class="k">Global irradiance</span> <b>${fmtSolar(s.Sg)}</b> W/m&sup2; (now) &middot; <b>${fmtNum(s.SgAccum,1)}</b> MJ/m&sup2; today<br>
+        <span class="k">Direct / diffuse</span> <b>${fmtSolar(s.Sb)}</b> / <b>${fmtSolar(s.Sd)}</b> &middot; <span class="k">net</span> <b>${fmtSolar(s.Rn)}</b> W/m&sup2;
       </div>`},
     // RAIN
-    {h:['Rainfall','tipping&nbsp;bucket'], body:(()=>{
+    {h:['Rainfall','tipping bucket'], body:(()=>{
       const series=[['5 min',s.rain5],['1 h',s.rain1h],['3 h',s.rain3h],['6 h',s.rain6h]];
-      const mx=Math.max(0.5,...series.map(x=>x[1]));
-      const bars=series.map(([l,v])=>`<div class="rb"><span class="v">${v.toFixed(1)}</span><div class="bar" style="height:${Math.max(2,(v/mx)*100)}%"></div><span class="l">${l}</span></div>`).join('');
+      const mx=Math.max(0.5,...series.map(x=>valOr(x[1],0)));
+      const bars=series.map(([l,v])=>`<div class="rb"><span class="v">${fmtRain(v)}</span><div class="bar" style="height:${Math.max(2,(valOr(v,0)/mx)*100)}%"></div><span class="l">${l}</span></div>`).join('');
       return `<div class="rain-bars">${bars}</div>
         <div class="sub" style="margin-top:12px"><span class="k">Since 0000 UTC</span>
-        <span style="font-family:var(--serif);font-size:24px;color:var(--ink)"> ${s.rainAccum.toFixed(1)}</span> mm</div>`;
+        <span style="font-family:var(--serif);font-size:24px;color:var(--ink)"> ${fmtRain(s.rainAccum)}</span> ${isNum(s.rainAccum)?'mm':''}</div>`;
     })()},
     // SKY: cloud + visibility
     {h:['Cloud &amp; visibility','ceilometer / SWS-250'], body:`
-      <div class="readout">${cb}<span class="u">${s.cloudBase===null?'':'m'}</span></div>
-      <div class="sub"><span class="k">lowest cloud base</span>${s.cloudBase===null?'':` &middot; ${cbFt} ft`}</div>
+      <div class="readout">${cb}<span class="u">${isNum(s.cloudBase)?'m':''}</span></div>
+      <div class="sub"><span class="k">lowest cloud base</span>${isNum(s.cloudBase)?` &middot; ${cbFt} ft`:''}</div>
       <div class="sub" style="margin-top:14px">
         <span class="k">Visibility</span>
-        <span style="font-family:var(--serif);font-size:22px;color:var(--ink)"> ${s.vis>=1000?(s.vis/1000).toFixed(1)+' km':s.vis+' m'}</span><br>
+        <span style="font-family:var(--serif);font-size:22px;color:var(--ink)"> ${fmtDistance(s.vis)}</span><br>
         ${visWord(s.vis)} &middot; <span class="k">present wx</span> <b>${WW[s.ww]||'—'}</b>
       </div>`}
   ];
 
   document.getElementById('grid').innerHTML = cards.map(c=>`
     <div class="card center">
-      <h2><span>${c.h[0]}</span><span class="tag">${c.h[1]}</span></h2>
+      <h2><span class="var">${c.h[0]}</span><span class="instr">${c.h[1]}</span></h2>
       ${c.body}
     </div>`).join('');
 
-  // animate needles after insertion
+  // Rotate the wind-vane needle to the direction the wind is from.
   requestAnimationFrame(()=>{
     const cn=document.querySelector('.compass .needle');
-    if(cn) cn.style.transform=`rotate(${s.dir}deg)`;
+    if(cn && isNum(s.dir)) cn.style.transform=`rotate(${s.dir}deg)`;
   });
 }
 
@@ -867,51 +943,58 @@ function renderGrid(s, sun, times){
    7. SOIL CORE
 ============================================================ */
 function renderSoil(s){
-  const depths=[['5 cm','c5',0.05],['10 cm','c10',0.10],['20 cm','c20',0.20],['30 cm','c30',0.30],['50 cm','c50',0.50],['100 cm','c100',1.00]];
-  // column ticks (12% is grass line; map 0..1 m to 12%..100%)
-  let colTicks='<div class="grassline"></div>';
-  depths.forEach(([lbl,k,m])=>{
-    const top=12+(m/1.0)*82;
-    colTicks+=`<div class="depth-tick" data-key="${k}" style="top:${top}%"><span>${lbl}</span></div>`;
-  });
-  document.getElementById('coreCol').innerHTML=colTicks;
-
+  const depths=[['5 cm','c5'],['10 cm','c10'],['20 cm','c20'],['30 cm','c30'],['50 cm','c50'],['100 cm','c100']];
   const surf=[['Grass','Tgrass','grass minimum surface'],['Concrete slab','Tconc','urban analogue'],['Bare soil','Tsoil','exposed surface']];
+
+  const slot=(label,key,kind,value)=>{
+    const has=isNum(value), col=tempColor(value);
+    return `<div class="core-slot ${kind} ${has?'':'na'}" data-key="${key||''}">
+      <span class="profile-bar" style="background:${col}"></span><span class="depth-label">${label}</span></div>`;
+  };
+  const row=(name,key,note,small='')=>{
+    const v = key.startsWith('c') ? s.soil[key] : s[key];
+    const has=isNum(v), col=tempColor(v);
+    const val=has?fmtT(v):'n/a';
+    return `<div class="srow ${has?'':'na'}" data-key="${key}" data-tip="${name}${small?' '+small:''} — ${note}. ${val}${has?tUnitLabel():''}.">
+      <span class="name">${name}${small?` <small>${small}</small>`:''}</span>
+      <span class="chip" style="background:${col}">${val}</span>
+      <span class="temp">${val}${has?`<span style="font-family:var(--mono);font-size:12px;color:var(--ink-dim)">${tUnitLabel()}</span>`:''}</span></div>`;
+  };
+
+  let colSlots=`<div class="core-slot head"><span class="depth-label">Surface</span></div>`;
   let rows=`<div class="srow"><span class="name head">Surface</span><span></span><span></span></div>`;
   surf.forEach(([nm,k,note])=>{
-    const v=s[k]; const col=tempColor(v);
-    rows+=`<div class="srow" data-tip="${nm} — ${note}. ${fmtT(v)}${tUnitLabel()}.">
-      <span class="name">${nm}</span>
-      <span class="chip" style="background:${col}">${fmtT(v)}</span>
-      <span class="temp">${fmtT(v)}<span style="font-family:var(--mono);font-size:12px;color:var(--ink-dim)">${tUnitLabel()}</span></span></div>`;
+    colSlots+=slot('',k,'surface',s[k]);
+    rows+=row(nm,k,note);
   });
+  colSlots+=`<div class="core-slot head"><span class="depth-label">Depth</span></div>`;
   rows+=`<div class="srow sep"><span class="name head">Soil under grass</span><span></span><span></span></div>`;
   depths.forEach(([lbl,k])=>{
-    const v=s.soil[k]; const col=tempColor(v);
-    rows+=`<div class="srow" data-key="${k}" data-tip="Soil at ${lbl} depth: ${fmtT(v)}${tUnitLabel()}.">
-      <span class="name">${lbl} depth <small>soil</small></span>
-      <span class="chip" style="background:${col}">${fmtT(v)}</span>
-      <span class="temp">${fmtT(v)}<span style="font-family:var(--mono);font-size:12px;color:var(--ink-dim)">${tUnitLabel()}</span></span></div>`;
+    colSlots+=slot(lbl,k,'soil',s.soil[k]);
+    rows+=row(`${lbl} depth`,k,'soil below grass','soil');
   });
+
+  document.getElementById('coreCol').innerHTML=colSlots;
   document.getElementById('coreRows').innerHTML=rows;
 
-  // hover wiring
   const tip=document.getElementById('tip');
-  document.querySelectorAll('#coreRows .srow[data-tip]').forEach(row=>{
-    row.addEventListener('mouseenter',e=>{
-      tip.innerHTML=`<span class="tt">&bull;</span> ${row.dataset.tip}`;
+  document.querySelectorAll('#coreRows .srow[data-tip]').forEach(rowEl=>{
+    rowEl.addEventListener('mouseenter',()=>{
+      tip.innerHTML=`<span class="tt">&bull;</span> ${rowEl.dataset.tip}`;
       tip.classList.add('on');
-      const k=row.dataset.key;
-      if(k){const t=document.querySelector(`.depth-tick[data-key="${k}"]`); if(t)t.style.background='var(--accent)';}
+      const marker=document.querySelector(`.core-slot[data-key="${rowEl.dataset.key}"]`);
+      if(marker) marker.classList.add('active');
+      rowEl.classList.add('active');
     });
-    row.addEventListener('mousemove',e=>{
+    rowEl.addEventListener('mousemove',e=>{
       tip.style.left=Math.min(window.innerWidth-240, e.clientX+14)+'px';
       tip.style.top=(e.clientY+14)+'px';
     });
-    row.addEventListener('mouseleave',()=>{
+    rowEl.addEventListener('mouseleave',()=>{
       tip.classList.remove('on');
-      const k=row.dataset.key;
-      if(k){const t=document.querySelector(`.depth-tick[data-key="${k}"]`); if(t)t.style.background='rgba(255,255,255,.10)';}
+      const marker=document.querySelector(`.core-slot[data-key="${rowEl.dataset.key}"]`);
+      if(marker) marker.classList.remove('active');
+      rowEl.classList.remove('active');
     });
   });
 }
@@ -920,22 +1003,25 @@ function renderSoil(s){
    8. EXTREMES
 ============================================================ */
 function renderExtremes(s){
-  const e=s.ext;
+  const e=s.ext || {};
+  const extT = v => isNum(v) ? `<b>${fmtT(v)}</b>${tUnitLabel()}` : '—';
+  const extN = (v,dp=1,suffix='') => isNum(v) ? `<b>${v.toFixed(dp)}</b>${suffix}` : '—';
+  const extI = (v,suffix='') => isNum(v) ? `<b>${Math.round(v)}</b>${suffix}` : '—';
   const rows=[
-    {lbl:'Air temperature', hi:`<b>${fmtT(e.Td.mx)}</b>${tUnitLabel()}`, ht:e.Td.mxt, lo:`<b>${fmtT(e.Td.mn)}</b>${tUnitLabel()}`, lt:e.Td.mnt},
-    {lbl:'Relative humidity', hi:`<b>${e.RH.mx}</b>%`, ht:e.RH.mxt, lo:`<b>${e.RH.mn}</b>%`, lt:e.RH.mnt},
-    {lbl:'MSL pressure', hi:`<b>${e.Pmsl.mx.toFixed(1)}</b>`, ht:e.Pmsl.mxt, lo:`<b>${e.Pmsl.mn.toFixed(1)}</b>`, lt:e.Pmsl.mnt},
-    {lbl:'Grass minimum', hi:`—`, ht:'', lo:`<b>${fmtT(e.Tgrass.mn)}</b>${tUnitLabel()}`, lt:e.Tgrass.mnt},
-    {lbl:'Peak global irradiance', hi:`<b>${e.Sg.mx}</b> W/m&sup2;`, ht:e.Sg.mxt, lo:`—`, lt:''},
-    {lbl:'Maximum wind gust', hi:`<b>${fmtW(s.U10maxAcc)}</b> ${wUnitLabel()}`, ht:'', lo:`—`, lt:''},
-    {lbl:'Rainfall total', hi:`<b>${s.rainAccum.toFixed(1)}</b> mm`, ht:'', lo:`—`, lt:''},
-    {lbl:'Sunshine total', hi:`<b>${s.SdurAccum.toFixed(1)}</b> h`, ht:'', lo:`—`, lt:''},
+    {lbl:'Air temperature', hi:extT(e.Td?.mx), ht:e.Td?.mxt, lo:extT(e.Td?.mn), lt:e.Td?.mnt},
+    {lbl:'Relative humidity', hi:extI(e.RH?.mx,'%'), ht:e.RH?.mxt, lo:extI(e.RH?.mn,'%'), lt:e.RH?.mnt},
+    {lbl:'MSL pressure', hi:extN(e.Pmsl?.mx,1), ht:e.Pmsl?.mxt, lo:extN(e.Pmsl?.mn,1), lt:e.Pmsl?.mnt},
+    {lbl:'Grass minimum', hi:'—', ht:'', lo:extT(e.Tgrass?.mn), lt:e.Tgrass?.mnt},
+    {lbl:'Peak global irradiance', hi:extI(e.Sg?.mx,' W/m&sup2;'), ht:e.Sg?.mxt, lo:'—', lt:''},
+    {lbl:'Maximum wind gust', hi:isNum(s.U10maxAcc)?`<b>${fmtW(s.U10maxAcc)}</b> ${wUnitLabel()}`:'—', ht:'', lo:'—', lt:''},
+    {lbl:'Rainfall total', hi:isNum(s.rainAccum)?`<b>${fmtRain(s.rainAccum)}</b> mm`:'—', ht:'', lo:'—', lt:''},
+    {lbl:'Sunshine total', hi:isNum(s.SdurAccum)?`<b>${fmtNum(s.SdurAccum,1)}</b> h`:'—', ht:'', lo:'—', lt:''},
   ];
   document.getElementById('extGrid').innerHTML=rows.map(r=>`
     <div class="ext-row">
       <span class="lbl">${r.lbl}</span>
-      <span class="hi">${r.hi}${r.ht?` <span class="t">${hhmm(r.ht)}</span>`:''}</span>
-      <span class="lo">${r.lo}${r.lt?` <span class="t">${hhmm(r.lt)}</span>`:''}</span>
+      <span class="hi">${r.hi}${r.ht&&r.ht!=='----'?` <span class="t">${hhmm(r.ht)}</span>`:''}</span>
+      <span class="lo">${r.lo}${r.lt&&r.lt!=='----'?` <span class="t">${hhmm(r.lt)}</span>`:''}</span>
     </div>`).join('');
 }
 
@@ -950,25 +1036,28 @@ function render(){
   setAccent(cond.key);
 
   // hero
-  document.getElementById('heroTemp').innerHTML=`${fmtT(s.Td,0)}<span class="deg">${tUnitLabel()}</span>`;
+  document.getElementById('heroTemp').innerHTML=`${fmtT(s.Td,0)}<span class="deg">${isNum(s.Td)?tUnitLabel():''}</span>`;
   document.getElementById('heroCond').textContent=cond.label;
   document.getElementById('heroTempWord').textContent=tempWord(s.Td);
   document.getElementById('heroNarr').textContent=narrative(s, cond, sun, s.Td);
 
   const at=apparentTemp(s.Td, s.RH, s.U10);
-  document.getElementById('heroFeels').innerHTML=
-    `Feels like <b>${fmtT(at,0)}${tUnitLabel()}</b> &nbsp;&middot;&nbsp; dew point <b>${fmtT(s.Tdew)}${tUnitLabel()}</b> &nbsp;&middot;&nbsp; wind ${beaufort(s.U10).toLowerCase()} from ${compass(s.dir)}`;
+  const feels=[];
+  if(isNum(at)) feels.push(`Feels like <b>${fmtT(at,0)}${tUnitLabel()}</b>`);
+  if(isNum(s.Tdew)) feels.push(`dew point <b>${fmtT(s.Tdew)}${tUnitLabel()}</b>`);
+  if(isNum(s.U10)) feels.push(`wind ${beaufort(s.U10).toLowerCase()} from ${compass(s.dir)}`);
+  document.getElementById('heroFeels').innerHTML=feels.join(' &nbsp;&middot;&nbsp; ') || 'Latest derived fields are partially unavailable.';
 
   // badges
   const badges=[];
-  if(s.Tgrass<0) badges.push({t:'Grass frost',w:true});
-  if(s.Td<0) badges.push({t:'Air frost',w:true});
-  if(s.U10max>=13.9) badges.push({t:'Gusty',w:true});
-  if(s.vis<1000) badges.push({t:'Fog — low visibility',w:true});
-  if(s.RH>=95) badges.push({t:'Air saturated',w:false,c:true});
-  if(s.rain1h>0) badges.push({t:`${s.rain1h.toFixed(1)} mm last hour`,w:false,c:true});
-  if(cond.key==='sunny'&&s.Sg>700) badges.push({t:'Strong sun',w:false});
-  if(s.delP3<=-3) badges.push({t:'Falling barometer',w:true});
+  if(isNum(s.Tgrass) && s.Tgrass<0) badges.push({t:'Grass frost',w:true});
+  if(isNum(s.Td) && s.Td<0) badges.push({t:'Air frost',w:true});
+  if(isNum(s.U10max) && s.U10max>=13.9) badges.push({t:'Gusty',w:true});
+  if(isNum(s.vis) && s.vis<1000) badges.push({t:'Fog — low visibility',w:true});
+  if(isNum(s.RH) && s.RH>=95) badges.push({t:'Air saturated',w:false,c:true});
+  if(isNum(s.rain1h) && s.rain1h>0) badges.push({t:`${s.rain1h.toFixed(1)} mm last hour`,w:false,c:true});
+  if(cond.key==='sunny' && isNum(s.Sg) && s.Sg>700) badges.push({t:'Strong sun',w:false});
+  if(isNum(s.delP3) && s.delP3<=-3) badges.push({t:'Falling barometer',w:true});
   if(badges.length===0) badges.push({t:'Quiet conditions',w:false});
   document.getElementById('heroBadges').innerHTML=badges.map(b=>
     `<span class="badge ${b.w?'warn':''} ${b.c?'cool':''}"><span class="dot"></span>${b.t}</span>`).join('');
@@ -976,10 +1065,10 @@ function render(){
   // sky
   const sky=document.getElementById('heroSky');
   sky.style.background=skyGradient(cond.key, sun);
-  sky.querySelector('svg')?.remove();
+  sky.querySelectorAll('svg').forEach(x=>x.remove());
   sky.insertAdjacentHTML('afterbegin', buildScene(cond.key, sun, times, s));
   document.getElementById('skyMeta').innerHTML=
-    `<span><b>${cond.label}</b> &middot; ${WW[s.ww]||''}</span><span>sun ${sun.alt>0?sun.alt.toFixed(0)+'&deg; up':'below horizon'}</span>`;
+    `<span><b>${cond.label}</b> &middot; ${WW[s.ww]||'No significant weather'}</span><span>sun ${sun.alt>0?sun.alt.toFixed(0)+'&deg; up':'below horizon'}</span>`;
 
   // observation clock
   document.getElementById('clkObs').textContent=hhmm(s.time)+' UTC';
@@ -1027,14 +1116,19 @@ function tickClock(){
 function selfTest(){
   const fails=[];
   const assert=(c,m)=>{ if(!c) fails.push(m); };
-  // temperature wording monotonic-ish at key thresholds
+  // temperature wording and unit conversions
   assert(tempWord(35).includes('hot')||tempWord(35).includes('Very'),'tempWord hot');
   assert(tempWord(-10)==='Bitterly cold','tempWord cold');
+  assert(fmtDeltaT(1).startsWith('+'),'delta temperature sign');
   // pressure tendency signs
   assert(pressureTendency(4).dir==='up' && pressureTendency(-4).dir==='down','tendency sign');
   assert(pressureTendency(0.1).dir==='flat','tendency flat');
   // compass round-trips
   assert(compass(0)==='N' && compass(180)==='S' && compass(270)==='W','compass cardinals');
+  // clear twilight should not be classified as overcast just because solar irradiance is low
+  const clearEvening = {...DATA[SCENARIO_ORDER[0]], time:'2030', ww:0, Sg:5, Sdur5:0, cloudBase:null};
+  const eveningCond = condition(clearEvening, solar(obsDate(clearEvening))).key;
+  assert(!['overcast','cloudy'].includes(eveningCond),'clear evening is not overcast');
   // every scenario: condition + narrative produce strings, no NaN
   SCENARIO_ORDER.forEach(k=>{
     const s=DATA[k], sun=solar(obsDate(s)), cond=condition(s,sun);
@@ -1045,18 +1139,19 @@ function selfTest(){
     const t=sunTimes(s);
     assert(t.maxAlt> -30, k+' solar runs');
   });
-  // apparent temp finite
+  // apparent temp finite or cleanly null
   assert(Number.isFinite(apparentTemp(24,49,3.6)),'apparent temp finite');
+  assert(apparentTemp(null,49,3.6)===null,'apparent temp null-safe');
   // unit conversion
   assert(Math.abs(c2f(0)-32)<1e-9 && Math.abs(c2f(100)-212)<1e-9,'C->F');
 
   const led=document.getElementById('led'), txt=document.getElementById('statusTxt');
   if(fails.length===0){
-    txt.textContent=`self-check passed \u00B7 ${SCENARIO_ORDER.length} scenarios, all derivations clean`;
+    txt.textContent=`self-check passed · ${SCENARIO_ORDER.length} live scenario(s), null-safe rendering`;
     console.log('%c[dashboard] self-check: PASS','color:#7fcf9a');
   } else {
     led.style.background='var(--bad)'; led.style.boxShadow='0 0 8px var(--bad)';
-    txt.textContent=`self-check: ${fails.length} issue(s) \u2014 see console`;
+    txt.textContent=`self-check: ${fails.length} issue(s) — see console`;
     console.warn('[dashboard] self-check FAIL:', fails);
   }
 }
