@@ -67,7 +67,7 @@
     font-family:var(--serif);font-weight:400;font-size:clamp(22px,3.6vw,30px);
     line-height:1.05;margin:3px 0 0;letter-spacing:-.01em;
   }
-  .brand h1 em{font-style:italic;color:var(--accent);transition:color .6s}
+  .brand h1 em{font-style:normal;color:var(--accent);transition:color .6s}
   .coords{font-family:var(--mono);font-size:11.5px;color:var(--ink-dim);margin-top:5px;letter-spacing:.04em}
 
   .clocks{margin-left:auto;display:flex;gap:26px;text-align:right}
@@ -286,11 +286,15 @@
   @keyframes fall{0%{transform:translateY(-12px);opacity:0}10%{opacity:.7}100%{transform:translateY(120px);opacity:0}}
   @keyframes drift{0%{transform:translateX(-8px)}100%{transform:translateX(8px)}}
   @keyframes twinkle{0%,100%{opacity:.25}50%{opacity:.95}}
+  @keyframes stream{0%{transform:translateX(-48px);opacity:0}16%{opacity:.42}100%{transform:translateX(96px);opacity:0}}
   .rays{transform-origin:center;animation:spin 90s linear infinite}
   .raindrop{animation:fall 1.1s linear infinite}
   .cloud-drift{animation:drift 9s ease-in-out infinite alternate;transform-box:fill-box;transform-origin:center}
+  .high-cloud{animation:drift 18s ease-in-out infinite alternate}
+  .low-cloud{animation:drift 7s ease-in-out infinite alternate}
   .fogband{animation:drift 14s ease-in-out infinite alternate}
-  .star{animation:twinkle 3.2s ease-in-out infinite}
+  .star,.frost-spark{animation:twinkle 3.2s ease-in-out infinite}
+  .windstreak{animation:stream 2.5s linear infinite}
 
   :focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:6px}
 
@@ -407,20 +411,20 @@ const LAT = 51.4414, LON = -0.9418;
 
 const DATA = {
   "live": {
-    "label": "Live now · 22 Jun 2026 2150 UTC",
+    "label": "Live now · 22 Jun 2026 2200 UTC",
     "y": 2026,
     "mo": 6,
     "d": 22,
-    "time": "2150",
-    "ww": 22,
-    "Td": 20.5,
+    "time": "2200",
+    "ww": 0,
+    "Td": 20.4,
     "Tw": 18.6,
     "Tdew": 17.8,
     "VP": 20.4,
-    "RH": 84,
-    "delT": -0.2,
-    "Tgrass": 20.8,
-    "Tconc": 22.7,
+    "RH": 86,
+    "delT": -0.5,
+    "Tgrass": 20.7,
+    "Tconc": 22.8,
     "Tsoil": 20.5,
     "soil": {
       "c5": 23.4,
@@ -435,27 +439,27 @@ const DATA = {
     "rain3h": 1.0,
     "rain6h": 1.0,
     "rainAccum": 1.0,
-    "cloudBase": null,
-    "vis": 46369,
+    "cloudBase": 3630,
+    "vis": 49162,
     "Sdur5": 0.0,
     "SdurAccum": 12.6,
     "Sg": -1,
     "SgAccum": 26.48,
-    "Sb": -2,
-    "Sd": 0,
-    "Rn": -5,
+    "Sb": -1,
+    "Sd": -1,
+    "Rn": -9,
     "G": -3,
     "Pmsl": 1022.9,
-    "delP1": 0.2,
-    "delP3": -2.4,
-    "dir": 81,
-    "U10": 2.5,
-    "U10max": 4.9,
+    "delP1": 0.1,
+    "delP3": -2.2,
+    "dir": 88,
+    "U10": 2.2,
+    "U10max": 4.4,
     "U10maxAcc": 8.4,
     "U2run": 1.8,
     "U10run": 2.7,
     "ae": {
-      "pg": 6.0,
+      "pg": 25.0,
       "unit": "V/m"
     },
     "ext": {
@@ -802,60 +806,121 @@ function skyGradient(key, sun){
     default: return 'linear-gradient(165deg,#1b4a7c,#3a7bb5,#9fcbe8)';
   }
 }
+function constellationSvg(date, W, H){
+  const stars=[
+    [36,36,2.2],[56,70,1.9],[92,76,2.0],[108,42,1.8],
+    [142,46,2.2],[174,58,2.0],[206,50,2.1]
+  ];
+  const links=[[0,1],[1,2],[2,3],[3,0],[3,4],[4,5],[5,6]];
+  const faint=[[24,92,.65],[72,22,.55],[134,84,.62],[198,24,.52],[226,86,.58],[118,18,.45]];
+  const hr=date.getUTCHours()+date.getUTCMinutes()/60;
+  const rot=((hr-22)*7.5).toFixed(1);
+  let lines=links.map(([a,b])=>`<line x1="${stars[a][0]}" y1="${stars[a][1]}" x2="${stars[b][0]}" y2="${stars[b][1]}" stroke="rgba(198,210,255,.34)" stroke-width="1.15"/>`).join('');
+  let pts=faint.map(([x,y,r],i)=>`<circle class="star" style="animation-delay:${i*.35}s" cx="${x}" cy="${y}" r="${r}" fill="rgba(255,255,255,.58)"/>`).join('');
+  pts+=stars.map(([x,y,r],i)=>`<circle class="star" style="animation-delay:${i*.22}s" cx="${x}" cy="${y}" r="${r}" fill="#fff"/>`).join('');
+  return `<g transform="translate(26,18) rotate(${rot} 121 54)" opacity=".9"><title>Ursa Major, the Plough</title>${lines}${pts}</g>`;
+}
+function windStreaks(W, top=78, count=9){
+  let out='';
+  for(let i=0;i<count;i++){
+    const y=top+((i*31)%145), x=-35+((i*67)%(W+60)), len=34+(i%4)*18;
+    out+=`<line class="windstreak" style="animation-delay:${(i*.23).toFixed(2)}s;animation-duration:${(2.1+(i%3)*.35).toFixed(2)}s" x1="${x}" y1="${y}" x2="${x+len}" y2="${y-7}" stroke="rgba(226,236,255,.32)" stroke-width="1.2" stroke-linecap="round"/>`;
+  }
+  return out;
+}
+function highClouds(W){
+  return `<g class="high-cloud" opacity=".58">
+    <path d="M-12 78 C60 54 108 70 178 48 S302 66 424 42" fill="none" stroke="rgba(245,244,232,.48)" stroke-width="7" stroke-linecap="round"/>
+    <path d="M28 104 C96 84 144 96 220 78 S330 92 420 74" fill="none" stroke="rgba(245,244,232,.30)" stroke-width="4" stroke-linecap="round"/>
+  </g>`;
+}
+function lowCloudDeck(W, H, night){
+  const fill=night?'rgba(174,183,202,.34)':'rgba(218,226,238,.46)';
+  return `<g class="low-cloud" opacity=".9">
+    <ellipse cx="100" cy="190" rx="150" ry="35" fill="${fill}"/>
+    <ellipse cx="280" cy="178" rx="165" ry="42" fill="${fill}"/>
+    <rect x="-20" y="188" width="${W+40}" height="${H-188}" fill="rgba(115,126,146,.16)"/>
+  </g>`;
+}
+function frostLayer(W,H){
+  let out=`<rect x="0" y="${H-46}" width="${W}" height="46" fill="url(#frostGrad)" opacity=".62"/>`;
+  for(let i=0;i<24;i++){
+    const x=12+((i*47)%(W-24)), y=H-35+((i*29)%28), s=.55+(i%4)*.14;
+    out+=`<path class="frost-spark" style="animation-delay:${(i*.18).toFixed(2)}s" d="M${x-s*5} ${y} L${x+s*5} ${y} M${x} ${y-s*5} L${x} ${y+s*5}" stroke="rgba(227,245,255,.72)" stroke-width=".75" stroke-linecap="round"/>`;
+  }
+  return out;
+}
 function buildScene(key, sun, times, s){
   const W=400,H=300, night = sun.alt<=-0.833;
-  let g='';
-  const cloudShape=(cx,cy,sc=1,op=.78,delay=0)=>`<g transform="translate(${cx},${cy}) scale(${sc})">
-      <g class="cloud-drift" style="animation-delay:${delay}s">
+  const dt=obsDate(s), now=dt.valueOf();
+  const nearRise=times.rise!==null && Math.abs(now-times.rise)<75*60000;
+  const nearSet=times.set!==null && Math.abs(now-times.set)<75*60000;
+  const twilight=sun.alt>-7 && sun.alt<8;
+  const highCloud=isNum(s.cloudBase) && s.cloudBase>=3000;
+  const lowCloud=isNum(s.cloudBase) && s.cloudBase>0 && s.cloudBase<=900;
+  const veryWindy=(isNum(s.U10max)&&s.U10max>=10) || (isNum(s.U10)&&s.U10>=7);
+  const frosty=(isNum(s.Tgrass)&&s.Tgrass<=0.5) || (isNum(s.Td)&&s.Td<=1 && isNum(s.RH)&&s.RH>=85);
+  let g=`<defs><linearGradient id="frostGrad" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="rgba(220,245,255,0)"/><stop offset="1" stop-color="rgba(220,245,255,.48)"/></linearGradient></defs>`;
+  const cloudShape=(cx,cy,sc=1,op=.78,delay=0,low=false)=>`<g transform="translate(${cx},${cy}) scale(${sc})">
+      <g class="${low?'low-cloud':'cloud-drift'}" style="animation-delay:${delay}s">
         <ellipse cx="0" cy="0" rx="34" ry="17" fill="rgba(236,240,246,${op})"/>
         <ellipse cx="24" cy="6" rx="26" ry="14" fill="rgba(224,230,240,${op})"/>
         <ellipse cx="-22" cy="6" rx="22" ry="12" fill="rgba(224,230,240,${op})"/>
       </g></g>`;
 
-  // sun / moon position along an arc
+  if(twilight || nearRise || nearSet){
+    const glow=nearRise?'rgba(246,178,104,.36)':nearSet?'rgba(226,111,96,.38)':'rgba(210,160,120,.18)';
+    g+=`<ellipse cx="200" cy="268" rx="260" ry="86" fill="${glow}"/>`;
+    g+=`<rect x="0" y="226" width="${W}" height="74" fill="rgba(255,205,145,.08)"/>`;
+  }
+
+  // sun position along an arc
   if(times.rise!==null && times.set!==null && !night){
     const day = times.set-times.rise;
-    const frac = Math.max(0,Math.min(1,(obsDate(s).valueOf()-times.rise)/day));
+    const frac = Math.max(0,Math.min(1,(now-times.rise)/day));
     const x = 40 + frac*(W-80);
     const peak = Math.max(40, 150 - times.maxAlt*1.7);
     const y = H-70 - Math.sin(frac*Math.PI)*(H-70-peak);
-    const veiled = (key==='overcast'||key==='fog'||key==='cloudy'||key==='rain');
+    const veiled = (key==='overcast'||key==='fog'||key==='cloudy'||key==='rain'||lowCloud);
     if(!veiled){
+      const sunFill=nearRise?'#ffd09b':nearSet?'#ffb18f':'#ffe08a';
       g+=`<g transform="translate(${x},${y})"><g class="rays" opacity="${key==='sunny'?.8:.45}">`;
       for(let i=0;i<12;i++) g+=`<rect x="-1.2" y="-34" width="2.4" height="11" rx="1" fill="#ffe6a8" transform="rotate(${i*30})"/>`;
-      g+=`</g><circle r="20" fill="#ffe08a"/><circle r="20" fill="none" stroke="rgba(255,255,255,.4)" stroke-width="1"/></g>`;
+      g+=`</g><circle r="20" fill="${sunFill}"/><circle r="20" fill="none" stroke="rgba(255,255,255,.4)" stroke-width="1"/></g>`;
     } else {
       g+=`<circle cx="${x}" cy="${y}" r="24" fill="rgba(255,240,210,.18)"/>`;
     }
   }
+
+  if(highCloud && !['rain','fog','overcast'].includes(key)) g+=highClouds(W);
+
   if(night){
-    // deterministic star field, so unit toggles do not reshuffle the sky
-    for(let i=0;i<26;i++){
-      const sx=15+((i*53)%(W-30)), sy=15+((i*97)%140), r=(i%5)*0.18+.55;
-      g+=`<circle class="star" style="animation-delay:${(i%7)*.4}s" cx="${sx}" cy="${sy}" r="${r}" fill="#fff"/>`;
-    }
+    g+=constellationSvg(dt, W, H);
     if(key==='clear-night'){
-      g+=moonSvg(obsDate(s), W-78, 58);
+      g+=moonSvg(dt, W-78, 58);
     }
   }
 
   // A soft cloud deck keeps overcast/cloudy/rain scenes visibly cloudy.
-  // Clouds are always positioned by an outer group; only the inner group drifts, so
-  // CSS animation cannot overwrite the placement transform and make clouds vanish.
   if(['overcast','rain','cloudy','cloudy-night'].includes(key)){
     const op = key==='overcast' ? .72 : key==='rain' ? .62 : .48;
     g+=`<g opacity="${op}"><ellipse cx="80" cy="92" rx="130" ry="34" fill="rgba(230,235,244,.52)"/>
       <ellipse cx="245" cy="78" rx="145" ry="38" fill="rgba(218,226,238,.48)"/>
       <ellipse cx="360" cy="105" rx="110" ry="32" fill="rgba(205,215,230,.46)"/></g>`;
   }
+  if(lowCloud && key!=='fog') g+=lowCloudDeck(W,H,night);
 
-  const cloudCounts = {sunny:2,fair:2,partly:3,cloudy:3,'cloudy-night':3,overcast:5,rain:4,snow:3};
+  const cloudCounts = {sunny:1,fair:2,partly:3,cloudy:3,'cloudy-night':3,overcast:5,rain:4,snow:3};
   const clouds = cloudCounts[key] || 0;
   for(let i=0;i<clouds;i++){
-    const cx=45+i*82, cy=58+(i%2)*38, sc=.78+(i%3)*.17;
-    const op = key==='overcast'?.88:key==='rain'?.78:(key==='sunny'||key==='fair')?.38:.72;
-    g+=cloudShape(cx,cy,sc,op,i*1.3);
+    const baseY=lowCloud?130:58;
+    const cx=45+i*82, cy=baseY+(i%2)*(lowCloud?22:38), sc=.78+(i%3)*.17;
+    const op = key==='overcast'?.88:key==='rain'?.78:(key==='sunny'||key==='fair')?.34:.72;
+    g+=cloudShape(cx,cy,sc,op,i*1.3,lowCloud);
   }
+
+  if(veryWindy) g+=windStreaks(W, night?62:88, night?8:10);
+  if(frosty && night) g+=frostLayer(W,H);
 
   // rain
   if(key==='rain'){
@@ -873,7 +938,6 @@ function buildScene(key, sun, times, s){
   }
   return `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid slice" aria-hidden="true">${g}</svg>`;
 }
-
 /* ============================================================
    6. INSTRUMENT CARDS
 ============================================================ */
