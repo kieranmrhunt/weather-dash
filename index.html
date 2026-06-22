@@ -407,23 +407,23 @@ const LAT = 51.4414, LON = -0.9418;
 
 const DATA = {
   "live": {
-    "label": "Live now · 22 Jun 2026 2140 UTC",
+    "label": "Live now · 22 Jun 2026 2150 UTC",
     "y": 2026,
     "mo": 6,
     "d": 22,
-    "time": "2140",
-    "ww": 23,
-    "Td": 20.6,
+    "time": "2150",
+    "ww": 22,
+    "Td": 20.5,
     "Tw": 18.6,
-    "Tdew": 17.9,
-    "VP": 20.5,
+    "Tdew": 17.8,
+    "VP": 20.4,
     "RH": 84,
     "delT": -0.2,
-    "Tgrass": 20.9,
-    "Tconc": 22.9,
-    "Tsoil": 20.6,
+    "Tgrass": 20.8,
+    "Tconc": 22.7,
+    "Tsoil": 20.5,
     "soil": {
-      "c5": 23.5,
+      "c5": 23.4,
       "c10": 22.7,
       "c20": null,
       "c30": 20.4,
@@ -436,26 +436,26 @@ const DATA = {
     "rain6h": 1.0,
     "rainAccum": 1.0,
     "cloudBase": null,
-    "vis": 48472,
+    "vis": 46369,
     "Sdur5": 0.0,
     "SdurAccum": 12.6,
     "Sg": -1,
     "SgAccum": 26.48,
-    "Sb": -1,
+    "Sb": -2,
     "Sd": 0,
-    "Rn": -13,
-    "G": -2,
-    "Pmsl": 1022.8,
-    "delP1": -0.1,
-    "delP3": -2.5,
-    "dir": 101,
-    "U10": 2.7,
-    "U10max": 5.0,
+    "Rn": -5,
+    "G": -3,
+    "Pmsl": 1022.9,
+    "delP1": 0.2,
+    "delP3": -2.4,
+    "dir": 81,
+    "U10": 2.5,
+    "U10max": 4.9,
     "U10maxAcc": 8.4,
     "U2run": 1.8,
     "U10run": 2.7,
     "ae": {
-      "pg": -14.0,
+      "pg": 6.0,
       "unit": "V/m"
     },
     "ext": {
@@ -552,7 +552,7 @@ function hhmm(t){
 }
 
 /* ============================================================
-   3. SOLAR POSITION (SunCalc-style) — drives the living sky
+   3. SOLAR / LUNAR POSITION — drives the living sky
 ============================================================ */
 const RAD = Math.PI/180;
 function solar(date){
@@ -588,6 +588,43 @@ function sunTimes(s){
     prev=a;
   }
   return {rise, set, maxAlt:max};
+}
+const SYNODIC_MONTH = 29.530588853;
+const NEW_MOON_EPOCH = Date.UTC(2000,0,6,18,14); // 2000-01-06 18:14 UTC
+function moonPhase(date){
+  const age = (((date.valueOf()-NEW_MOON_EPOCH)/86400000) % SYNODIC_MONTH + SYNODIC_MONTH) % SYNODIC_MONTH;
+  const phase = age / SYNODIC_MONTH;
+  const illum = (1 - Math.cos(2*Math.PI*phase)) / 2;
+  let name='New moon';
+  if(phase < .03 || phase >= .97) name='New moon';
+  else if(phase < .22) name='Waxing crescent';
+  else if(phase < .28) name='First quarter';
+  else if(phase < .47) name='Waxing gibbous';
+  else if(phase < .53) name='Full moon';
+  else if(phase < .72) name='Waning gibbous';
+  else if(phase < .78) name='Last quarter';
+  else name='Waning crescent';
+  return {age, phase, illum, waxing:phase<.5, name};
+}
+function moonLitMarkup(moon, r){
+  if(moon.illum < .01) return '';
+  if(moon.illum > .99) return `<circle r="${r}" fill="#e8ecff"/>`;
+  const q = 2*Math.PI*moon.phase;
+  const xTerm = (moon.waxing ? 1 : -1) * r * Math.cos(q);
+  const rx = Math.max(.01, Math.abs(xTerm));
+  const limbSweep = moon.waxing ? 1 : 0;
+  const termSweep = xTerm >= 0 ? 0 : 1;
+  return `<path d="M0 ${-r} A${r} ${r} 0 0 ${limbSweep} 0 ${r} A${rx.toFixed(2)} ${r} 0 0 ${termSweep} 0 ${-r} Z" fill="#e8ecff"/>`;
+}
+function moonSvg(date, x, y){
+  const moon=moonPhase(date), r=22, pct=Math.round(moon.illum*100);
+  return `<g transform="translate(${x},${y})" role="img" aria-label="${moon.name}, ${pct}% illuminated">
+    <title>${moon.name}, ${pct}% illuminated</title>
+    <circle r="28" fill="rgba(138,156,255,.10)"/>
+    <circle r="${r}" fill="rgba(20,26,64,.92)"/>
+    ${moonLitMarkup(moon,r)}
+    <circle r="${r}" fill="none" stroke="rgba(255,255,255,.34)" stroke-width="1"/>
+  </g>`;
 }
 const fmtClock = ms => ms===null ? '--:--' : (d=>String(d.getUTCHours()).padStart(2,'0')+':'+String(d.getUTCMinutes()).padStart(2,'0'))(new Date(ms));
 
@@ -798,7 +835,7 @@ function buildScene(key, sun, times, s){
       g+=`<circle class="star" style="animation-delay:${(i%7)*.4}s" cx="${sx}" cy="${sy}" r="${r}" fill="#fff"/>`;
     }
     if(key==='clear-night'){
-      g+=`<g transform="translate(${W-78},58)"><circle r="22" fill="#e8ecff"/><circle cx="8" cy="-4" r="20" fill="rgba(20,26,64,.92)"/></g>`;
+      g+=moonSvg(obsDate(s), W-78, 58);
     }
   }
 
@@ -1281,6 +1318,13 @@ function selfTest(){
   assert(pressureTendency(0.1).dir==='flat','tendency flat');
   // compass round-trips
   assert(compass(0)==='N' && compass(180)==='S' && compass(270)==='W','compass cardinals');
+  // moon phase from the known 2000-01-06 18:14 UTC new-moon epoch
+  const mNew=moonPhase(new Date(NEW_MOON_EPOCH));
+  const mFirst=moonPhase(new Date(NEW_MOON_EPOCH + SYNODIC_MONTH*86400000*.25));
+  const mFull=moonPhase(new Date(NEW_MOON_EPOCH + SYNODIC_MONTH*86400000*.5));
+  assert(mNew.illum<.01 && mNew.name==='New moon','moon new');
+  assert(mFirst.name==='First quarter' && Math.abs(mFirst.illum-.5)<.02,'moon first quarter');
+  assert(mFull.illum>.99 && mFull.name==='Full moon','moon full');
   // clear twilight should not be classified as overcast just because solar irradiance is low
   const clearEvening = {...DATA[SCENARIO_ORDER[0]], time:'2030', ww:0, Sg:5, Sdur5:0, cloudBase:null};
   const eveningCond = condition(clearEvening, solar(obsDate(clearEvening))).key;
