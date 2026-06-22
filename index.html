@@ -198,8 +198,7 @@
   .hum-wrap{display:flex;align-items:center;gap:16px;margin-top:2px}
   .hum-dial{width:96px;height:96px;flex:none}
   .hum-dial .arc-fill{transition:stroke-dashoffset 1s ease}
-  .fluxdiag{width:100%;max-width:238px;margin:0 auto 6px;display:block}
-  .fluxdiag text{font-family:var(--mono);font-size:8.5px;letter-spacing:.06em;fill:var(--ink-dim)}
+
 
   /* ---------- soil core (signature) ---------- */
   .soil{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:20px clamp(16px,2.5vw,26px) 22px;margin-bottom:18px;box-shadow:var(--shadow)}
@@ -392,55 +391,55 @@ const LAT = 51.4414, LON = -0.9418;
 
 const DATA = {
   "live": {
-    "label": "Live now · 22 Jun 2026 1920 UTC",
+    "label": "Live now · 22 Jun 2026 1930 UTC",
     "y": 2026,
     "mo": 6,
     "d": 22,
-    "time": "1920",
-    "ww": 61,
-    "Td": 22.8,
-    "Tw": 20.1,
-    "Tdew": 18.2,
-    "VP": 20.9,
-    "RH": 76,
-    "delT": -1.9,
-    "Tgrass": 21.7,
-    "Tconc": 28.1,
-    "Tsoil": 22.6,
+    "time": "1930",
+    "ww": 62,
+    "Td": 22.4,
+    "Tw": 19.8,
+    "Tdew": 18.3,
+    "VP": 21.0,
+    "RH": 78,
+    "delT": -2.1,
+    "Tgrass": 21.5,
+    "Tconc": 26.7,
+    "Tsoil": 21.8,
     "soil": {
-      "c5": 24.4,
+      "c5": 24.3,
       "c10": 23.1,
       "c20": null,
       "c30": 20.2,
       "c50": null,
       "c100": 16.0
     },
-    "rain5": 0.0,
-    "rain1h": 0.0,
-    "rain3h": 0.0,
-    "rain6h": 0.0,
-    "rainAccum": 0.0,
-    "cloudBase": 2341,
-    "vis": 22086,
+    "rain5": 0.2,
+    "rain1h": 0.2,
+    "rain3h": 0.2,
+    "rain6h": 0.2,
+    "rainAccum": 0.2,
+    "cloudBase": 1966,
+    "vis": 19884,
     "Sdur5": 0.0,
     "SdurAccum": 12.6,
     "Sg": -2,
     "SgAccum": 26.48,
-    "Sb": 1,
+    "Sb": 2,
     "Sd": -1,
-    "Rn": -70,
-    "G": 9,
+    "Rn": -89,
+    "G": 8,
     "Pmsl": 1024.7,
-    "delP1": -0.1,
-    "delP3": 1.6,
-    "dir": 81,
+    "delP1": -0.5,
+    "delP3": 1.5,
+    "dir": 75,
     "U10": 2.0,
-    "U10max": 3.9,
+    "U10max": 3.7,
     "U10maxAcc": 8.2,
     "U2run": 1.8,
     "U10run": 2.7,
     "ae": {
-      "pg": -960.0,
+      "pg": -957.0,
       "unit": "V/m"
     },
     "ext": {
@@ -904,35 +903,6 @@ function svgSunPath(times, s, sun){
     <path d="${path}" fill="none" stroke="var(--line-strong)" stroke-dasharray="3 3"/>${marker}</svg>`;
 }
 
-function fmtFlux(v){ return isNum(v) ? fmtSigned(v,0) : 'n/a'; }
-function fluxWord(v){
-  if(!isNum(v)) return 'surface budget unavailable';
-  if(v >= 100) return 'strong surplus for turbulent exchange';
-  if(v >= 20) return 'modest surplus at the surface';
-  if(v > -20) return 'near-balanced surface exchange';
-  return 'surface losing stored energy';
-}
-function svgFluxes(s){
-  const rn=isNum(s.Rn)?s.Rn:null, g=isNum(s.G)?s.G:null, residual=(isNum(rn)&&isNum(g))?rn-g:null;
-  const gPath = !isNum(g) || g >= 0 ? 'M120 80 L120 118' : 'M120 118 L120 80';
-  const rPath = !isNum(residual) || residual >= 0 ? 'M174 78 C198 64 203 42 196 22' : 'M196 22 C203 42 198 64 174 78';
-  const rCol = !isNum(residual) || residual >= 0 ? 'var(--good)' : 'var(--hot)';
-  return `<svg class="fluxdiag" viewBox="0 0 240 138" role="img" aria-label="Surface energy flux schematic">
-    <defs>
-      <marker id="fluxArrowWarm" markerWidth="7" markerHeight="7" refX="5.5" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 Z" fill="var(--accent)"/></marker>
-      <marker id="fluxArrowCool" markerWidth="7" markerHeight="7" refX="5.5" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 Z" fill="var(--cool)"/></marker>
-      <marker id="fluxArrowResidual" markerWidth="7" markerHeight="7" refX="5.5" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 Z" fill="${rCol}"/></marker>
-    </defs>
-    <rect x="28" y="78" width="184" height="18" rx="5" fill="rgba(255,255,255,.07)" stroke="rgba(255,255,255,.15)"/>
-    <rect x="38" y="96" width="164" height="20" rx="4" fill="rgba(82,55,31,.34)" stroke="rgba(255,255,255,.08)"/>
-    <path d="M78 18 L78 72" stroke="var(--accent)" stroke-width="3.2" stroke-linecap="round" marker-end="url(#fluxArrowWarm)"/>
-    <path d="${gPath}" stroke="var(--cool)" stroke-width="3.2" stroke-linecap="round" marker-end="url(#fluxArrowCool)"/>
-    <path d="${rPath}" stroke="${rCol}" stroke-width="3.2" stroke-linecap="round" fill="none" marker-end="url(#fluxArrowResidual)"/>
-    <text x="78" y="12" text-anchor="middle">Rn ${fmtFlux(rn)}</text>
-    <text x="120" y="132" text-anchor="middle">G ${fmtFlux(g)}</text>
-    <text x="196" y="14" text-anchor="middle">Rn-G ${fmtFlux(residual)}</text>
-  </svg>`;
-}
 function renderGrid(s, sun, times){
   const press=pressureTendency(s.delP3), tt=tempTendency(s.delT);
   const cb = isNum(s.cloudBase) ? fmtInt(s.cloudBase) : 'None detected';
@@ -986,14 +956,6 @@ function renderGrid(s, sun, times){
         <span class="k">Sunshine today</span> <b>${fmtNum(s.SdurAccum,1)} h</b><br>
         <span class="k">Global irradiance</span> <b>${fmtSolar(s.Sg)}</b> W/m&sup2; (now) &middot; <b>${fmtNum(s.SgAccum,1)}</b> MJ/m&sup2; today<br>
         <span class="k">Direct / diffuse</span> <b>${fmtSolar(s.Sb)}</b> / <b>${fmtSolar(s.Sd)}</b> &middot; <span class="k">net</span> <b>${fmtSolar(s.Rn)}</b> W/m&sup2;
-      </div>`},
-    {h:['Energy flux','surface budget'], body:`
-      ${svgFluxes(s)}
-      <div class="sub center" style="margin-top:8px">
-        <span class="k">Net radiation</span> <b>${fmtFlux(s.Rn)}</b> W/m&sup2;<br>
-        <span class="k">Ground heat flux</span> <b>${fmtFlux(s.G)}</b> W/m&sup2;<br>
-        <span class="k">Rn - G</span> <b>${fmtFlux(isNum(s.Rn)&&isNum(s.G)?s.Rn-s.G:null)}</b> W/m&sup2;<br>
-        ${fluxWord(isNum(s.Rn)&&isNum(s.G)?s.Rn-s.G:null)}
       </div>`},
 
     // RAIN
