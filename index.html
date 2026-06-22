@@ -183,12 +183,12 @@
   .tend svg{width:13px;height:13px}
 
   /* rainfall */
-  .rain-bars{display:flex;align-items:flex-end;gap:10px;height:84px;margin-top:6px}
+  .rain-bars{width:100%;display:flex;align-items:flex-end;gap:10px;height:84px;margin-top:6px}
   .rb{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;height:100%;justify-content:flex-end}
   .rb .bar{width:100%;border-radius:5px 5px 0 0;background:linear-gradient(180deg,var(--cool),rgba(91,155,213,.25));min-height:2px;transition:height .8s ease}
   .rb .v{font-family:var(--mono);font-size:11px;color:var(--ink);font-variant-numeric:tabular-nums}
   .rb .l{font-family:var(--mono);font-size:9.5px;color:var(--ink-faint);letter-spacing:.06em;white-space:nowrap;min-height:1.25em;line-height:1.25}
-  .radar-map{position:relative;width:100%;height:132px;border-radius:10px;overflow:hidden;border:1px solid var(--line);background:#1a2230;margin:2px 0 10px;isolation:isolate}
+  .radar-map{position:relative;width:100%;height:132px;border-radius:10px;overflow:hidden;border:1px solid var(--line);background:#1a2230;margin:2px 0 8px;isolation:isolate}
   .radar-map img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
   .radar-base{filter:saturate(.72) brightness(.68) contrast(1.18);opacity:.68}
   .radar-img{opacity:.88;mix-blend-mode:screen}
@@ -198,9 +198,14 @@
   .radar-status{position:absolute;left:8px;bottom:7px;z-index:4;font-family:var(--mono);font-size:9.5px;letter-spacing:.06em;color:var(--ink);background:rgba(8,11,17,.74);border:1px solid rgba(255,255,255,.12);border-radius:999px;padding:3px 7px;max-width:calc(100% - 16px);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .radar-credit{position:absolute;right:7px;top:6px;z-index:4;font-family:var(--mono);font-size:8.5px;letter-spacing:.04em;color:rgba(236,233,224,.72);background:rgba(8,11,17,.64);border-radius:999px;padding:2px 6px}
   .radar-credit a{color:inherit;text-decoration:none}
-  .rain-strip{width:100%;display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-top:8px}
-  .rain-strip span{border:1px solid var(--line);border-radius:8px;padding:5px 4px;font-family:var(--mono);font-size:10px;color:var(--ink-dim);text-align:center;line-height:1.25}
-  .rain-strip b{display:block;color:var(--ink);font-size:11px;font-weight:500;font-variant-numeric:tabular-nums}
+  .radar-controls{width:100%;display:grid;grid-template-columns:28px 1fr auto;align-items:center;gap:8px;margin:0 0 10px}
+  .radar-controls[hidden]{display:none}
+  .radar-play{width:28px;height:28px;border-radius:8px;border:1px solid var(--line-strong);background:var(--panel-2);position:relative;cursor:pointer;transition:border-color .18s,background .18s}
+  .radar-play:hover{border-color:var(--accent);background:var(--accent-soft)}
+  .radar-play::before{content:'';position:absolute;left:10px;top:7px;border-left:9px solid var(--ink);border-top:6px solid transparent;border-bottom:6px solid transparent}
+  .radar-play[aria-pressed="true"]::before{left:8px;top:7px;width:4px;height:13px;border:0;background:var(--ink);box-shadow:8px 0 0 var(--ink)}
+  .radar-range{width:100%;accent-color:var(--accent)}
+  .radar-time{font-family:var(--mono);font-size:10px;color:var(--ink-dim);font-variant-numeric:tabular-nums;white-space:nowrap;min-width:74px;text-align:right}
 
   /* sun arc */
   .sunpath{width:100%;margin-top:2px}
@@ -404,26 +409,26 @@ const LAT = 51.4414, LON = -0.9418;
 
 const DATA = {
   "live": {
-    "label": "Live now · 22 Jun 2026 2010 UTC",
+    "label": "Live now · 22 Jun 2026 2020 UTC",
     "y": 2026,
     "mo": 6,
     "d": 22,
-    "time": "2010",
+    "time": "2020",
     "ww": 61,
-    "Td": 21.1,
-    "Tw": 19.7,
+    "Td": 21.0,
+    "Tw": 19.5,
     "Tdew": 19.1,
-    "VP": 22.2,
+    "VP": 22.1,
     "RH": 89,
-    "delT": -2.1,
-    "Tgrass": 21.1,
-    "Tconc": 25.5,
-    "Tsoil": 21.6,
+    "delT": -1.8,
+    "Tgrass": 21.0,
+    "Tconc": 24.7,
+    "Tsoil": 21.2,
     "soil": {
-      "c5": 24.1,
+      "c5": 24.0,
       "c10": 23.0,
       "c20": null,
-      "c30": 20.2,
+      "c30": 20.3,
       "c50": null,
       "c100": 16.0
     },
@@ -432,27 +437,27 @@ const DATA = {
     "rain3h": 1.0,
     "rain6h": 1.0,
     "rainAccum": 1.0,
-    "cloudBase": 2140,
-    "vis": 17714,
+    "cloudBase": 1856,
+    "vis": 22344,
     "Sdur5": 0.0,
     "SdurAccum": 12.6,
     "Sg": 1,
     "SgAccum": 26.48,
     "Sb": 0,
-    "Sd": 1,
-    "Rn": -40,
-    "G": 4,
-    "Pmsl": 1024.1,
-    "delP1": -0.8,
-    "delP3": 0.6,
-    "dir": 89,
-    "U10": 2.0,
-    "U10max": 4.6,
+    "Sd": 2,
+    "Rn": -49,
+    "G": 3,
+    "Pmsl": 1023.7,
+    "delP1": -1.0,
+    "delP3": 0.0,
+    "dir": 97,
+    "U10": 3.2,
+    "U10max": 6.3,
     "U10maxAcc": 8.2,
     "U2run": 1.8,
     "U10run": 2.7,
     "ae": {
-      "pg": -290.0,
+      "pg": -72.0,
       "unit": "V/m"
     },
     "ext": {
@@ -917,6 +922,7 @@ function svgSunPath(times, s, sun){
 }
 
 const RADAR_Z = 7;
+let radarTimer = null;
 function radarTile(lat, lon, z=RADAR_Z){
   const n = 2 ** z;
   const xFloat = (lon + 180) / 360 * n;
@@ -930,9 +936,23 @@ function radarTimeLabel(sec){
   const d = new Date(sec*1000);
   return `${String(d.getUTCHours()).padStart(2,'0')}:${String(d.getUTCMinutes()).padStart(2,'0')} UTC radar`;
 }
+function radarShortLabel(sec){
+  if(!isNum(sec)) return '--:--';
+  const d = new Date(sec*1000);
+  return `${String(d.getUTCHours()).padStart(2,'0')}:${String(d.getUTCMinutes()).padStart(2,'0')}`;
+}
+function stopRadarAnimation(play){
+  if(radarTimer){ clearInterval(radarTimer); radarTimer=null; }
+  if(play) play.setAttribute('aria-pressed','false');
+}
 function renderRadar(){
+  stopRadarAnimation(document.getElementById('radarPlay'));
   const el=document.getElementById('rainRadar');
   if(!el) return;
+  const controls=document.getElementById('radarControls');
+  const range=document.getElementById('radarRange');
+  const play=document.getElementById('radarPlay');
+  const label=document.getElementById('radarFrameTime');
   const tile=radarTile(LAT,LON,RADAR_Z);
   const osm=`https://tile.openstreetmap.org/${tile.z}/${tile.x}/${tile.y}.png`;
   el.innerHTML=`<img class="radar-base" src="${osm}" alt="" loading="lazy" referrerpolicy="no-referrer">
@@ -941,19 +961,58 @@ function renderRadar(){
     <span class="radar-pin" style="left:${tile.px}%;top:${tile.py}%" aria-label="Reading Atmospheric Observatory"></span>
     <span class="radar-credit"><a href="https://www.rainviewer.com/">RainViewer</a> / <a href="https://www.openstreetmap.org/copyright">OSM</a></span>
     <span class="radar-status">loading radar...</span>`;
+  const img=el.querySelector('.radar-img');
   const status=el.querySelector('.radar-status');
   fetch('https://api.rainviewer.com/public/weather-maps.json')
     .then(r=>r.ok?r.json():Promise.reject(new Error('radar metadata unavailable')))
     .then(api=>{
-      const frames=(api.radar?.nowcast?.length?api.radar.nowcast:api.radar?.past)||[];
-      const frame=frames[frames.length-1];
-      if(!api.host || !frame?.path) throw new Error('no radar frame');
-      el.querySelector('.radar-img').src=`${api.host}${frame.path}/512/${tile.z}/${tile.x}/${tile.y}/2/1_1.png`;
-      status.textContent=radarTimeLabel(frame.time);
+      const past=api.radar?.past||[];
+      const latest=past[past.length-1];
+      if(!api.host || !latest?.path) throw new Error('no radar frame');
+      const frames=past.filter(f=>f.time>=latest.time-3600);
+      const useFrames=frames.length?frames:past.slice(-7);
+      const frameUrl=f=>`${api.host}${f.path}/512/${tile.z}/${tile.x}/${tile.y}/2/1_1.png`;
+      useFrames.forEach(f=>{ const preload=new Image(); preload.src=frameUrl(f); });
+      const setFrame=i=>{
+        const idx=Math.max(0,Math.min(useFrames.length-1,Number(i)||0));
+        const frame=useFrames[idx];
+        img.src=frameUrl(frame);
+        status.textContent=radarTimeLabel(frame.time);
+        if(label) label.textContent=radarShortLabel(frame.time);
+        if(range) range.value=String(idx);
+      };
+      if(range){
+        range.min='0'; range.max=String(Math.max(0,useFrames.length-1)); range.value=String(useFrames.length-1);
+        range.disabled=useFrames.length<2;
+        range.oninput=()=>{ stopRadarAnimation(play); setFrame(range.value); };
+        range.onchange=range.oninput;
+        range.onkeydown=(e)=>{
+          let idx=Number(range.value)||0;
+          if(e.key==='ArrowLeft'||e.key==='ArrowDown') idx-=1;
+          else if(e.key==='ArrowRight'||e.key==='ArrowUp') idx+=1;
+          else if(e.key==='Home') idx=0;
+          else if(e.key==='End') idx=useFrames.length-1;
+          else return;
+          e.preventDefault(); stopRadarAnimation(play); setFrame(idx);
+        };
+      }
+      if(play){
+        play.disabled=useFrames.length<2;
+        play.setAttribute('aria-pressed','false');
+        play.onclick=()=>{
+          if(radarTimer){ stopRadarAnimation(play); return; }
+          play.setAttribute('aria-pressed','true');
+          radarTimer=setInterval(()=>{
+            const next=((Number(range?.value)||0)+1) % useFrames.length;
+            setFrame(next);
+          }, 700);
+        };
+      }
+      if(controls) controls.hidden=false;
+      setFrame(useFrames.length-1);
     })
-    .catch(()=>{ status.textContent='radar unavailable'; });
+    .catch(()=>{ status.textContent='radar unavailable'; if(controls) controls.hidden=true; });
 }
-
 function renderGrid(s, sun, times){
   const press=pressureTendency(s.delP3), tt=tempTendency(s.delT);
   const cb = isNum(s.cloudBase) ? fmtInt(s.cloudBase) : 'None detected';
@@ -1011,9 +1070,18 @@ function renderGrid(s, sun, times){
 
     // RAIN
     {h:['Rainfall','bucket + radar'], body:(()=>{
-      const cells=[['5 min',s.rain5],['1 h',s.rain1h],['6 h',s.rain6h],['today',s.rainAccum]];
+      const series=[['5 min',s.rain5],['1 h',s.rain1h],['3 h',s.rain3h],['6 h',s.rain6h]];
+      const mx=Math.max(0.5,...series.map(x=>valOr(x[1],0)));
+      const bars=series.map(([l,v])=>`<div class="rb"><span class="v">${fmtRain(v)}</span><div class="bar" style="height:${Math.max(2,(valOr(v,0)/mx)*100)}%"></div><span class="l">${l}</span></div>`).join('');
       return `<div class="radar-map" id="rainRadar" aria-label="Latest rainfall radar near Reading"><span class="radar-status">loading radar...</span></div>
-        <div class="rain-strip">${cells.map(([l,v])=>`<span><b>${fmtRain(v)}</b>${l}</span>`).join('')}</div>`;
+        <div class="radar-controls" id="radarControls" hidden>
+          <button class="radar-play" id="radarPlay" type="button" aria-label="Animate rainfall radar" aria-pressed="false" title="Animate radar"></button>
+          <input class="radar-range" id="radarRange" type="range" min="0" max="0" value="0" aria-label="Radar frame in the last hour">
+          <span class="radar-time" id="radarFrameTime">--:--</span>
+        </div>
+        <div class="rain-bars">${bars}</div>
+        <div class="sub" style="margin-top:12px"><span class="k">Since 0000 UTC</span>
+        <span style="font-family:var(--serif);font-size:24px;color:var(--ink)"> ${fmtRain(s.rainAccum)}</span> ${isNum(s.rainAccum)?'mm':''}</div>`;
     })()},
     // ATMOSPHERIC ELECTRICITY
     {h:['Atmospheric electricity','field mill'], body:`
