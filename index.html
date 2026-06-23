@@ -1371,7 +1371,7 @@ const DATA = {
     "rain6h": 0.0,
     "rainAccum": 0.2,
     "cloudBase": null,
-    "vis": 61671,
+    "vis": 75000,
     "Sdur5": 5.0,
     "SdurAccum": 12.2,
     "Sg": 100,
@@ -1399,19 +1399,53 @@ const DATA = {
         "name": "June",
         "source": "/storage/silver/metweb/new-web/VirtualSites/met-secure/Data/climat/monthly_datafiles",
         "variables": {
-          "tmean": {
-            "label": "Daily mean temperature",
+          "rain": {
+            "label": "Daily rainfall",
+            "unit": "mm",
+            "recordLow": {
+              "value": 0.0,
+              "date": "1908-06-02"
+            },
+            "p05": 0.0,
+            "mean": 46.9,
+            "p95": 9.6,
+            "recordHigh": {
+              "value": 60.5,
+              "date": "1970-06-11"
+            },
+            "meanKind": "monthTotal",
+            "baselineCount": 900
+          },
+          "sunshine": {
+            "label": "Daily sunshine",
+            "unit": "h",
+            "recordLow": {
+              "value": 0.0,
+              "date": "1958-06-17"
+            },
+            "p05": 0.0,
+            "mean": 195.4,
+            "p95": 14.0,
+            "recordHigh": {
+              "value": 16.0,
+              "date": "1976-06-30"
+            },
+            "meanKind": "monthTotal",
+            "baselineCount": 900
+          },
+          "tmin": {
+            "label": "Daily minimum temperature",
             "unit": "°C",
             "recordLow": {
-              "value": 8.0,
-              "date": "1991-06-02"
+              "value": 0.6,
+              "date": "1923-06-03"
             },
-            "p05": 11.6,
-            "mean": 15.6,
-            "p95": 20.1,
+            "p05": 6.2,
+            "mean": 10.8,
+            "p95": 14.9,
             "recordHigh": {
-              "value": 26.2,
-              "date": "1976-06-27"
+              "value": 18.9,
+              "date": "1949-06-29"
             },
             "meanKind": "dailyMean",
             "baselineCount": 900
@@ -1433,55 +1467,21 @@ const DATA = {
             "meanKind": "dailyMean",
             "baselineCount": 900
           },
-          "tmin": {
-            "label": "Daily minimum temperature",
+          "tmean": {
+            "label": "Daily mean temperature",
             "unit": "°C",
             "recordLow": {
-              "value": 0.6,
-              "date": "1923-06-03"
+              "value": 8.0,
+              "date": "1991-06-02"
             },
-            "p05": 6.2,
-            "mean": 10.8,
-            "p95": 14.9,
+            "p05": 11.6,
+            "mean": 15.6,
+            "p95": 20.1,
             "recordHigh": {
-              "value": 18.9,
-              "date": "1949-06-29"
+              "value": 26.2,
+              "date": "1976-06-27"
             },
             "meanKind": "dailyMean",
-            "baselineCount": 900
-          },
-          "sunshine": {
-            "label": "Daily sunshine",
-            "unit": "h",
-            "recordLow": {
-              "value": 0.0,
-              "date": "1958-06-17"
-            },
-            "p05": 0.0,
-            "mean": 195.4,
-            "p95": 14.0,
-            "recordHigh": {
-              "value": 16.0,
-              "date": "1976-06-30"
-            },
-            "meanKind": "monthTotal",
-            "baselineCount": 900
-          },
-          "rain": {
-            "label": "Daily rainfall",
-            "unit": "mm",
-            "recordLow": {
-              "value": 0.0,
-              "date": "1908-06-02"
-            },
-            "p05": 0.0,
-            "mean": 46.9,
-            "p95": 9.6,
-            "recordHigh": {
-              "value": 60.5,
-              "date": "1970-06-11"
-            },
-            "meanKind": "monthTotal",
             "baselineCount": 900
           },
           "pressure": {
@@ -1761,6 +1761,15 @@ function compass(deg){
   const pts=['N','NNE','NE','ENE','E','ESE','SE','SSE','S','SSW','SW','WSW','W','WNW','NW','NNW'];
   return pts[Math.round((((deg%360)+360)%360)/22.5)%16];
 }
+function compassWord(deg){
+  const names={
+    N:'north', NNE:'north-northeast', NE:'northeast', ENE:'east-northeast',
+    E:'east', ESE:'east-southeast', SE:'southeast', SSE:'south-southeast',
+    S:'south', SSW:'south-southwest', SW:'southwest', WSW:'west-southwest',
+    W:'west', WNW:'west-northwest', NW:'northwest', NNW:'north-northwest'
+  };
+  return names[compass(deg)] || 'unknown direction';
+}
 function beaufort(ms){
   if(!isNum(ms)) return 'wind unavailable';
   const t=[[.5,'Calm'],[1.5,'Light air'],[3.3,'Light breeze'],[5.5,'Gentle breeze'],
@@ -1768,6 +1777,14 @@ function beaufort(ms){
     [20.7,'Gale'],[24.4,'Severe gale'],[28.4,'Storm']];
   for(const [lim,name] of t) if(ms<lim) return name;
   return 'Violent storm';
+}
+function windPhrase(ms, dir, {article=true}={}){
+  if(!isNum(ms)) return 'wind data are unavailable';
+  if(ms<0.6) return 'the air is almost still';
+  const force=beaufort(ms).toLowerCase();
+  const from=isNum(dir) ? ` from the ${compassWord(dir)}` : '';
+  if(!article || force==='light air') return `${force}${from}`;
+  return `${/^[aeiou]/.test(force)?'an':'a'} ${force}${from}`;
 }
 function tempWord(c){
   if(!isNum(c)) return 'Temperature unavailable';
@@ -1909,7 +1926,7 @@ function narrative(s, cond, sun, td){
     : 'temperature unavailable from the latest feed';
   const windClause = !isNum(s.U10)
     ? 'wind data are unavailable'
-    : s.U10<0.6 ? 'the air all but still' : `a ${beaufort(s.U10).toLowerCase()} from the ${compass(s.dir)}`;
+    : windPhrase(s.U10, s.dir);
   const pressClause = !isNum(s.delP3)
     ? 'Pressure tendency is unavailable'
     : press.dir==='flat' ? 'Pressure is steady' : `Pressure is ${press.word.toLowerCase()} (${(s.delP3>0?'+':'')}${s.delP3.toFixed(1)} hPa in 3 h)`;
@@ -2578,7 +2595,7 @@ function render(){
   const feels=[];
   if(isNum(at)) feels.push(`Feels like <b>${fmtT(at,0)}${tUnitLabel()}</b>`);
   if(isNum(s.Tdew)) feels.push(`dew point <b>${fmtT(s.Tdew)}${tUnitLabel()}</b>`);
-  if(isNum(s.U10)) feels.push(`wind ${beaufort(s.U10).toLowerCase()} from ${compass(s.dir)}`);
+  if(isNum(s.U10)) feels.push(`wind ${windPhrase(s.U10, s.dir, {article:false})}`);
   document.getElementById('heroFeels').innerHTML=feels.join(' &nbsp;&middot;&nbsp; ') || 'Latest derived fields are partially unavailable.';
 
   // badges
@@ -2663,6 +2680,8 @@ function selfTest(){
   assert(pressureTendency(0.1).dir==='flat','tendency flat');
   // compass round-trips
   assert(compass(0)==='N' && compass(180)==='S' && compass(270)==='W','compass cardinals');
+  assert(windPhrase(1.0,180)==='light air from the south','light-air prose');
+  assert(windPhrase(4.0,225)==='a gentle breeze from the southwest','wind article prose');
   // moon phase from the known 2000-01-06 18:14 UTC new-moon epoch
   const mNew=moonPhase(new Date(NEW_MOON_EPOCH));
   const mFirst=moonPhase(new Date(NEW_MOON_EPOCH + SYNODIC_MONTH*86400000*.25));
