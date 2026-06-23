@@ -1371,7 +1371,7 @@ const DATA = {
     "rain6h": 0.0,
     "rainAccum": 0.2,
     "cloudBase": null,
-    "vis": 64316,
+    "vis": 63368,
     "Sdur5": 5.0,
     "SdurAccum": 12.4,
     "Sg": 81,
@@ -1399,57 +1399,6 @@ const DATA = {
         "name": "June",
         "source": "/storage/silver/metweb/new-web/VirtualSites/met-secure/Data/climat/monthly_datafiles",
         "variables": {
-          "tmax": {
-            "label": "Daily maximum temperature",
-            "unit": "°C",
-            "recordLow": {
-              "value": 10.6,
-              "date": "1953-06-03"
-            },
-            "p05": 15.2,
-            "mean": 20.4,
-            "p95": 27.0,
-            "recordHigh": {
-              "value": 34.0,
-              "date": "1976-06-26"
-            },
-            "meanKind": "dailyMean",
-            "baselineCount": 900
-          },
-          "tmin": {
-            "label": "Daily minimum temperature",
-            "unit": "°C",
-            "recordLow": {
-              "value": 0.6,
-              "date": "1923-06-03"
-            },
-            "p05": 6.2,
-            "mean": 10.8,
-            "p95": 14.9,
-            "recordHigh": {
-              "value": 18.9,
-              "date": "1949-06-29"
-            },
-            "meanKind": "dailyMean",
-            "baselineCount": 900
-          },
-          "tmean": {
-            "label": "Daily mean temperature",
-            "unit": "°C",
-            "recordLow": {
-              "value": 8.0,
-              "date": "1991-06-02"
-            },
-            "p05": 11.6,
-            "mean": 15.6,
-            "p95": 20.1,
-            "recordHigh": {
-              "value": 26.2,
-              "date": "1976-06-27"
-            },
-            "meanKind": "dailyMean",
-            "baselineCount": 900
-          },
           "rain": {
             "label": "Daily rainfall",
             "unit": "mm",
@@ -1465,6 +1414,23 @@ const DATA = {
               "date": "1970-06-11"
             },
             "meanKind": "monthTotal",
+            "baselineCount": 900
+          },
+          "tmax": {
+            "label": "Daily maximum temperature",
+            "unit": "°C",
+            "recordLow": {
+              "value": 10.6,
+              "date": "1953-06-03"
+            },
+            "p05": 15.2,
+            "mean": 20.4,
+            "p95": 27.0,
+            "recordHigh": {
+              "value": 34.0,
+              "date": "1976-06-26"
+            },
+            "meanKind": "dailyMean",
             "baselineCount": 900
           },
           "sunshine": {
@@ -1484,6 +1450,23 @@ const DATA = {
             "meanKind": "monthTotal",
             "baselineCount": 900
           },
+          "tmean": {
+            "label": "Daily mean temperature",
+            "unit": "°C",
+            "recordLow": {
+              "value": 8.0,
+              "date": "1991-06-02"
+            },
+            "p05": 11.6,
+            "mean": 15.6,
+            "p95": 20.1,
+            "recordHigh": {
+              "value": 26.2,
+              "date": "1976-06-27"
+            },
+            "meanKind": "dailyMean",
+            "baselineCount": 900
+          },
           "pressure": {
             "label": "MSL pressure",
             "unit": "hPa",
@@ -1497,6 +1480,23 @@ const DATA = {
             "recordHigh": {
               "value": 1037.5,
               "date": "1962-06-07"
+            },
+            "meanKind": "dailyMean",
+            "baselineCount": 900
+          },
+          "tmin": {
+            "label": "Daily minimum temperature",
+            "unit": "°C",
+            "recordLow": {
+              "value": 0.6,
+              "date": "1923-06-03"
+            },
+            "p05": 6.2,
+            "mean": 10.8,
+            "p95": 14.9,
+            "recordHigh": {
+              "value": 18.9,
+              "date": "1949-06-29"
             },
             "meanKind": "dailyMean",
             "baselineCount": 900
@@ -1928,15 +1928,17 @@ function narrative(s, cond, sun, td){
     ? 'wind data are unavailable'
     : windPhrase(s.U10, s.dir);
   const pressClause = !isNum(s.delP3)
-    ? 'Pressure tendency is unavailable'
+    ? ''
     : press.dir==='flat' ? 'Pressure is steady' : `Pressure is ${press.word.toLowerCase()} (${(s.delP3>0?'+':'')}${s.delP3.toFixed(1)} hPa in 3 h)`;
   let tail='.';
-  if(cond.key==='rain') tail = press.dir==='down' ? ', with the falling barometer hinting the wet spell has more to give.' : ', though the barometer suggests the rain is easing.';
+  if(cond.key==='rain' && isNum(s.delP3)) tail = press.dir==='down' ? ', with the falling barometer hinting the wet spell has more to give.' : ', though the barometer suggests the rain is easing.';
   else if(cond.key==='fog') tail = ', likely to lift once the sun gains height.';
   else if(cond.key==='sunny'||cond.key==='fair') tail = press.dir==='up' ? ', and the rising barometer favours the bright weather holding.' : '.';
   else if(cond.key==='clear-night') tail = ' — clear and calm, ideal for radiative cooling toward dawn.';
 
-  return `${lead}: ${tempClause}. ${windClause.charAt(0).toUpperCase()+windClause.slice(1)}. ${pressClause}${tail}`;
+  const parts=[`${lead}: ${tempClause}`, windClause.charAt(0).toUpperCase()+windClause.slice(1)];
+  if(pressClause) parts.push(`${pressClause}${tail}`);
+  return parts.join('. ') + (pressClause ? '' : '.');
 }
 
 /* ============================================================
@@ -2698,7 +2700,7 @@ function selfTest(){
     const s=DATA[k], sun=solar(obsDate(s)), cond=condition(s,sun);
     assert(typeof cond.label==='string' && cond.label.length>0, k+' label');
     const n=narrative(s,cond,sun,s.Td);
-    assert(!/NaN|undefined|this around midday|this early morning|this night/.test(n), k+' narrative clean');
+    assert(!/NaN|undefined|this around midday|this early morning|this night|Pressure tendency is unavailable/.test(n), k+' narrative clean');
     assert(ACCENT[cond.key], k+' accent defined for '+cond.key);
     const t=sunTimes(s);
     assert(t.maxAlt> -30, k+' solar runs');
@@ -2706,6 +2708,7 @@ function selfTest(){
   // apparent temp finite or cleanly null
   assert(Number.isFinite(apparentTemp(24,49,3.6)),'apparent temp finite');
   assert(apparentTemp(null,49,3.6)===null,'apparent temp null-safe');
+  { const noPress={...DATA[SCENARIO_ORDER[0]], delP3:null}; const n=narrative(noPress,condition(noPress,solar(obsDate(noPress))),solar(obsDate(noPress)),noPress.Td); assert(!n.includes('Pressure tendency') && !n.includes('Pressure is'), 'omit missing pressure tendency'); }
   // unit conversion
   assert(Math.abs(c2f(0)-32)<1e-9 && Math.abs(c2f(100)-212)<1e-9,'C->F');
 
