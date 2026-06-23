@@ -438,24 +438,24 @@ const LAT = 51.4414, LON = -0.9418;
 
 const DATA = {
   "live": {
-    "label": "Live now · 23 Jun 2026 1200 UTC",
+    "label": "Live now · 23 Jun 2026 1210 UTC",
     "y": 2026,
     "mo": 6,
     "d": 23,
-    "time": "1200",
+    "time": "1210",
     "ww": 0,
-    "Td": 30.9,
-    "Tw": 21.7,
-    "Tdew": 15.6,
-    "VP": 17.7,
+    "Td": 31.4,
+    "Tw": 22.3,
+    "Tdew": 16.0,
+    "VP": 18.1,
     "RH": 40,
-    "delT": 1.5,
-    "Tgrass": 46.8,
-    "Tconc": 46.4,
-    "Tsoil": 48.0,
+    "delT": 1.9,
+    "Tgrass": 48.3,
+    "Tconc": 47.3,
+    "Tsoil": 49.2,
     "soil": {
-      "c5": 23.8,
-      "c10": 21.8,
+      "c5": 23.9,
+      "c10": 21.9,
       "c20": null,
       "c30": 19.9,
       "c50": null,
@@ -467,26 +467,26 @@ const DATA = {
     "rain6h": 0.0,
     "rainAccum": 0.2,
     "cloudBase": null,
-    "vis": 57435,
+    "vis": 75000,
     "Sdur5": 5.0,
-    "SdurAccum": 5.2,
-    "Sg": 852,
-    "SgAccum": 11.4,
-    "Sb": 173,
-    "Sd": 408,
-    "Rn": 662,
-    "G": 56,
-    "Pmsl": 1019.0,
-    "delP1": -0.4,
-    "delP3": -1.1,
-    "dir": 140,
-    "U10": 2.7,
-    "U10max": 5.5,
+    "SdurAccum": 5.4,
+    "Sg": 850,
+    "SgAccum": 11.91,
+    "Sb": 175,
+    "Sd": 366,
+    "Rn": 677,
+    "G": 57,
+    "Pmsl": 1018.8,
+    "delP1": -0.6,
+    "delP3": -1.2,
+    "dir": 135,
+    "U10": 2.6,
+    "U10max": 5.1,
     "U10maxAcc": 8.6,
     "U2run": 1.5,
-    "U10run": 2.2,
+    "U10run": 2.3,
     "ae": {
-      "pg": 40.0,
+      "pg": 46.0,
       "unit": "V/m"
     },
     "clim": {
@@ -495,40 +495,6 @@ const DATA = {
         "name": "June",
         "source": "/storage/silver/metweb/new-web/VirtualSites/met-secure/Data/climat/monthly_datafiles",
         "variables": {
-          "tmax": {
-            "label": "Daily maximum temperature",
-            "unit": "°C",
-            "recordLow": {
-              "value": 10.6,
-              "date": "1953-06-03"
-            },
-            "p05": 15.2,
-            "mean": 20.4,
-            "p95": 27.0,
-            "recordHigh": {
-              "value": 34.0,
-              "date": "1976-06-26"
-            },
-            "meanKind": "dailyMean",
-            "baselineCount": 900
-          },
-          "rain": {
-            "label": "Daily rainfall",
-            "unit": "mm",
-            "recordLow": {
-              "value": 0.0,
-              "date": "1908-06-02"
-            },
-            "p05": 0.0,
-            "mean": 46.9,
-            "p95": 9.6,
-            "recordHigh": {
-              "value": 60.5,
-              "date": "1970-06-11"
-            },
-            "meanKind": "monthTotal",
-            "baselineCount": 900
-          },
           "pressure": {
             "label": "MSL pressure",
             "unit": "hPa",
@@ -544,23 +510,6 @@ const DATA = {
               "date": "1962-06-07"
             },
             "meanKind": "dailyMean",
-            "baselineCount": 900
-          },
-          "sunshine": {
-            "label": "Daily sunshine",
-            "unit": "h",
-            "recordLow": {
-              "value": 0.0,
-              "date": "1958-06-17"
-            },
-            "p05": 0.0,
-            "mean": 195.4,
-            "p95": 14.0,
-            "recordHigh": {
-              "value": 16.0,
-              "date": "1976-06-30"
-            },
-            "meanKind": "monthTotal",
             "baselineCount": 900
           },
           "tmin": {
@@ -596,13 +545,41 @@ const DATA = {
             },
             "meanKind": "dailyMean",
             "baselineCount": 900
-          }
-        }
-      },
-      "season": {
-        "name": "Summer",
-        "source": "/storage/silver/metweb/new-web/VirtualSites/met-secure/Data/climat/monthly_datafiles",
-        "variables": {
+          },
+          "sunshine": {
+            "label": "Daily sunshine",
+            "unit": "h",
+            "recordLow": {
+              "value": 0.0,
+              "date": "1958-06-17"
+            },
+            "p05": 0.0,
+            "mean": 195.4,
+            "p95": 14.0,
+            "recordHigh": {
+              "value": 16.0,
+              "date": "1976-06-30"
+            },
+            "meanKind": "monthTotal",
+            "baselineCount": 900
+          },
+          "rain": {
+            "label": "Daily rainfall",
+            "unit": "mm",
+            "recordLow": {
+              "value": 0.0,
+              "date": "1908-06-02"
+            },
+            "p05": 0.0,
+            "mean": 46.9,
+            "p95": 9.6,
+            "recordHigh": {
+              "value": 60.5,
+              "date": "1970-06-11"
+            },
+            "meanKind": "monthTotal",
+            "baselineCount": 900
+          },
           "tmax": {
             "label": "Daily maximum temperature",
             "unit": "°C",
@@ -610,16 +587,22 @@ const DATA = {
               "value": 10.6,
               "date": "1953-06-03"
             },
-            "p05": 16.5,
-            "mean": 21.8,
-            "p95": 28.7,
+            "p05": 15.2,
+            "mean": 20.4,
+            "p95": 27.0,
             "recordHigh": {
-              "value": 37.6,
-              "date": "2022-07-19"
+              "value": 34.0,
+              "date": "1976-06-26"
             },
             "meanKind": "dailyMean",
-            "baselineCount": 2760
-          },
+            "baselineCount": 900
+          }
+        }
+      },
+      "season": {
+        "name": "Summer",
+        "source": "/storage/silver/metweb/new-web/VirtualSites/met-secure/Data/climat/monthly_datafiles",
+        "variables": {
           "tmin": {
             "label": "Daily minimum temperature",
             "unit": "°C",
@@ -636,36 +619,53 @@ const DATA = {
             },
             "meanKind": "dailyMean",
             "baselineCount": 2760
+          },
+          "tmax": {
+            "label": "Daily maximum temperature",
+            "unit": "°C",
+            "recordLow": {
+              "value": 10.6,
+              "date": "1953-06-03"
+            },
+            "p05": 16.5,
+            "mean": 21.8,
+            "p95": 28.7,
+            "recordHigh": {
+              "value": 37.6,
+              "date": "2022-07-19"
+            },
+            "meanKind": "dailyMean",
+            "baselineCount": 2760
           }
         }
       }
     },
     "ext": {
       "Td": {
-        "mx": 30.9,
-        "mxt": "1200",
+        "mx": 31.5,
+        "mxt": "1209",
         "mn": 18.9,
         "mnt": "0146"
       },
       "RH": {
         "mx": 89,
         "mxt": "0537",
-        "mn": 40,
-        "mnt": "1200"
+        "mn": 39,
+        "mnt": "1201"
       },
       "Pmsl": {
         "mx": 1022.8,
         "mxt": "0203",
-        "mn": 1019.0,
-        "mnt": "1159"
+        "mn": 1018.8,
+        "mnt": "1209"
       },
       "Tgrass": {
         "mn": 19.3,
         "mnt": "0125"
       },
       "Sg": {
-        "mx": 852,
-        "mxt": "1155"
+        "mx": 853,
+        "mxt": "1201"
       }
     }
   }
@@ -929,24 +929,37 @@ function tempColor(c){
 }
 
 /* narrative sentence */
+function narrativeTimePhrase(partOfDay){
+  switch(partOfDay){
+    case 'overnight': return 'overnight';
+    case 'early morning': return 'early this morning';
+    case 'morning': return 'this morning';
+    case 'around midday': return 'around midday';
+    case 'afternoon': return 'this afternoon';
+    case 'evening': return 'this evening';
+    case 'night': return 'tonight';
+    default: return partOfDay;
+  }
+}
 function narrative(s, cond, sun, td){
   const dt = obsDate(s);
   const hr = dt.getUTCHours();
   const partOfDay = hr<5?'overnight':hr<8?'early morning':hr<12?'morning':hr<14?'around midday':hr<18?'afternoon':hr<21?'evening':'night';
+  const when = narrativeTimePhrase(partOfDay);
   const press = pressureTendency(s.delP3);
   const tt = tempTendency(s.delT);
 
   let lead;
   switch(cond.key){
-    case 'sunny': lead=`Bright sunshine this ${partOfDay}`; break;
-    case 'partly': lead=`Sunny spells this ${partOfDay}`; break;
-    case 'fair': lead=`A clear or bright ${partOfDay}`; break;
-    case 'cloudy': case 'cloudy-night': lead=`Cloudy skies ${partOfDay==='night'?'tonight':'this '+partOfDay}`; break;
-    case 'overcast': lead=`Grey and overcast this ${partOfDay}`; break;
-    case 'rain': lead=`${cond.label} this ${partOfDay}`; break;
-    case 'fog': lead=`Fog has settled over the observatory this ${partOfDay}`; break;
+    case 'sunny': lead=`Bright sunshine ${when}`; break;
+    case 'partly': lead=`Sunny spells ${when}`; break;
+    case 'fair': lead=`A clear or bright spell ${when}`; break;
+    case 'cloudy': case 'cloudy-night': lead=`Cloudy skies ${when}`; break;
+    case 'overcast': lead=`Grey and overcast ${when}`; break;
+    case 'rain': lead=`${cond.label} ${when}`; break;
+    case 'fog': lead=`Fog has settled over the observatory ${when}`; break;
     case 'clear-night': lead=`Clear skies overhead tonight`; break;
-    default: lead=`${cond.label} this ${partOfDay}`;
+    default: lead=`${cond.label} ${when}`;
   }
   const tempClause = isNum(td)
     ? `${tempWord(td).toLowerCase()} at ${fmtT(td)}°, ${tt.word==='steady'?'holding steady':'temperature '+tt.word}`
@@ -1641,7 +1654,7 @@ function selfTest(){
     const s=DATA[k], sun=solar(obsDate(s)), cond=condition(s,sun);
     assert(typeof cond.label==='string' && cond.label.length>0, k+' label');
     const n=narrative(s,cond,sun,s.Td);
-    assert(!/NaN|undefined/.test(n), k+' narrative clean');
+    assert(!/NaN|undefined|this around midday|this early morning|this night/.test(n), k+' narrative clean');
     assert(ACCENT[cond.key], k+' accent defined for '+cond.key);
     const t=sunTimes(s);
     assert(t.maxAlt> -30, k+' solar runs');
