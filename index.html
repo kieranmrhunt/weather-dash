@@ -59,7 +59,8 @@
     padding-bottom:18px;margin-bottom:22px;border-bottom:1px solid var(--line);
   }
   .brand-lockup{display:flex;align-items:flex-start;gap:12px;min-width:0}
-  .uor-crest{width:30px;height:34px;flex:none;margin-top:2px;background:url('https://www.reading.ac.uk/homepage/web/multimediafiles/legacy-uor-home-mobile.png') left center / auto 34px no-repeat;opacity:.88;filter:drop-shadow(0 8px 18px rgba(0,0,0,.34))}
+  .uor-crest{width:34px;height:42px;flex:none;margin-top:0;border:1px solid var(--line-strong);border-radius:6px;background:rgba(236,233,224,.06);padding:4px;display:flex;align-items:center;justify-content:center;box-shadow:0 10px 24px -18px rgba(0,0,0,.9)}
+  .uor-crest img{display:block;width:100%;height:100%;object-fit:contain}
   .brand{display:flex;flex-direction:column;gap:2px;min-width:0}
   .eyebrow{
     font-family:var(--mono);font-size:11px;letter-spacing:.32em;text-transform:uppercase;
@@ -229,6 +230,9 @@
   .clim-season .title{font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-faint)}
   .clim-season b{font-family:var(--serif);font-size:15px;font-weight:400;color:var(--ink);letter-spacing:0}
   .clim-season .pair{display:flex;justify-content:space-between;gap:10px;align-items:baseline}
+  .clim-row.season-row{gap:4px}
+  .clim-row.season-row .clim-row-head b{font-size:15px}
+  .clim-row.season-row .clim-track{height:9px}
   .clim-note{display:flex;justify-content:space-between;gap:8px;margin-top:1px;font-family:var(--mono);font-size:9px;color:var(--ink-faint);letter-spacing:.08em;text-transform:uppercase}
   /* sun arc */
   .sunpath{width:100%;margin-top:2px}
@@ -350,7 +354,7 @@
 
   <header class="top">
     <div class="brand-lockup">
-      <span class="uor-crest" role="img" aria-label="University of Reading crest"></span>
+      <span class="uor-crest"><img src="data:image/png;base64,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" alt="University of Reading crest"></span>
       <div class="brand">
         <div class="eyebrow">University of Reading &middot; METFiDAS</div>
         <h1>Atmospheric Observatory <em>&mdash; live conditions</em></h1>
@@ -438,23 +442,23 @@ const LAT = 51.4414, LON = -0.9418;
 
 const DATA = {
   "live": {
-    "label": "Live now · 23 Jun 2026 1000 UTC",
+    "label": "Live now · 23 Jun 2026 1010 UTC",
     "y": 2026,
     "mo": 6,
     "d": 23,
-    "time": "1000",
+    "time": "1010",
     "ww": 0,
-    "Td": 27.6,
-    "Tw": 21.1,
-    "Tdew": 17.5,
-    "VP": 20.0,
-    "RH": 54,
-    "delT": 2.2,
-    "Tgrass": 41.1,
+    "Td": 27.9,
+    "Tw": 21.3,
+    "Tdew": 18.0,
+    "VP": 20.7,
+    "RH": 55,
+    "delT": 2.4,
+    "Tgrass": 40.4,
     "Tconc": 38.8,
-    "Tsoil": 42.5,
+    "Tsoil": 42.2,
     "soil": {
-      "c5": 22.2,
+      "c5": 22.3,
       "c10": 21.2,
       "c20": null,
       "c30": 20.0,
@@ -467,19 +471,19 @@ const DATA = {
     "rain6h": 0.2,
     "rainAccum": 0.2,
     "cloudBase": null,
-    "vis": 63439,
+    "vis": 75000,
     "Sdur5": 5.0,
-    "SdurAccum": 3.2,
-    "Sg": 757,
-    "SgAccum": 5.52,
-    "Sb": 106,
-    "Sd": 752,
-    "Rn": 600,
-    "G": 29,
+    "SdurAccum": 3.4,
+    "Sg": 770,
+    "SgAccum": 5.98,
+    "Sb": 112,
+    "Sd": 764,
+    "Rn": 604,
+    "G": 32,
     "Pmsl": 1019.7,
-    "delP1": -0.4,
+    "delP1": -0.3,
     "delP3": -1.4,
-    "dir": 126,
+    "dir": 125,
     "U10": 3.2,
     "U10max": 5.3,
     "U10maxAcc": 6.1,
@@ -495,36 +499,19 @@ const DATA = {
         "name": "June",
         "source": "/storage/silver/metweb/new-web/VirtualSites/met-secure/Data/climat/monthly_datafiles",
         "variables": {
-          "tmax": {
-            "label": "Daily maximum temperature",
-            "unit": "°C",
-            "recordLow": {
-              "value": 10.6,
-              "date": "1953-06-03"
-            },
-            "p05": 15.2,
-            "mean": 20.4,
-            "p95": 27.0,
-            "recordHigh": {
-              "value": 34.0,
-              "date": "1976-06-26"
-            },
-            "meanKind": "dailyMean",
-            "baselineCount": 900
-          },
-          "rain": {
-            "label": "Daily rainfall",
-            "unit": "mm",
+          "sunshine": {
+            "label": "Daily sunshine",
+            "unit": "h",
             "recordLow": {
               "value": 0.0,
-              "date": "1908-06-02"
+              "date": "1958-06-17"
             },
             "p05": 0.0,
-            "mean": 46.9,
-            "p95": 9.6,
+            "mean": 195.4,
+            "p95": 14.0,
             "recordHigh": {
-              "value": 60.5,
-              "date": "1970-06-11"
+              "value": 16.0,
+              "date": "1976-06-30"
             },
             "meanKind": "monthTotal",
             "baselineCount": 900
@@ -546,38 +533,21 @@ const DATA = {
             "meanKind": "dailyMean",
             "baselineCount": 900
           },
-          "tmin": {
-            "label": "Daily minimum temperature",
+          "tmax": {
+            "label": "Daily maximum temperature",
             "unit": "°C",
             "recordLow": {
-              "value": 0.6,
-              "date": "1923-06-03"
+              "value": 10.6,
+              "date": "1953-06-03"
             },
-            "p05": 6.2,
-            "mean": 10.8,
-            "p95": 14.9,
+            "p05": 15.2,
+            "mean": 20.4,
+            "p95": 27.0,
             "recordHigh": {
-              "value": 18.9,
-              "date": "1949-06-29"
+              "value": 34.0,
+              "date": "1976-06-26"
             },
             "meanKind": "dailyMean",
-            "baselineCount": 900
-          },
-          "sunshine": {
-            "label": "Daily sunshine",
-            "unit": "h",
-            "recordLow": {
-              "value": 0.0,
-              "date": "1958-06-17"
-            },
-            "p05": 0.0,
-            "mean": 195.4,
-            "p95": 14.0,
-            "recordHigh": {
-              "value": 16.0,
-              "date": "1976-06-30"
-            },
-            "meanKind": "monthTotal",
             "baselineCount": 900
           },
           "pressure": {
@@ -595,6 +565,40 @@ const DATA = {
               "date": "1962-06-07"
             },
             "meanKind": "dailyMean",
+            "baselineCount": 900
+          },
+          "tmin": {
+            "label": "Daily minimum temperature",
+            "unit": "°C",
+            "recordLow": {
+              "value": 0.6,
+              "date": "1923-06-03"
+            },
+            "p05": 6.2,
+            "mean": 10.8,
+            "p95": 14.9,
+            "recordHigh": {
+              "value": 18.9,
+              "date": "1949-06-29"
+            },
+            "meanKind": "dailyMean",
+            "baselineCount": 900
+          },
+          "rain": {
+            "label": "Daily rainfall",
+            "unit": "mm",
+            "recordLow": {
+              "value": 0.0,
+              "date": "1908-06-02"
+            },
+            "p05": 0.0,
+            "mean": 46.9,
+            "p95": 9.6,
+            "recordHigh": {
+              "value": 60.5,
+              "date": "1970-06-11"
+            },
+            "meanKind": "monthTotal",
             "baselineCount": 900
           }
         }
@@ -642,22 +646,22 @@ const DATA = {
     },
     "ext": {
       "Td": {
-        "mx": 27.8,
-        "mxt": "0955",
+        "mx": 28.0,
+        "mxt": "1005",
         "mn": 18.9,
         "mnt": "0146"
       },
       "RH": {
         "mx": 89,
         "mxt": "0537",
-        "mn": 54,
-        "mnt": "1000"
+        "mn": 53,
+        "mnt": "1006"
       },
       "Pmsl": {
         "mx": 1022.8,
         "mxt": "0203",
-        "mn": 1019.7,
-        "mnt": "0956"
+        "mn": 1019.6,
+        "mnt": "1002"
       },
       "Tgrass": {
         "mn": 19.3,
@@ -1211,10 +1215,18 @@ function climateBar(label, stat, current, kind='now'){
     <div class="clim-scale"><span>rec ${fmtClimateValue(lo,stat)}</span><span class="hi">rec ${fmtClimateValue(hi,stat)}</span></div>
   </div>`;
 }
-function seasonalRecordPair(label, stat){
+function seasonalRecordBar(label, stat){
   const lo=stat?.recordLow?.value, hi=stat?.recordHigh?.value;
-  if(!isNum(lo) || !isNum(hi)) return '';
-  return `<div class="pair"><span>${label}</span><b>${fmtClimateValue(lo,stat)}-${fmtClimateValue(hi,stat)}</b></div>`;
+  if(!isNum(lo) || !isNum(hi) || hi<=lo) return '';
+  const p05=climPct(stat.p05,lo,hi), p95=climPct(stat.p95,lo,hi), mean=climPct(stat.mean,lo,hi);
+  return `<div class="clim-row season-row">
+    <div class="clim-row-head"><span class="label">${label}</span><b>${fmtClimateValue(lo,stat)}-${fmtClimateValue(hi,stat)}</b></div>
+    <div class="clim-track" aria-label="Summer ${label}: record ${fmtClimateValue(lo,stat)} to ${fmtClimateValue(hi,stat)}">
+      <span class="clim-band" style="left:${p05}%;width:${Math.max(1,p95-p05)}%"></span>
+      <span class="clim-mean" style="left:${mean}%"></span>
+    </div>
+    <div class="clim-scale"><span>rec ${fmtClimateValue(lo,stat)}</span><span class="hi">rec ${fmtClimateValue(hi,stat)}</span></div>
+  </div>`;
 }
 function renderClimateCard(s){
   const clim=s.clim?.month, vars=clim?.variables||{}, ext=s.ext?.Td||{};
@@ -1223,7 +1235,7 @@ function renderClimateCard(s){
     climateBar('Today low', vars.tmin, ext.mn, 'low')
   ].filter(Boolean).join('');
   const season=s.clim?.season, svars=season?.variables||{};
-  const seasonRows=[seasonalRecordPair('Daily max', svars.tmax), seasonalRecordPair('Daily min', svars.tmin)].filter(Boolean).join('');
+  const seasonRows=[seasonalRecordBar('Daily max', svars.tmax), seasonalRecordBar('Daily min', svars.tmin)].filter(Boolean).join('');
   const seasonBlock=seasonRows?`<div class="clim-season"><span class="title">${season.name||'Season'} records</span>${seasonRows}</div>`:'';
   if(!rows) return `<div class="sub center" style="margin:auto 0">Monthly record data unavailable.</div>`;
   return `<div class="clim-card">${rows}${seasonBlock}<div class="clim-note"><span>records since 1908</span><span>band 5-95%</span></div></div>`;
