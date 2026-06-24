@@ -293,12 +293,33 @@
   .core-slot{
     min-height:41px;border-radius:9px;border:1px solid var(--line);position:relative;display:flex;align-items:center;
     gap:8px;padding:6px 8px;background:linear-gradient(90deg,rgba(255,255,255,.035),rgba(255,255,255,.012));
-    transition:background .18s,border-color .18s,opacity .18s;
+    transition:background .18s,border-color .18s,opacity .18s;overflow:hidden;
   }
   .core-slot.surface{background:linear-gradient(90deg,rgba(68,92,57,.30),rgba(255,255,255,.018))}
   .core-slot.depth{background:linear-gradient(90deg,rgba(92,62,34,.36),rgba(45,30,18,.28))}
+  .core-slot.soil-grass{background:linear-gradient(90deg,rgba(44,92,55,.42),rgba(18,34,25,.24))}
+  .core-slot.soil-concrete{background:linear-gradient(90deg,rgba(150,154,154,.22),rgba(55,61,66,.20))}
+  .core-slot.soil-bare{background:linear-gradient(90deg,rgba(123,76,42,.34),rgba(55,34,21,.24))}
+  .core-slot.soil-core{background:linear-gradient(90deg,rgba(104,71,43,.40),rgba(45,30,18,.28))}
   .core-slot.head{min-height:35px;border-color:transparent;background:transparent;justify-content:flex-end;padding-right:7px}
   .core-slot .profile-bar{width:9px;height:72%;border-radius:9px;box-shadow:0 0 12px rgba(0,0,0,.25);flex:none}
+  .surface-glyph{position:relative;width:34px;height:24px;border-radius:7px;flex:none;border:1px solid rgba(255,255,255,.12);box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 8px 16px -14px rgba(0,0,0,.9);overflow:hidden}
+  .soil-grass .surface-glyph{background:
+    repeating-linear-gradient(106deg,transparent 0 5px,rgba(156,219,124,.42) 5px 7px,transparent 7px 11px),
+    linear-gradient(180deg,rgba(122,179,88,.55),rgba(35,82,44,.72))}
+  .soil-grass .surface-glyph::after{content:'';position:absolute;left:-4px;right:-4px;bottom:-2px;height:9px;background:repeating-linear-gradient(90deg,rgba(25,62,33,.90) 0 5px,rgba(69,123,62,.82) 5px 9px)}
+  .soil-concrete .surface-glyph{background:
+    radial-gradient(circle at 23% 38%,rgba(255,255,255,.28) 0 1px,transparent 1.5px),
+    radial-gradient(circle at 70% 62%,rgba(0,0,0,.26) 0 1px,transparent 1.4px),
+    linear-gradient(135deg,rgba(188,190,187,.54),rgba(93,98,101,.64))}
+  .soil-concrete .surface-glyph::after{content:'';position:absolute;inset:4px 5px;border-top:1px solid rgba(20,24,29,.42);border-left:1px solid rgba(255,255,255,.16);transform:skewX(-14deg)}
+  .soil-bare .surface-glyph{background:
+    radial-gradient(circle at 18% 62%,rgba(35,18,10,.42) 0 1.4px,transparent 1.9px),
+    radial-gradient(circle at 74% 34%,rgba(231,170,98,.24) 0 1.2px,transparent 1.8px),
+    repeating-linear-gradient(14deg,rgba(91,55,31,.78) 0 5px,rgba(126,78,43,.64) 5px 10px)}
+  .soil-core .surface-glyph{background:
+    linear-gradient(180deg,rgba(65,108,51,.56) 0 15%,rgba(83,55,32,.74) 15% 38%,rgba(126,79,43,.68) 38% 60%,rgba(95,63,42,.80) 60% 78%,rgba(61,45,35,.88) 78% 100%)}
+  .soil-core .surface-glyph::after{content:'';position:absolute;inset:0;background:repeating-linear-gradient(90deg,rgba(255,255,255,.08) 0 1px,transparent 1px 7px)}
   .core-slot .depth-label{font-family:var(--mono);font-size:10px;letter-spacing:.08em;color:var(--ink-dim);white-space:nowrap}
   .core-slot.head .depth-label{color:var(--ink-faint);text-transform:uppercase;letter-spacing:.2em;font-size:9.5px}
   .core-slot.na{opacity:.55}
@@ -311,7 +332,12 @@
   .srow:hover,.srow.active{background:var(--panel-2);border-color:var(--line);transform:translateX(2px)}
   .srow .name{font-family:var(--body);font-size:15.5px;color:var(--ink)}
   .srow .name small{font-family:var(--mono);font-size:10px;color:var(--ink-faint);letter-spacing:.08em;margin-left:7px;text-transform:uppercase}
-  .srow .chip{font-family:var(--mono);font-size:11px;padding:2px 8px;border-radius:20px;color:#0a0d14;font-weight:600;font-variant-numeric:tabular-nums;justify-self:end;min-width:42px;text-align:center}
+  .srow .chip{position:relative;overflow:hidden;font-family:var(--mono);font-size:11px;padding:2px 8px;border-radius:20px;background:var(--temp-color);color:#0a0d14;font-weight:600;font-variant-numeric:tabular-nums;justify-self:end;min-width:42px;text-align:center;border:1px solid rgba(255,255,255,.16);box-shadow:inset 0 1px 0 rgba(255,255,255,.20),0 8px 16px -14px rgba(0,0,0,.9)}
+  .srow .chip::before{content:'';position:absolute;inset:0;opacity:.34;pointer-events:none;mix-blend-mode:multiply}
+  .srow.soil-grass .chip::before{background:repeating-linear-gradient(105deg,transparent 0 4px,rgba(27,78,35,.80) 4px 5px,transparent 5px 9px)}
+  .srow.soil-concrete .chip::before{background:radial-gradient(circle at 22% 35%,rgba(255,255,255,.35) 0 1px,transparent 1.5px),radial-gradient(circle at 76% 62%,rgba(0,0,0,.42) 0 1px,transparent 1.5px),linear-gradient(135deg,transparent 0 45%,rgba(40,44,49,.28) 45% 48%,transparent 48%)}
+  .srow.soil-bare .chip::before{background:radial-gradient(circle at 18% 68%,rgba(35,18,10,.62) 0 1.3px,transparent 1.8px),radial-gradient(circle at 76% 32%,rgba(246,194,116,.34) 0 1px,transparent 1.6px),repeating-linear-gradient(18deg,rgba(91,55,31,.52) 0 5px,transparent 5px 9px)}
+  .srow.soil-core .chip::before{background:repeating-linear-gradient(180deg,rgba(72,42,22,.55) 0 4px,rgba(126,78,43,.42) 4px 8px,rgba(52,40,31,.48) 8px 12px)}
   .srow .temp{font-family:var(--serif);font-size:21px;font-variant-numeric:tabular-nums;justify-self:end;min-width:74px;text-align:right}
   .srow.sep{margin-top:0}
   .srow.na{opacity:.66}
@@ -377,7 +403,9 @@
     .units{margin-left:0;width:100%}
     .soil-line{grid-template-columns:82px 1fr;gap:14px}
     .core-slot .depth-label{font-size:9px}
-    .core-slot{padding-left:6px;padding-right:5px}
+    .core-slot{padding-left:6px;padding-right:5px;gap:5px}
+    .surface-glyph{width:24px;height:19px;border-radius:6px}
+    .core-slot.depth .surface-glyph{display:none}
     .srow{grid-template-columns:1fr auto;gap:8px}
     .srow .chip{display:none}
     .srow .temp{min-width:62px;font-size:19px}
@@ -1381,7 +1409,7 @@ const DATA = {
     "rain6h": 0.0,
     "rainAccum": 0.0,
     "cloudBase": null,
-    "vis": 75000,
+    "vis": 66778,
     "Sdur5": 5.0,
     "SdurAccum": 7.4,
     "Sg": 856,
@@ -1409,38 +1437,21 @@ const DATA = {
         "name": "June",
         "source": "/storage/silver/metweb/new-web/VirtualSites/met-secure/Data/climat/monthly_datafiles",
         "variables": {
-          "pressure": {
-            "label": "MSL pressure",
-            "unit": "hPa",
+          "rain": {
+            "label": "Daily rainfall",
+            "unit": "mm",
             "recordLow": {
-              "value": 989.9,
-              "date": "2004-06-23"
+              "value": 0.0,
+              "date": "1908-06-02"
             },
-            "p05": 1003.1,
-            "mean": 1016.8,
-            "p95": 1028.1,
+            "p05": 0.0,
+            "mean": 46.9,
+            "p95": 9.6,
             "recordHigh": {
-              "value": 1037.5,
-              "date": "1962-06-07"
+              "value": 60.5,
+              "date": "1970-06-11"
             },
-            "meanKind": "dailyMean",
-            "baselineCount": 900
-          },
-          "tmean": {
-            "label": "Daily mean temperature",
-            "unit": "°C",
-            "recordLow": {
-              "value": 8.0,
-              "date": "1991-06-02"
-            },
-            "p05": 11.6,
-            "mean": 15.6,
-            "p95": 20.1,
-            "recordHigh": {
-              "value": 26.2,
-              "date": "1976-06-27"
-            },
-            "meanKind": "dailyMean",
+            "meanKind": "monthTotal",
             "baselineCount": 900
           },
           "sunshine": {
@@ -1458,6 +1469,23 @@ const DATA = {
               "date": "1976-06-30"
             },
             "meanKind": "monthTotal",
+            "baselineCount": 900
+          },
+          "tmean": {
+            "label": "Daily mean temperature",
+            "unit": "°C",
+            "recordLow": {
+              "value": 8.0,
+              "date": "1991-06-02"
+            },
+            "p05": 11.6,
+            "mean": 15.6,
+            "p95": 20.1,
+            "recordHigh": {
+              "value": 26.2,
+              "date": "1976-06-27"
+            },
+            "meanKind": "dailyMean",
             "baselineCount": 900
           },
           "tmax": {
@@ -1494,21 +1522,21 @@ const DATA = {
             "meanKind": "dailyMean",
             "baselineCount": 900
           },
-          "rain": {
-            "label": "Daily rainfall",
-            "unit": "mm",
+          "pressure": {
+            "label": "MSL pressure",
+            "unit": "hPa",
             "recordLow": {
-              "value": 0.0,
-              "date": "1908-06-02"
+              "value": 989.9,
+              "date": "2004-06-23"
             },
-            "p05": 0.0,
-            "mean": 46.9,
-            "p95": 9.6,
+            "p05": 1003.1,
+            "mean": 1016.8,
+            "p95": 1028.1,
             "recordHigh": {
-              "value": 60.5,
-              "date": "1970-06-11"
+              "value": 1037.5,
+              "date": "1962-06-07"
             },
-            "meanKind": "monthTotal",
+            "meanKind": "dailyMean",
             "baselineCount": 900
           }
         }
@@ -1517,23 +1545,6 @@ const DATA = {
         "name": "Summer",
         "source": "/storage/silver/metweb/new-web/VirtualSites/met-secure/Data/climat/monthly_datafiles",
         "variables": {
-          "tmin": {
-            "label": "Daily minimum temperature",
-            "unit": "°C",
-            "recordLow": {
-              "value": 0.6,
-              "date": "1923-06-03"
-            },
-            "p05": 7.5,
-            "mean": 12.1,
-            "p95": 16.5,
-            "recordHigh": {
-              "value": 20.8,
-              "date": "1995-08-02"
-            },
-            "meanKind": "dailyMean",
-            "baselineCount": 2760
-          },
           "tmax": {
             "label": "Daily maximum temperature",
             "unit": "°C",
@@ -1547,6 +1558,23 @@ const DATA = {
             "recordHigh": {
               "value": 37.6,
               "date": "2022-07-19"
+            },
+            "meanKind": "dailyMean",
+            "baselineCount": 2760
+          },
+          "tmin": {
+            "label": "Daily minimum temperature",
+            "unit": "°C",
+            "recordLow": {
+              "value": 0.6,
+              "date": "1923-06-03"
+            },
+            "p05": 7.5,
+            "mean": 12.1,
+            "p95": 16.5,
+            "recordHigh": {
+              "value": 20.8,
+              "date": "1995-08-02"
             },
             "meanKind": "dailyMean",
             "baselineCount": 2760
@@ -2525,30 +2553,30 @@ function renderGrid(s, sun, times){
 ============================================================ */
 function renderSoil(s){
   const depths=[['5 cm','c5'],['10 cm','c10'],['20 cm','c20'],['30 cm','c30'],['50 cm','c50'],['100 cm','c100']];
-  const surf=[['Grass','Tgrass'],['Concrete slab','Tconc'],['Bare soil','Tsoil']];
+  const surf=[['Grass','Tgrass','soil-grass'],['Concrete slab','Tconc','soil-concrete'],['Bare soil','Tsoil','soil-bare']];
 
   const headSlot=(label)=>`<div class="core-slot head"><span class="depth-label">${label}</span></div>`;
-  const slot=(label,key,kind,value)=>{
+  const slot=(label,key,kind,value,subject='')=>{
     const has=isNum(value), col=tempColor(value);
-    return `<div class="core-slot ${kind} ${has?'':'na'}" data-key="${key||''}">
-      <span class="profile-bar" style="background:${col}"></span><span class="depth-label">${label}</span></div>`;
+    return `<div class="core-slot ${kind} ${subject} ${has?'':'na'}" data-key="${key||''}">
+      <span class="profile-bar" style="background:${col}"></span><span class="surface-glyph" aria-hidden="true"></span><span class="depth-label">${label}</span></div>`;
   };
-  const row=(name,key,small='')=>{
+  const row=(name,key,small='',subject='')=>{
     const v = key.startsWith('c') ? s.soil[key] : s[key];
     const has=isNum(v), col=tempColor(v);
     const val=has?fmtT(v):'n/a';
-    return `<div class="srow ${has?'':'na'}" data-key="${key}">
+    return `<div class="srow ${subject} ${has?'':'na'}" data-key="${key}" style="--temp-color:${col}">
       <span class="name">${name}${small?` <small>${small}</small>`:''}</span>
-      <span class="chip" style="background:${col}">${val}</span>
+      <span class="chip">${val}</span>
       <span class="temp">${val}${has?`<span style="font-family:var(--mono);font-size:12px;color:var(--ink-dim)">${tUnitLabel()}</span>`:''}</span></div>`;
   };
   const headRow=(name)=>`<div class="srow"><span class="name head">${name}</span><span></span><span></span></div>`;
   const line=(left,right,key='')=>`<div class="soil-line"${key?` data-key="${key}"`:''}>${left}${right}</div>`;
 
   let rows=line(headSlot('Surface'), headRow('Surface'));
-  surf.forEach(([nm,k])=>{ rows+=line(slot('',k,'surface',s[k]), row(nm,k), k); });
+  surf.forEach(([nm,k,subject])=>{ rows+=line(slot('',k,'surface',s[k],subject), row(nm,k,'',subject), k); });
   rows+=line(headSlot('Depth'), headRow('Soil under grass'));
-  depths.forEach(([lbl,k])=>{ rows+=line(slot(lbl,k,'depth',s.soil[k]), row(`${lbl} depth`,k), k); });
+  depths.forEach(([lbl,k])=>{ rows+=line(slot(lbl,k,'depth',s.soil[k],'soil-core'), row(`${lbl} depth`,k,'','soil-core'), k); });
 
   document.getElementById('coreRows').innerHTML=rows;
 
