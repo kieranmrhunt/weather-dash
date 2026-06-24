@@ -159,6 +159,9 @@
     background:var(--panel);border:1px solid var(--line);border-radius:var(--r);
     padding:18px 18px 16px;display:flex;flex-direction:column;min-height:188px;box-shadow:var(--shadow);
   }
+  @media (min-width:760px){
+    .card.forecast-wide{grid-column:span 2}
+  }
   .card h2{
     font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;
     color:var(--ink-faint);margin:0 0 12px;display:flex;justify-content:center;align-items:baseline;
@@ -226,6 +229,13 @@
   .forecast-source span:last-child{white-space:nowrap}
   .forecast-source .stale{color:#f0b637}
   .forecast-empty{font-family:var(--mono);font-size:11px;color:var(--ink-faint);margin:auto 0}
+  @media (min-width:760px){
+    .forecast-wide .forecast-card{gap:12px}
+    .forecast-wide .forecast-day{padding:10px 14px 11px}
+    .forecast-wide .forecast-temp{font-size:25px;gap:10px}
+    .forecast-wide .forecast-pop{font-size:10.5px}
+    .forecast-wide .forecast-source{justify-content:space-between}
+  }
 
 
   /* climate records */
@@ -1371,7 +1381,7 @@ const DATA = {
     "rain6h": 0.0,
     "rainAccum": 0.0,
     "cloudBase": null,
-    "vis": 64021,
+    "vis": 59644,
     "Sdur5": 5.0,
     "SdurAccum": 7.3,
     "Sg": 854,
@@ -1412,6 +1422,23 @@ const DATA = {
             "recordHigh": {
               "value": 26.2,
               "date": "1976-06-27"
+            },
+            "meanKind": "dailyMean",
+            "baselineCount": 900
+          },
+          "tmax": {
+            "label": "Daily maximum temperature",
+            "unit": "°C",
+            "recordLow": {
+              "value": 10.6,
+              "date": "1953-06-03"
+            },
+            "p05": 15.2,
+            "mean": 20.4,
+            "p95": 27.0,
+            "recordHigh": {
+              "value": 34.0,
+              "date": "1976-06-26"
             },
             "meanKind": "dailyMean",
             "baselineCount": 900
@@ -1467,23 +1494,6 @@ const DATA = {
             "meanKind": "monthTotal",
             "baselineCount": 900
           },
-          "tmax": {
-            "label": "Daily maximum temperature",
-            "unit": "°C",
-            "recordLow": {
-              "value": 10.6,
-              "date": "1953-06-03"
-            },
-            "p05": 15.2,
-            "mean": 20.4,
-            "p95": 27.0,
-            "recordHigh": {
-              "value": 34.0,
-              "date": "1976-06-26"
-            },
-            "meanKind": "dailyMean",
-            "baselineCount": 900
-          },
           "tmin": {
             "label": "Daily minimum temperature",
             "unit": "°C",
@@ -1507,23 +1517,6 @@ const DATA = {
         "name": "Summer",
         "source": "/storage/silver/metweb/new-web/VirtualSites/met-secure/Data/climat/monthly_datafiles",
         "variables": {
-          "tmin": {
-            "label": "Daily minimum temperature",
-            "unit": "°C",
-            "recordLow": {
-              "value": 0.6,
-              "date": "1923-06-03"
-            },
-            "p05": 7.5,
-            "mean": 12.1,
-            "p95": 16.5,
-            "recordHigh": {
-              "value": 20.8,
-              "date": "1995-08-02"
-            },
-            "meanKind": "dailyMean",
-            "baselineCount": 2760
-          },
           "tmax": {
             "label": "Daily maximum temperature",
             "unit": "°C",
@@ -1537,6 +1530,23 @@ const DATA = {
             "recordHigh": {
               "value": 37.6,
               "date": "2022-07-19"
+            },
+            "meanKind": "dailyMean",
+            "baselineCount": 2760
+          },
+          "tmin": {
+            "label": "Daily minimum temperature",
+            "unit": "°C",
+            "recordLow": {
+              "value": 0.6,
+              "date": "1923-06-03"
+            },
+            "p05": 7.5,
+            "mean": 12.1,
+            "p95": 16.5,
+            "recordHigh": {
+              "value": 20.8,
+              "date": "1995-08-02"
             },
             "meanKind": "dailyMean",
             "baselineCount": 2760
@@ -2495,11 +2505,11 @@ function renderGrid(s, sun, times){
         <span style="font-family:var(--serif);font-size:22px;color:var(--ink)"> ${fmtDistance(s.vis)}</span><br>
         ${visWord(s.vis)} &middot; <span class="k">present wx</span> <b>${WW[s.ww]||'—'}</b>
       </div>`},
-    {h:['Forecast','Met Office / IFS'], body:renderForecastCard(s.forecast)}
+    {h:['Forecast','Met Office / IFS'], cls:'forecast-wide', body:renderForecastCard(s.forecast)}
   ];
 
   document.getElementById('grid').innerHTML = cards.map(c=>`
-    <div class="card center">
+    <div class="card center ${c.cls||''}">
       <h2><span class="var">${c.h[0]}</span>${c.h[1]?`<span class="instr">${c.h[1]}</span>`:''}</h2>
       ${c.body}
     </div>`).join('');
