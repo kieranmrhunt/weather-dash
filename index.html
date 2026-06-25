@@ -159,8 +159,9 @@
     background:var(--panel);border:1px solid var(--line);border-radius:var(--r);
     padding:18px 18px 16px;display:flex;flex-direction:column;min-height:188px;box-shadow:var(--shadow);
   }
+  .card.trace-wide{min-height:0}
   @media (min-width:760px){
-    .card.forecast-wide{grid-column:span 2}
+    .card.forecast-wide,.card.trace-wide{grid-column:span 2}
   }
   .card h2{
     font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;
@@ -282,6 +283,33 @@
   .temp-legend i{width:8px;height:2px;border-radius:2px;background:currentColor}
   .temp-legend .today{color:#f08a78}.temp-legend .yesterday{color:#7fa6cf}
   .temp-history-empty{font-family:var(--mono);font-size:10px;color:var(--ink-faint);text-align:center;padding:13px 0 3px}
+
+  /* daily traces */
+  .trace-drawer{width:100%;text-align:left}
+  .trace-drawer summary{
+    list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:12px;
+    border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:9px 0;
+    font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-dim);
+  }
+  .trace-drawer summary::-webkit-details-marker{display:none}
+  .trace-drawer summary::after{content:'+';color:var(--accent);font-size:14px;line-height:1}
+  .trace-drawer[open] summary::after{content:'-'}
+  .trace-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-top:12px}
+  .trace-panel{min-width:0;display:grid;gap:5px}
+  .trace-title{display:flex;align-items:baseline;justify-content:space-between;gap:8px;font-family:var(--mono);font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-faint)}
+  .trace-title b{font-family:var(--serif);font-size:16px;font-weight:400;letter-spacing:0;text-transform:none;color:var(--ink);font-variant-numeric:tabular-nums}
+  .trace-spark{width:100%;height:74px;display:block;overflow:visible}
+  .trace-spark .gridline{stroke:var(--line);stroke-width:1}
+  .trace-spark .axis-label{font-family:var(--mono);font-size:8px;fill:var(--ink-faint)}
+  .trace-spark .series-line{fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+  .trace-spark .latest-dot{stroke:rgba(8,11,17,.85);stroke-width:2}
+  .trace-temp .series-line,.trace-temp .latest-dot{stroke:#f08a78;fill:#f08a78}
+  .trace-rh .series-line,.trace-rh .latest-dot{stroke:#7fcf9a;fill:#7fcf9a}
+  .trace-pressure .series-line,.trace-pressure .latest-dot{stroke:#e6b34a;fill:#e6b34a}
+  .trace-rain .series-line,.trace-rain .latest-dot{stroke:#8bbcff;fill:#8bbcff}
+  .trace-wind .series-line,.trace-wind .latest-dot{stroke:#d7a4ff;fill:#d7a4ff}
+  .trace-solar .series-line,.trace-solar .latest-dot{stroke:#ffd166;fill:#ffd166}
+  .trace-empty{font-family:var(--mono);font-size:11px;color:var(--ink-faint);text-align:center;padding:12px 0 2px}
 
 
   /* ---------- soil core (signature) ---------- */
@@ -504,15 +532,15 @@ const LAT = 51.4414, LON = -0.9418;
 
 const DATA = {
   "live": {
-    "label": "Live now · 25 Jun 2026 1840 UTC",
+    "label": "Live now · 25 Jun 2026 1850 UTC",
     "y": 2026,
     "mo": 6,
     "d": 25,
-    "time": "1840",
+    "time": "1850",
     "ww": 0,
-    "Td": 29.3,
+    "Td": 29.1,
     "Tw": 22.7,
-    "Tdew": 18.4,
+    "Tdew": 18.3,
     "VP": 21.1,
     "RH": 52,
     "delT": -1.9,
@@ -1864,12 +1892,14 @@ const DATA = {
       {
         "time": "1845",
         "x": 1125,
-        "yesterday": 32.4
+        "yesterday": 32.4,
+        "today": 29.3
       },
       {
         "time": "1850",
         "x": 1130,
-        "yesterday": 32.2
+        "yesterday": 32.2,
+        "today": 29.1
       },
       {
         "time": "1855",
@@ -2182,16 +2212,2278 @@ const DATA = {
         "yesterday": 24.3
       }
     ],
-    "Tgrass": 34.1,
-    "Tconc": 36.8,
-    "Tsoil": 33.0,
+    "dayTraces": [
+      {
+        "time": "0005",
+        "x": 5,
+        "temp": 24.1,
+        "rh": 71,
+        "pressure": null,
+        "rain": 0.0,
+        "wind": 1.3,
+        "solar": -3
+      },
+      {
+        "time": "0010",
+        "x": 10,
+        "temp": 24.1,
+        "rh": 71,
+        "pressure": null,
+        "rain": 0.0,
+        "wind": 1.2,
+        "solar": -3
+      },
+      {
+        "time": "0015",
+        "x": 15,
+        "temp": 24.0,
+        "rh": 72,
+        "pressure": null,
+        "rain": 0.0,
+        "wind": 1.0,
+        "solar": -4
+      },
+      {
+        "time": "0020",
+        "x": 20,
+        "temp": 23.9,
+        "rh": 72,
+        "pressure": null,
+        "rain": 0.0,
+        "wind": 1.0,
+        "solar": -3
+      },
+      {
+        "time": "0025",
+        "x": 25,
+        "temp": 23.8,
+        "rh": 72,
+        "pressure": null,
+        "rain": 0.0,
+        "wind": 0.9,
+        "solar": -4
+      },
+      {
+        "time": "0030",
+        "x": 30,
+        "temp": 23.7,
+        "rh": 73,
+        "pressure": null,
+        "rain": 0.0,
+        "wind": 1.0,
+        "solar": -4
+      },
+      {
+        "time": "0035",
+        "x": 35,
+        "temp": 23.7,
+        "rh": 73,
+        "pressure": null,
+        "rain": 0.0,
+        "wind": 1.2,
+        "solar": -3
+      },
+      {
+        "time": "0040",
+        "x": 40,
+        "temp": 23.6,
+        "rh": 74,
+        "pressure": null,
+        "rain": 0.0,
+        "wind": 1.2,
+        "solar": -3
+      },
+      {
+        "time": "0045",
+        "x": 45,
+        "temp": 23.5,
+        "rh": 74,
+        "pressure": null,
+        "rain": 0.0,
+        "wind": 1.2,
+        "solar": -3
+      },
+      {
+        "time": "0050",
+        "x": 50,
+        "temp": 23.5,
+        "rh": 75,
+        "pressure": null,
+        "rain": 0.0,
+        "wind": 1.3,
+        "solar": -3
+      },
+      {
+        "time": "0055",
+        "x": 55,
+        "temp": 23.4,
+        "rh": 75,
+        "pressure": null,
+        "rain": 0.0,
+        "wind": 1.4,
+        "solar": -3
+      },
+      {
+        "time": "0100",
+        "x": 60,
+        "temp": 23.4,
+        "rh": 76,
+        "pressure": null,
+        "rain": 0.0,
+        "wind": 1.4,
+        "solar": -3
+      },
+      {
+        "time": "0105",
+        "x": 65,
+        "temp": 23.3,
+        "rh": 76,
+        "pressure": null,
+        "rain": 0.0,
+        "wind": 1.4,
+        "solar": -3
+      },
+      {
+        "time": "0110",
+        "x": 70,
+        "temp": 23.2,
+        "rh": 77,
+        "pressure": null,
+        "rain": 0.0,
+        "wind": 1.3,
+        "solar": -3
+      },
+      {
+        "time": "0115",
+        "x": 75,
+        "temp": 23.2,
+        "rh": 78,
+        "pressure": null,
+        "rain": 0.0,
+        "wind": 1.3,
+        "solar": -4
+      },
+      {
+        "time": "0120",
+        "x": 80,
+        "temp": 23.1,
+        "rh": 78,
+        "pressure": null,
+        "rain": 0.0,
+        "wind": 1.2,
+        "solar": -4
+      },
+      {
+        "time": "0125",
+        "x": 85,
+        "temp": 23.0,
+        "rh": 79,
+        "pressure": null,
+        "rain": 0.0,
+        "wind": 1.1,
+        "solar": -3
+      },
+      {
+        "time": "0130",
+        "x": 90,
+        "temp": 22.9,
+        "rh": 80,
+        "pressure": null,
+        "rain": 0.0,
+        "wind": 1.0,
+        "solar": -4
+      },
+      {
+        "time": "0135",
+        "x": 95,
+        "temp": 22.8,
+        "rh": 80,
+        "pressure": null,
+        "rain": 0.0,
+        "wind": 1.0,
+        "solar": -4
+      },
+      {
+        "time": "0140",
+        "x": 100,
+        "temp": 22.7,
+        "rh": 81,
+        "pressure": null,
+        "rain": 0.0,
+        "wind": 1.1,
+        "solar": -4
+      },
+      {
+        "time": "0145",
+        "x": 105,
+        "temp": 22.6,
+        "rh": 82,
+        "pressure": null,
+        "rain": 0.0,
+        "wind": 1.2,
+        "solar": -4
+      },
+      {
+        "time": "0150",
+        "x": 110,
+        "temp": 22.6,
+        "rh": 82,
+        "pressure": null,
+        "rain": 0.0,
+        "wind": 1.1,
+        "solar": -4
+      },
+      {
+        "time": "0155",
+        "x": 115,
+        "temp": 22.5,
+        "rh": 83,
+        "pressure": null,
+        "rain": 0.0,
+        "wind": 1.4,
+        "solar": -3
+      },
+      {
+        "time": "0200",
+        "x": 120,
+        "temp": 22.5,
+        "rh": 83,
+        "pressure": null,
+        "rain": 0.0,
+        "wind": 1.7,
+        "solar": -3
+      },
+      {
+        "time": "0205",
+        "x": 125,
+        "temp": 22.4,
+        "rh": 83,
+        "pressure": null,
+        "rain": 0.0,
+        "wind": 1.7,
+        "solar": -3
+      },
+      {
+        "time": "0210",
+        "x": 130,
+        "temp": 22.4,
+        "rh": 83,
+        "pressure": null,
+        "rain": 0.0,
+        "wind": 1.7,
+        "solar": -3
+      },
+      {
+        "time": "0215",
+        "x": 135,
+        "temp": 22.3,
+        "rh": 84,
+        "pressure": null,
+        "rain": 0.0,
+        "wind": 1.8,
+        "solar": -3
+      },
+      {
+        "time": "0220",
+        "x": 140,
+        "temp": 22.2,
+        "rh": 84,
+        "pressure": null,
+        "rain": 0.0,
+        "wind": 1.8,
+        "solar": -3
+      },
+      {
+        "time": "0225",
+        "x": 145,
+        "temp": 22.2,
+        "rh": 84,
+        "pressure": null,
+        "rain": 0.0,
+        "wind": 2.0,
+        "solar": -3
+      },
+      {
+        "time": "0230",
+        "x": 150,
+        "temp": 22.1,
+        "rh": 84,
+        "pressure": null,
+        "rain": 0.0,
+        "wind": 1.9,
+        "solar": -3
+      },
+      {
+        "time": "0235",
+        "x": 155,
+        "temp": 22.1,
+        "rh": 85,
+        "pressure": null,
+        "rain": 0.0,
+        "wind": 1.7,
+        "solar": -3
+      },
+      {
+        "time": "0240",
+        "x": 160,
+        "temp": 22.0,
+        "rh": 85,
+        "pressure": null,
+        "rain": 0.0,
+        "wind": 1.8,
+        "solar": -3
+      },
+      {
+        "time": "0245",
+        "x": 165,
+        "temp": 22.0,
+        "rh": 85,
+        "pressure": null,
+        "rain": 0.0,
+        "wind": 1.8,
+        "solar": -3
+      },
+      {
+        "time": "0250",
+        "x": 170,
+        "temp": 22.0,
+        "rh": 85,
+        "pressure": null,
+        "rain": 0.0,
+        "wind": 1.6,
+        "solar": -3
+      },
+      {
+        "time": "0255",
+        "x": 175,
+        "temp": 21.9,
+        "rh": 86,
+        "pressure": null,
+        "rain": 0.0,
+        "wind": 1.5,
+        "solar": -4
+      },
+      {
+        "time": "0300",
+        "x": 180,
+        "temp": 21.9,
+        "rh": 86,
+        "pressure": null,
+        "rain": 0.0,
+        "wind": 1.8,
+        "solar": -3
+      },
+      {
+        "time": "0305",
+        "x": 185,
+        "temp": 21.9,
+        "rh": 86,
+        "pressure": null,
+        "rain": 0.0,
+        "wind": 1.9,
+        "solar": -3
+      },
+      {
+        "time": "0310",
+        "x": 190,
+        "temp": 21.7,
+        "rh": 86,
+        "pressure": null,
+        "rain": 0.0,
+        "wind": 1.6,
+        "solar": -3
+      },
+      {
+        "time": "0315",
+        "x": 195,
+        "temp": 21.7,
+        "rh": 86,
+        "pressure": null,
+        "rain": 0.0,
+        "wind": 1.6,
+        "solar": -3
+      },
+      {
+        "time": "0320",
+        "x": 200,
+        "temp": 21.6,
+        "rh": 87,
+        "pressure": null,
+        "rain": 0.0,
+        "wind": 1.5,
+        "solar": -3
+      },
+      {
+        "time": "0325",
+        "x": 205,
+        "temp": 21.5,
+        "rh": 87,
+        "pressure": null,
+        "rain": 0.0,
+        "wind": 1.3,
+        "solar": -3
+      },
+      {
+        "time": "0330",
+        "x": 210,
+        "temp": 21.4,
+        "rh": 88,
+        "pressure": 1018.6,
+        "rain": 0.0,
+        "wind": 1.3,
+        "solar": -2
+      },
+      {
+        "time": "0335",
+        "x": 215,
+        "temp": 21.3,
+        "rh": 88,
+        "pressure": 1018.6,
+        "rain": 0.0,
+        "wind": 1.5,
+        "solar": -2
+      },
+      {
+        "time": "0340",
+        "x": 220,
+        "temp": 21.2,
+        "rh": 88,
+        "pressure": 1018.6,
+        "rain": 0.0,
+        "wind": 1.6,
+        "solar": -1
+      },
+      {
+        "time": "0345",
+        "x": 225,
+        "temp": 21.2,
+        "rh": 89,
+        "pressure": 1018.6,
+        "rain": 0.0,
+        "wind": 1.7,
+        "solar": 0
+      },
+      {
+        "time": "0350",
+        "x": 230,
+        "temp": 21.1,
+        "rh": 89,
+        "pressure": 1018.6,
+        "rain": 0.0,
+        "wind": 1.7,
+        "solar": 1
+      },
+      {
+        "time": "0355",
+        "x": 235,
+        "temp": 21.1,
+        "rh": 89,
+        "pressure": 1018.6,
+        "rain": 0.0,
+        "wind": 1.9,
+        "solar": 3
+      },
+      {
+        "time": "0400",
+        "x": 240,
+        "temp": 21.1,
+        "rh": 89,
+        "pressure": 1018.6,
+        "rain": 0.0,
+        "wind": 1.9,
+        "solar": 5
+      },
+      {
+        "time": "0405",
+        "x": 245,
+        "temp": 21.0,
+        "rh": 89,
+        "pressure": 1018.7,
+        "rain": 0.0,
+        "wind": 1.7,
+        "solar": 7
+      },
+      {
+        "time": "0410",
+        "x": 250,
+        "temp": 21.0,
+        "rh": 89,
+        "pressure": 1018.7,
+        "rain": 0.0,
+        "wind": 1.5,
+        "solar": 10
+      },
+      {
+        "time": "0415",
+        "x": 255,
+        "temp": 21.0,
+        "rh": 89,
+        "pressure": 1018.7,
+        "rain": 0.0,
+        "wind": 1.7,
+        "solar": 14
+      },
+      {
+        "time": "0420",
+        "x": 260,
+        "temp": 21.0,
+        "rh": 89,
+        "pressure": 1018.6,
+        "rain": 0.0,
+        "wind": 1.9,
+        "solar": 18
+      },
+      {
+        "time": "0425",
+        "x": 265,
+        "temp": 20.9,
+        "rh": 88,
+        "pressure": 1018.6,
+        "rain": 0.0,
+        "wind": 2.1,
+        "solar": 23
+      },
+      {
+        "time": "0430",
+        "x": 270,
+        "temp": 20.9,
+        "rh": 88,
+        "pressure": 1018.6,
+        "rain": 0.0,
+        "wind": 1.9,
+        "solar": 28
+      },
+      {
+        "time": "0435",
+        "x": 275,
+        "temp": 20.9,
+        "rh": 88,
+        "pressure": 1018.7,
+        "rain": 0.0,
+        "wind": 1.9,
+        "solar": 32
+      },
+      {
+        "time": "0440",
+        "x": 280,
+        "temp": 20.9,
+        "rh": 88,
+        "pressure": 1018.7,
+        "rain": 0.0,
+        "wind": 2.0,
+        "solar": 36
+      },
+      {
+        "time": "0445",
+        "x": 285,
+        "temp": 20.9,
+        "rh": 88,
+        "pressure": 1018.7,
+        "rain": 0.0,
+        "wind": 1.9,
+        "solar": 46
+      },
+      {
+        "time": "0450",
+        "x": 290,
+        "temp": 20.9,
+        "rh": 88,
+        "pressure": 1018.6,
+        "rain": 0.0,
+        "wind": 1.9,
+        "solar": 58
+      },
+      {
+        "time": "0455",
+        "x": 295,
+        "temp": 20.9,
+        "rh": 88,
+        "pressure": 1018.6,
+        "rain": 0.0,
+        "wind": 2.0,
+        "solar": 67
+      },
+      {
+        "time": "0500",
+        "x": 300,
+        "temp": 20.9,
+        "rh": 88,
+        "pressure": 1018.6,
+        "rain": 0.0,
+        "wind": 1.9,
+        "solar": 76
+      },
+      {
+        "time": "0505",
+        "x": 305,
+        "temp": 21.0,
+        "rh": 87,
+        "pressure": 1018.6,
+        "rain": 0.0,
+        "wind": 1.6,
+        "solar": 86
+      },
+      {
+        "time": "0510",
+        "x": 310,
+        "temp": 21.0,
+        "rh": 87,
+        "pressure": 1018.5,
+        "rain": 0.0,
+        "wind": 1.8,
+        "solar": 96
+      },
+      {
+        "time": "0515",
+        "x": 315,
+        "temp": 21.1,
+        "rh": 87,
+        "pressure": 1018.5,
+        "rain": 0.0,
+        "wind": 1.9,
+        "solar": 105
+      },
+      {
+        "time": "0520",
+        "x": 320,
+        "temp": 21.1,
+        "rh": 86,
+        "pressure": 1018.5,
+        "rain": 0.0,
+        "wind": 2.0,
+        "solar": 116
+      },
+      {
+        "time": "0525",
+        "x": 325,
+        "temp": 21.2,
+        "rh": 86,
+        "pressure": 1018.6,
+        "rain": 0.0,
+        "wind": 2.1,
+        "solar": 126
+      },
+      {
+        "time": "0530",
+        "x": 330,
+        "temp": 21.3,
+        "rh": 86,
+        "pressure": 1018.6,
+        "rain": 0.0,
+        "wind": 1.9,
+        "solar": 137
+      },
+      {
+        "time": "0535",
+        "x": 335,
+        "temp": 21.3,
+        "rh": 85,
+        "pressure": 1018.6,
+        "rain": 0.0,
+        "wind": 2.4,
+        "solar": 149
+      },
+      {
+        "time": "0540",
+        "x": 340,
+        "temp": 21.5,
+        "rh": 85,
+        "pressure": 1018.6,
+        "rain": 0.0,
+        "wind": 2.6,
+        "solar": 159
+      },
+      {
+        "time": "0545",
+        "x": 345,
+        "temp": 21.6,
+        "rh": 84,
+        "pressure": 1018.6,
+        "rain": 0.0,
+        "wind": 2.3,
+        "solar": 171
+      },
+      {
+        "time": "0550",
+        "x": 350,
+        "temp": 21.9,
+        "rh": 83,
+        "pressure": 1018.5,
+        "rain": 0.0,
+        "wind": 2.3,
+        "solar": 184
+      },
+      {
+        "time": "0555",
+        "x": 355,
+        "temp": 21.9,
+        "rh": 82,
+        "pressure": 1018.5,
+        "rain": 0.0,
+        "wind": 2.1,
+        "solar": 196
+      },
+      {
+        "time": "0600",
+        "x": 360,
+        "temp": 22.1,
+        "rh": 82,
+        "pressure": 1018.5,
+        "rain": 0.0,
+        "wind": 2.0,
+        "solar": 208
+      },
+      {
+        "time": "0605",
+        "x": 365,
+        "temp": 22.3,
+        "rh": 81,
+        "pressure": 1018.4,
+        "rain": 0.0,
+        "wind": 1.8,
+        "solar": 220
+      },
+      {
+        "time": "0610",
+        "x": 370,
+        "temp": 22.4,
+        "rh": 80,
+        "pressure": 1018.4,
+        "rain": 0.0,
+        "wind": 2.0,
+        "solar": 233
+      },
+      {
+        "time": "0615",
+        "x": 375,
+        "temp": 22.4,
+        "rh": 79,
+        "pressure": 1018.4,
+        "rain": 0.0,
+        "wind": 2.4,
+        "solar": 244
+      },
+      {
+        "time": "0620",
+        "x": 380,
+        "temp": 22.4,
+        "rh": 79,
+        "pressure": 1018.4,
+        "rain": 0.0,
+        "wind": 2.6,
+        "solar": 257
+      },
+      {
+        "time": "0625",
+        "x": 385,
+        "temp": 22.4,
+        "rh": 79,
+        "pressure": 1018.4,
+        "rain": 0.0,
+        "wind": 2.6,
+        "solar": 220
+      },
+      {
+        "time": "0630",
+        "x": 390,
+        "temp": 22.9,
+        "rh": 78,
+        "pressure": 1018.3,
+        "rain": 0.0,
+        "wind": 2.5,
+        "solar": 133
+      },
+      {
+        "time": "0635",
+        "x": 395,
+        "temp": 23.1,
+        "rh": 77,
+        "pressure": 1018.3,
+        "rain": 0.0,
+        "wind": 2.2,
+        "solar": 290
+      },
+      {
+        "time": "0640",
+        "x": 400,
+        "temp": 23.1,
+        "rh": 76,
+        "pressure": 1018.4,
+        "rain": 0.0,
+        "wind": 2.1,
+        "solar": 210
+      },
+      {
+        "time": "0645",
+        "x": 405,
+        "temp": 23.6,
+        "rh": 75,
+        "pressure": 1018.4,
+        "rain": 0.0,
+        "wind": 2.1,
+        "solar": 264
+      },
+      {
+        "time": "0650",
+        "x": 410,
+        "temp": 23.6,
+        "rh": 74,
+        "pressure": 1018.4,
+        "rain": 0.0,
+        "wind": 2.2,
+        "solar": 338
+      },
+      {
+        "time": "0655",
+        "x": 415,
+        "temp": 23.8,
+        "rh": 73,
+        "pressure": 1018.4,
+        "rain": 0.0,
+        "wind": 2.9,
+        "solar": 355
+      },
+      {
+        "time": "0700",
+        "x": 420,
+        "temp": 23.9,
+        "rh": 72,
+        "pressure": 1018.3,
+        "rain": 0.0,
+        "wind": 2.7,
+        "solar": 364
+      },
+      {
+        "time": "0705",
+        "x": 425,
+        "temp": 24.1,
+        "rh": 71,
+        "pressure": 1018.2,
+        "rain": 0.0,
+        "wind": 2.4,
+        "solar": 379
+      },
+      {
+        "time": "0710",
+        "x": 430,
+        "temp": 24.1,
+        "rh": 71,
+        "pressure": 1018.1,
+        "rain": 0.0,
+        "wind": 2.8,
+        "solar": 394
+      },
+      {
+        "time": "0715",
+        "x": 435,
+        "temp": 24.4,
+        "rh": 70,
+        "pressure": 1018.1,
+        "rain": 0.0,
+        "wind": 2.8,
+        "solar": 404
+      },
+      {
+        "time": "0720",
+        "x": 440,
+        "temp": 24.5,
+        "rh": 69,
+        "pressure": 1018.1,
+        "rain": 0.0,
+        "wind": 2.9,
+        "solar": 418
+      },
+      {
+        "time": "0725",
+        "x": 445,
+        "temp": 24.8,
+        "rh": 69,
+        "pressure": 1018.0,
+        "rain": 0.0,
+        "wind": 3.2,
+        "solar": 430
+      },
+      {
+        "time": "0730",
+        "x": 450,
+        "temp": 24.7,
+        "rh": 68,
+        "pressure": 1018.0,
+        "rain": 0.0,
+        "wind": 3.1,
+        "solar": 442
+      },
+      {
+        "time": "0735",
+        "x": 455,
+        "temp": 24.9,
+        "rh": 67,
+        "pressure": 1018.0,
+        "rain": 0.0,
+        "wind": 3.3,
+        "solar": 454
+      },
+      {
+        "time": "0740",
+        "x": 460,
+        "temp": 25.1,
+        "rh": 67,
+        "pressure": 1018.0,
+        "rain": 0.0,
+        "wind": 3.4,
+        "solar": 469
+      },
+      {
+        "time": "0745",
+        "x": 465,
+        "temp": 25.1,
+        "rh": 66,
+        "pressure": 1018.0,
+        "rain": 0.0,
+        "wind": 3.9,
+        "solar": 482
+      },
+      {
+        "time": "0750",
+        "x": 470,
+        "temp": 25.5,
+        "rh": 65,
+        "pressure": 1017.9,
+        "rain": 0.0,
+        "wind": 3.9,
+        "solar": 492
+      },
+      {
+        "time": "0755",
+        "x": 475,
+        "temp": 25.8,
+        "rh": 64,
+        "pressure": 1017.8,
+        "rain": 0.0,
+        "wind": 3.5,
+        "solar": 506
+      },
+      {
+        "time": "0800",
+        "x": 480,
+        "temp": 26.0,
+        "rh": 63,
+        "pressure": 1017.8,
+        "rain": 0.0,
+        "wind": 3.4,
+        "solar": 518
+      },
+      {
+        "time": "0805",
+        "x": 485,
+        "temp": 26.2,
+        "rh": 61,
+        "pressure": 1017.8,
+        "rain": 0.0,
+        "wind": 3.2,
+        "solar": 532
+      },
+      {
+        "time": "0810",
+        "x": 490,
+        "temp": 26.6,
+        "rh": 60,
+        "pressure": 1017.7,
+        "rain": 0.0,
+        "wind": 3.3,
+        "solar": 544
+      },
+      {
+        "time": "0815",
+        "x": 495,
+        "temp": 26.5,
+        "rh": 60,
+        "pressure": 1017.7,
+        "rain": 0.0,
+        "wind": 3.3,
+        "solar": 554
+      },
+      {
+        "time": "0820",
+        "x": 500,
+        "temp": 26.8,
+        "rh": 59,
+        "pressure": 1017.8,
+        "rain": 0.0,
+        "wind": 3.2,
+        "solar": 568
+      },
+      {
+        "time": "0825",
+        "x": 505,
+        "temp": 27.0,
+        "rh": 58,
+        "pressure": 1017.8,
+        "rain": 0.0,
+        "wind": 3.0,
+        "solar": 580
+      },
+      {
+        "time": "0830",
+        "x": 510,
+        "temp": 27.1,
+        "rh": 58,
+        "pressure": 1017.8,
+        "rain": 0.0,
+        "wind": 3.1,
+        "solar": 589
+      },
+      {
+        "time": "0835",
+        "x": 515,
+        "temp": 27.3,
+        "rh": 57,
+        "pressure": 1017.8,
+        "rain": 0.0,
+        "wind": 3.2,
+        "solar": 600
+      },
+      {
+        "time": "0840",
+        "x": 520,
+        "temp": 27.8,
+        "rh": 55,
+        "pressure": 1017.9,
+        "rain": 0.0,
+        "wind": 3.1,
+        "solar": 612
+      },
+      {
+        "time": "0845",
+        "x": 525,
+        "temp": 27.6,
+        "rh": 54,
+        "pressure": 1017.8,
+        "rain": 0.0,
+        "wind": 3.4,
+        "solar": 627
+      },
+      {
+        "time": "0850",
+        "x": 530,
+        "temp": 27.7,
+        "rh": 54,
+        "pressure": 1017.8,
+        "rain": 0.0,
+        "wind": 3.6,
+        "solar": 638
+      },
+      {
+        "time": "0855",
+        "x": 535,
+        "temp": 27.9,
+        "rh": 53,
+        "pressure": 1017.9,
+        "rain": 0.0,
+        "wind": 3.8,
+        "solar": 648
+      },
+      {
+        "time": "0900",
+        "x": 540,
+        "temp": 27.9,
+        "rh": 53,
+        "pressure": 1017.9,
+        "rain": 0.0,
+        "wind": 4.0,
+        "solar": 660
+      },
+      {
+        "time": "0905",
+        "x": 545,
+        "temp": 28.2,
+        "rh": 53,
+        "pressure": 1017.8,
+        "rain": 0.0,
+        "wind": 3.6,
+        "solar": 669
+      },
+      {
+        "time": "0910",
+        "x": 550,
+        "temp": 28.4,
+        "rh": 52,
+        "pressure": 1017.8,
+        "rain": 0.0,
+        "wind": 3.3,
+        "solar": 682
+      },
+      {
+        "time": "0915",
+        "x": 555,
+        "temp": 28.5,
+        "rh": 52,
+        "pressure": 1017.7,
+        "rain": 0.0,
+        "wind": 3.9,
+        "solar": 693
+      },
+      {
+        "time": "0920",
+        "x": 560,
+        "temp": 28.6,
+        "rh": 51,
+        "pressure": 1017.7,
+        "rain": 0.0,
+        "wind": 4.1,
+        "solar": 700
+      },
+      {
+        "time": "0925",
+        "x": 565,
+        "temp": 29.0,
+        "rh": 50,
+        "pressure": 1017.6,
+        "rain": 0.0,
+        "wind": 3.6,
+        "solar": 710
+      },
+      {
+        "time": "0930",
+        "x": 570,
+        "temp": 29.0,
+        "rh": 49,
+        "pressure": 1017.6,
+        "rain": 0.0,
+        "wind": 3.9,
+        "solar": 718
+      },
+      {
+        "time": "0935",
+        "x": 575,
+        "temp": 29.5,
+        "rh": 48,
+        "pressure": 1017.6,
+        "rain": 0.0,
+        "wind": 3.9,
+        "solar": 725
+      },
+      {
+        "time": "0940",
+        "x": 580,
+        "temp": 29.6,
+        "rh": 46,
+        "pressure": 1017.6,
+        "rain": 0.0,
+        "wind": 3.5,
+        "solar": 731
+      },
+      {
+        "time": "0945",
+        "x": 585,
+        "temp": 29.7,
+        "rh": 46,
+        "pressure": 1017.6,
+        "rain": 0.0,
+        "wind": 3.9,
+        "solar": 740
+      },
+      {
+        "time": "0950",
+        "x": 590,
+        "temp": 29.7,
+        "rh": 48,
+        "pressure": 1017.6,
+        "rain": 0.0,
+        "wind": 4.3,
+        "solar": 748
+      },
+      {
+        "time": "0955",
+        "x": 595,
+        "temp": 29.6,
+        "rh": 47,
+        "pressure": 1017.5,
+        "rain": 0.0,
+        "wind": 4.4,
+        "solar": 754
+      },
+      {
+        "time": "1000",
+        "x": 600,
+        "temp": 30.0,
+        "rh": 47,
+        "pressure": 1017.5,
+        "rain": 0.0,
+        "wind": 4.4,
+        "solar": 758
+      },
+      {
+        "time": "1005",
+        "x": 605,
+        "temp": 29.9,
+        "rh": 47,
+        "pressure": 1017.5,
+        "rain": 0.0,
+        "wind": 4.3,
+        "solar": 765
+      },
+      {
+        "time": "1010",
+        "x": 610,
+        "temp": 29.7,
+        "rh": 47,
+        "pressure": 1017.5,
+        "rain": 0.0,
+        "wind": 4.4,
+        "solar": 774
+      },
+      {
+        "time": "1015",
+        "x": 615,
+        "temp": 30.1,
+        "rh": 46,
+        "pressure": 1017.4,
+        "rain": 0.0,
+        "wind": 4.4,
+        "solar": 777
+      },
+      {
+        "time": "1020",
+        "x": 620,
+        "temp": 30.3,
+        "rh": 46,
+        "pressure": 1017.4,
+        "rain": 0.0,
+        "wind": 4.0,
+        "solar": 786
+      },
+      {
+        "time": "1025",
+        "x": 625,
+        "temp": 30.4,
+        "rh": 46,
+        "pressure": 1017.3,
+        "rain": 0.0,
+        "wind": 3.9,
+        "solar": 790
+      },
+      {
+        "time": "1030",
+        "x": 630,
+        "temp": 30.6,
+        "rh": 46,
+        "pressure": 1017.2,
+        "rain": 0.0,
+        "wind": 4.0,
+        "solar": 798
+      },
+      {
+        "time": "1035",
+        "x": 635,
+        "temp": 30.4,
+        "rh": 46,
+        "pressure": 1017.2,
+        "rain": 0.0,
+        "wind": 4.4,
+        "solar": 803
+      },
+      {
+        "time": "1040",
+        "x": 640,
+        "temp": 30.4,
+        "rh": 46,
+        "pressure": 1017.1,
+        "rain": 0.0,
+        "wind": 4.8,
+        "solar": 804
+      },
+      {
+        "time": "1045",
+        "x": 645,
+        "temp": 30.8,
+        "rh": 45,
+        "pressure": 1017.0,
+        "rain": 0.0,
+        "wind": 4.3,
+        "solar": 811
+      },
+      {
+        "time": "1050",
+        "x": 650,
+        "temp": 30.9,
+        "rh": 45,
+        "pressure": 1017.0,
+        "rain": 0.0,
+        "wind": 3.9,
+        "solar": 816
+      },
+      {
+        "time": "1055",
+        "x": 655,
+        "temp": 30.9,
+        "rh": 45,
+        "pressure": 1017.0,
+        "rain": 0.0,
+        "wind": 4.2,
+        "solar": 820
+      },
+      {
+        "time": "1100",
+        "x": 660,
+        "temp": 31.4,
+        "rh": 45,
+        "pressure": 1016.9,
+        "rain": 0.0,
+        "wind": 3.9,
+        "solar": 825
+      },
+      {
+        "time": "1105",
+        "x": 665,
+        "temp": 31.3,
+        "rh": 43,
+        "pressure": 1016.9,
+        "rain": 0.0,
+        "wind": 4.0,
+        "solar": 828
+      },
+      {
+        "time": "1110",
+        "x": 670,
+        "temp": 31.3,
+        "rh": 44,
+        "pressure": 1016.9,
+        "rain": 0.0,
+        "wind": 4.2,
+        "solar": 834
+      },
+      {
+        "time": "1115",
+        "x": 675,
+        "temp": 31.8,
+        "rh": 43,
+        "pressure": 1016.8,
+        "rain": 0.0,
+        "wind": 3.7,
+        "solar": 834
+      },
+      {
+        "time": "1120",
+        "x": 680,
+        "temp": 31.6,
+        "rh": 43,
+        "pressure": 1016.8,
+        "rain": 0.0,
+        "wind": 4.0,
+        "solar": 839
+      },
+      {
+        "time": "1125",
+        "x": 685,
+        "temp": 31.9,
+        "rh": 42,
+        "pressure": 1016.7,
+        "rain": 0.0,
+        "wind": 4.2,
+        "solar": 842
+      },
+      {
+        "time": "1130",
+        "x": 690,
+        "temp": 32.0,
+        "rh": 42,
+        "pressure": 1016.7,
+        "rain": 0.0,
+        "wind": 4.2,
+        "solar": 844
+      },
+      {
+        "time": "1135",
+        "x": 695,
+        "temp": 32.0,
+        "rh": 42,
+        "pressure": 1016.7,
+        "rain": 0.0,
+        "wind": 4.2,
+        "solar": 844
+      },
+      {
+        "time": "1140",
+        "x": 700,
+        "temp": 32.0,
+        "rh": 42,
+        "pressure": 1016.6,
+        "rain": 0.0,
+        "wind": 4.2,
+        "solar": 849
+      },
+      {
+        "time": "1145",
+        "x": 705,
+        "temp": 32.0,
+        "rh": 42,
+        "pressure": 1016.6,
+        "rain": 0.0,
+        "wind": 4.4,
+        "solar": 846
+      },
+      {
+        "time": "1150",
+        "x": 710,
+        "temp": 32.2,
+        "rh": 42,
+        "pressure": 1016.5,
+        "rain": 0.0,
+        "wind": 4.1,
+        "solar": 848
+      },
+      {
+        "time": "1155",
+        "x": 715,
+        "temp": 32.1,
+        "rh": 42,
+        "pressure": 1016.5,
+        "rain": 0.0,
+        "wind": 4.0,
+        "solar": 848
+      },
+      {
+        "time": "1200",
+        "x": 720,
+        "temp": 32.6,
+        "rh": 42,
+        "pressure": 1016.4,
+        "rain": 0.0,
+        "wind": 3.7,
+        "solar": 852
+      },
+      {
+        "time": "1205",
+        "x": 725,
+        "temp": 32.5,
+        "rh": 41,
+        "pressure": 1016.5,
+        "rain": 0.0,
+        "wind": 3.8,
+        "solar": 856
+      },
+      {
+        "time": "1210",
+        "x": 730,
+        "temp": 32.4,
+        "rh": 42,
+        "pressure": 1016.4,
+        "rain": 0.0,
+        "wind": 4.3,
+        "solar": 854
+      },
+      {
+        "time": "1215",
+        "x": 735,
+        "temp": 32.7,
+        "rh": 42,
+        "pressure": 1016.3,
+        "rain": 0.0,
+        "wind": 3.8,
+        "solar": 855
+      },
+      {
+        "time": "1220",
+        "x": 740,
+        "temp": 32.4,
+        "rh": 42,
+        "pressure": 1016.3,
+        "rain": 0.0,
+        "wind": 3.9,
+        "solar": 856
+      },
+      {
+        "time": "1225",
+        "x": 745,
+        "temp": 32.2,
+        "rh": 41,
+        "pressure": 1016.2,
+        "rain": 0.0,
+        "wind": 4.7,
+        "solar": 854
+      },
+      {
+        "time": "1230",
+        "x": 750,
+        "temp": 32.6,
+        "rh": 41,
+        "pressure": 1016.2,
+        "rain": 0.0,
+        "wind": 4.3,
+        "solar": 847
+      },
+      {
+        "time": "1235",
+        "x": 755,
+        "temp": 32.7,
+        "rh": 41,
+        "pressure": 1016.1,
+        "rain": 0.0,
+        "wind": 3.6,
+        "solar": 853
+      },
+      {
+        "time": "1240",
+        "x": 760,
+        "temp": 32.9,
+        "rh": 40,
+        "pressure": 1016.1,
+        "rain": 0.0,
+        "wind": 3.5,
+        "solar": 850
+      },
+      {
+        "time": "1245",
+        "x": 765,
+        "temp": 32.9,
+        "rh": 41,
+        "pressure": 1016.0,
+        "rain": 0.0,
+        "wind": 3.8,
+        "solar": 844
+      },
+      {
+        "time": "1250",
+        "x": 770,
+        "temp": 33.2,
+        "rh": 41,
+        "pressure": 1016.0,
+        "rain": 0.0,
+        "wind": 4.1,
+        "solar": 843
+      },
+      {
+        "time": "1255",
+        "x": 775,
+        "temp": 32.9,
+        "rh": 41,
+        "pressure": 1016.0,
+        "rain": 0.0,
+        "wind": 4.4,
+        "solar": 842
+      },
+      {
+        "time": "1300",
+        "x": 780,
+        "temp": 32.8,
+        "rh": 41,
+        "pressure": 1015.9,
+        "rain": 0.0,
+        "wind": 4.5,
+        "solar": 838
+      },
+      {
+        "time": "1305",
+        "x": 785,
+        "temp": 33.0,
+        "rh": 41,
+        "pressure": 1015.8,
+        "rain": 0.0,
+        "wind": 4.3,
+        "solar": 839
+      },
+      {
+        "time": "1310",
+        "x": 790,
+        "temp": 33.6,
+        "rh": 41,
+        "pressure": 1015.7,
+        "rain": 0.0,
+        "wind": 3.7,
+        "solar": 830
+      },
+      {
+        "time": "1315",
+        "x": 795,
+        "temp": 33.6,
+        "rh": 40,
+        "pressure": 1015.6,
+        "rain": 0.0,
+        "wind": 3.4,
+        "solar": 826
+      },
+      {
+        "time": "1320",
+        "x": 800,
+        "temp": 33.7,
+        "rh": 40,
+        "pressure": 1015.6,
+        "rain": 0.0,
+        "wind": 3.9,
+        "solar": 823
+      },
+      {
+        "time": "1325",
+        "x": 805,
+        "temp": 33.2,
+        "rh": 40,
+        "pressure": 1015.6,
+        "rain": 0.0,
+        "wind": 4.2,
+        "solar": 820
+      },
+      {
+        "time": "1330",
+        "x": 810,
+        "temp": 33.4,
+        "rh": 40,
+        "pressure": 1015.5,
+        "rain": 0.0,
+        "wind": 3.9,
+        "solar": 810
+      },
+      {
+        "time": "1335",
+        "x": 815,
+        "temp": 33.6,
+        "rh": 39,
+        "pressure": 1015.5,
+        "rain": 0.0,
+        "wind": 3.6,
+        "solar": 812
+      },
+      {
+        "time": "1340",
+        "x": 820,
+        "temp": 33.4,
+        "rh": 40,
+        "pressure": 1015.5,
+        "rain": 0.0,
+        "wind": 3.8,
+        "solar": 802
+      },
+      {
+        "time": "1345",
+        "x": 825,
+        "temp": 33.4,
+        "rh": 40,
+        "pressure": 1015.5,
+        "rain": 0.0,
+        "wind": 4.1,
+        "solar": 799
+      },
+      {
+        "time": "1350",
+        "x": 830,
+        "temp": 33.3,
+        "rh": 40,
+        "pressure": 1015.4,
+        "rain": 0.0,
+        "wind": 4.3,
+        "solar": 795
+      },
+      {
+        "time": "1355",
+        "x": 835,
+        "temp": 33.6,
+        "rh": 40,
+        "pressure": 1015.3,
+        "rain": 0.0,
+        "wind": 3.9,
+        "solar": 789
+      },
+      {
+        "time": "1400",
+        "x": 840,
+        "temp": 33.6,
+        "rh": 39,
+        "pressure": 1015.3,
+        "rain": 0.0,
+        "wind": 3.8,
+        "solar": 783
+      },
+      {
+        "time": "1405",
+        "x": 845,
+        "temp": 33.2,
+        "rh": 39,
+        "pressure": 1015.3,
+        "rain": 0.0,
+        "wind": 4.4,
+        "solar": 778
+      },
+      {
+        "time": "1410",
+        "x": 850,
+        "temp": 33.9,
+        "rh": 39,
+        "pressure": 1015.2,
+        "rain": 0.0,
+        "wind": 4.1,
+        "solar": 749
+      },
+      {
+        "time": "1415",
+        "x": 855,
+        "temp": 33.7,
+        "rh": 39,
+        "pressure": 1015.2,
+        "rain": 0.0,
+        "wind": 3.7,
+        "solar": 764
+      },
+      {
+        "time": "1420",
+        "x": 860,
+        "temp": 33.8,
+        "rh": 38,
+        "pressure": 1015.1,
+        "rain": 0.0,
+        "wind": 3.8,
+        "solar": 757
+      },
+      {
+        "time": "1425",
+        "x": 865,
+        "temp": 33.5,
+        "rh": 38,
+        "pressure": 1015.1,
+        "rain": 0.0,
+        "wind": 4.1,
+        "solar": 746
+      },
+      {
+        "time": "1430",
+        "x": 870,
+        "temp": 33.4,
+        "rh": 39,
+        "pressure": 1015.0,
+        "rain": 0.0,
+        "wind": 4.8,
+        "solar": 738
+      },
+      {
+        "time": "1435",
+        "x": 875,
+        "temp": 33.7,
+        "rh": 39,
+        "pressure": 1015.0,
+        "rain": 0.0,
+        "wind": 4.4,
+        "solar": 730
+      },
+      {
+        "time": "1440",
+        "x": 880,
+        "temp": 33.7,
+        "rh": 39,
+        "pressure": 1015.0,
+        "rain": 0.0,
+        "wind": 3.9,
+        "solar": 718
+      },
+      {
+        "time": "1445",
+        "x": 885,
+        "temp": 33.3,
+        "rh": 39,
+        "pressure": 1014.9,
+        "rain": 0.0,
+        "wind": 4.0,
+        "solar": 714
+      },
+      {
+        "time": "1450",
+        "x": 890,
+        "temp": 33.5,
+        "rh": 39,
+        "pressure": 1014.9,
+        "rain": 0.0,
+        "wind": 4.0,
+        "solar": 711
+      },
+      {
+        "time": "1455",
+        "x": 895,
+        "temp": 33.8,
+        "rh": 39,
+        "pressure": 1014.8,
+        "rain": 0.0,
+        "wind": 3.5,
+        "solar": 693
+      },
+      {
+        "time": "1500",
+        "x": 900,
+        "temp": 33.4,
+        "rh": 39,
+        "pressure": 1014.8,
+        "rain": 0.0,
+        "wind": 3.9,
+        "solar": 685
+      },
+      {
+        "time": "1505",
+        "x": 905,
+        "temp": 33.4,
+        "rh": 39,
+        "pressure": 1014.8,
+        "rain": 0.0,
+        "wind": 4.3,
+        "solar": 677
+      },
+      {
+        "time": "1510",
+        "x": 910,
+        "temp": 33.5,
+        "rh": 39,
+        "pressure": 1014.7,
+        "rain": 0.0,
+        "wind": 3.6,
+        "solar": 662
+      },
+      {
+        "time": "1515",
+        "x": 915,
+        "temp": 33.6,
+        "rh": 39,
+        "pressure": 1014.7,
+        "rain": 0.0,
+        "wind": 3.8,
+        "solar": 654
+      },
+      {
+        "time": "1520",
+        "x": 920,
+        "temp": 33.6,
+        "rh": 39,
+        "pressure": 1014.6,
+        "rain": 0.0,
+        "wind": 4.0,
+        "solar": 643
+      },
+      {
+        "time": "1525",
+        "x": 925,
+        "temp": 33.8,
+        "rh": 39,
+        "pressure": 1014.6,
+        "rain": 0.0,
+        "wind": 3.6,
+        "solar": 632
+      },
+      {
+        "time": "1530",
+        "x": 930,
+        "temp": 33.3,
+        "rh": 39,
+        "pressure": 1014.6,
+        "rain": 0.0,
+        "wind": 3.7,
+        "solar": 626
+      },
+      {
+        "time": "1535",
+        "x": 935,
+        "temp": 33.7,
+        "rh": 39,
+        "pressure": 1014.5,
+        "rain": 0.0,
+        "wind": 3.5,
+        "solar": 615
+      },
+      {
+        "time": "1540",
+        "x": 940,
+        "temp": 33.5,
+        "rh": 40,
+        "pressure": 1014.4,
+        "rain": 0.0,
+        "wind": 3.6,
+        "solar": 604
+      },
+      {
+        "time": "1545",
+        "x": 945,
+        "temp": 33.5,
+        "rh": 40,
+        "pressure": 1014.4,
+        "rain": 0.0,
+        "wind": 3.7,
+        "solar": 595
+      },
+      {
+        "time": "1550",
+        "x": 950,
+        "temp": 33.4,
+        "rh": 39,
+        "pressure": 1014.3,
+        "rain": 0.0,
+        "wind": 3.7,
+        "solar": 583
+      },
+      {
+        "time": "1555",
+        "x": 955,
+        "temp": 33.1,
+        "rh": 40,
+        "pressure": 1014.3,
+        "rain": 0.0,
+        "wind": 3.9,
+        "solar": 573
+      },
+      {
+        "time": "1600",
+        "x": 960,
+        "temp": 33.5,
+        "rh": 40,
+        "pressure": 1014.3,
+        "rain": 0.0,
+        "wind": 3.5,
+        "solar": 559
+      },
+      {
+        "time": "1605",
+        "x": 965,
+        "temp": 33.6,
+        "rh": 40,
+        "pressure": 1014.2,
+        "rain": 0.0,
+        "wind": 3.2,
+        "solar": 547
+      },
+      {
+        "time": "1610",
+        "x": 970,
+        "temp": 33.0,
+        "rh": 40,
+        "pressure": 1014.2,
+        "rain": 0.0,
+        "wind": 4.0,
+        "solar": 536
+      },
+      {
+        "time": "1615",
+        "x": 975,
+        "temp": 32.9,
+        "rh": 40,
+        "pressure": 1014.2,
+        "rain": 0.0,
+        "wind": 4.3,
+        "solar": 523
+      },
+      {
+        "time": "1620",
+        "x": 980,
+        "temp": 33.2,
+        "rh": 40,
+        "pressure": 1014.1,
+        "rain": 0.0,
+        "wind": 3.5,
+        "solar": 510
+      },
+      {
+        "time": "1625",
+        "x": 985,
+        "temp": 33.1,
+        "rh": 40,
+        "pressure": 1014.1,
+        "rain": 0.0,
+        "wind": 3.2,
+        "solar": 499
+      },
+      {
+        "time": "1630",
+        "x": 990,
+        "temp": 32.9,
+        "rh": 40,
+        "pressure": 1014.1,
+        "rain": 0.0,
+        "wind": 3.7,
+        "solar": 485
+      },
+      {
+        "time": "1635",
+        "x": 995,
+        "temp": 33.0,
+        "rh": 40,
+        "pressure": 1014.1,
+        "rain": 0.0,
+        "wind": 3.9,
+        "solar": 473
+      },
+      {
+        "time": "1640",
+        "x": 1000,
+        "temp": 32.9,
+        "rh": 41,
+        "pressure": 1014.1,
+        "rain": 0.0,
+        "wind": 3.7,
+        "solar": 462
+      },
+      {
+        "time": "1645",
+        "x": 1005,
+        "temp": 33.0,
+        "rh": 41,
+        "pressure": 1014.1,
+        "rain": 0.0,
+        "wind": 3.5,
+        "solar": 448
+      },
+      {
+        "time": "1650",
+        "x": 1010,
+        "temp": 32.5,
+        "rh": 41,
+        "pressure": 1014.1,
+        "rain": 0.0,
+        "wind": 3.7,
+        "solar": 436
+      },
+      {
+        "time": "1655",
+        "x": 1015,
+        "temp": 32.6,
+        "rh": 41,
+        "pressure": 1014.0,
+        "rain": 0.0,
+        "wind": 3.8,
+        "solar": 421
+      },
+      {
+        "time": "1700",
+        "x": 1020,
+        "temp": 32.2,
+        "rh": 42,
+        "pressure": 1014.0,
+        "rain": 0.0,
+        "wind": 3.4,
+        "solar": 410
+      },
+      {
+        "time": "1705",
+        "x": 1025,
+        "temp": 32.4,
+        "rh": 42,
+        "pressure": 1014.0,
+        "rain": 0.0,
+        "wind": 3.2,
+        "solar": 398
+      },
+      {
+        "time": "1710",
+        "x": 1030,
+        "temp": 32.5,
+        "rh": 42,
+        "pressure": 1014.0,
+        "rain": 0.0,
+        "wind": 3.1,
+        "solar": 385
+      },
+      {
+        "time": "1715",
+        "x": 1035,
+        "temp": 32.0,
+        "rh": 42,
+        "pressure": 1014.0,
+        "rain": 0.0,
+        "wind": 3.6,
+        "solar": 375
+      },
+      {
+        "time": "1720",
+        "x": 1040,
+        "temp": 32.0,
+        "rh": 42,
+        "pressure": 1014.0,
+        "rain": 0.0,
+        "wind": 4.0,
+        "solar": 361
+      },
+      {
+        "time": "1725",
+        "x": 1045,
+        "temp": 31.7,
+        "rh": 42,
+        "pressure": 1014.0,
+        "rain": 0.0,
+        "wind": 3.9,
+        "solar": 346
+      },
+      {
+        "time": "1730",
+        "x": 1050,
+        "temp": 31.5,
+        "rh": 43,
+        "pressure": 1014.0,
+        "rain": 0.0,
+        "wind": 3.9,
+        "solar": 333
+      },
+      {
+        "time": "1735",
+        "x": 1055,
+        "temp": 31.5,
+        "rh": 44,
+        "pressure": 1014.0,
+        "rain": 0.0,
+        "wind": 3.9,
+        "solar": 320
+      },
+      {
+        "time": "1740",
+        "x": 1060,
+        "temp": 31.2,
+        "rh": 44,
+        "pressure": 1014.0,
+        "rain": 0.0,
+        "wind": 3.9,
+        "solar": 310
+      },
+      {
+        "time": "1745",
+        "x": 1065,
+        "temp": 30.9,
+        "rh": 45,
+        "pressure": 1014.0,
+        "rain": 0.0,
+        "wind": 4.0,
+        "solar": 277
+      },
+      {
+        "time": "1750",
+        "x": 1070,
+        "temp": 31.0,
+        "rh": 46,
+        "pressure": 1014.0,
+        "rain": 0.0,
+        "wind": 3.7,
+        "solar": 286
+      },
+      {
+        "time": "1755",
+        "x": 1075,
+        "temp": 31.0,
+        "rh": 46,
+        "pressure": 1014.0,
+        "rain": 0.0,
+        "wind": 3.2,
+        "solar": 269
+      },
+      {
+        "time": "1800",
+        "x": 1080,
+        "temp": 30.5,
+        "rh": 47,
+        "pressure": 1014.0,
+        "rain": 0.0,
+        "wind": 3.5,
+        "solar": 244
+      },
+      {
+        "time": "1805",
+        "x": 1085,
+        "temp": 30.6,
+        "rh": 47,
+        "pressure": 1014.0,
+        "rain": 0.0,
+        "wind": 3.4,
+        "solar": 239
+      },
+      {
+        "time": "1810",
+        "x": 1090,
+        "temp": 30.4,
+        "rh": 47,
+        "pressure": 1014.0,
+        "rain": 0.0,
+        "wind": 3.2,
+        "solar": 147
+      },
+      {
+        "time": "1815",
+        "x": 1095,
+        "temp": 30.2,
+        "rh": 48,
+        "pressure": 1013.9,
+        "rain": 0.0,
+        "wind": 3.5,
+        "solar": 211
+      },
+      {
+        "time": "1820",
+        "x": 1100,
+        "temp": 30.1,
+        "rh": 48,
+        "pressure": 1013.9,
+        "rain": 0.0,
+        "wind": 3.2,
+        "solar": 175
+      },
+      {
+        "time": "1825",
+        "x": 1105,
+        "temp": 29.7,
+        "rh": 49,
+        "pressure": 1013.9,
+        "rain": 0.0,
+        "wind": 3.6,
+        "solar": 175
+      },
+      {
+        "time": "1830",
+        "x": 1110,
+        "temp": 29.6,
+        "rh": 50,
+        "pressure": 1013.9,
+        "rain": 0.0,
+        "wind": 4.1,
+        "solar": 164
+      },
+      {
+        "time": "1835",
+        "x": 1115,
+        "temp": 29.5,
+        "rh": 51,
+        "pressure": 1014.0,
+        "rain": 0.0,
+        "wind": 3.9,
+        "solar": 165
+      },
+      {
+        "time": "1840",
+        "x": 1120,
+        "temp": 29.3,
+        "rh": 52,
+        "pressure": 1014.0,
+        "rain": 0.0,
+        "wind": 3.8,
+        "solar": 153
+      },
+      {
+        "time": "1845",
+        "x": 1125,
+        "temp": 29.3,
+        "rh": 52,
+        "pressure": 1014.0,
+        "rain": 0.0,
+        "wind": 3.9,
+        "solar": 141
+      },
+      {
+        "time": "1850",
+        "x": 1130,
+        "temp": 29.1,
+        "rh": 52,
+        "pressure": 1014.1,
+        "rain": 0.0,
+        "wind": 3.4,
+        "solar": 128
+      }
+    ],
+    "Tgrass": 33.3,
+    "Tconc": 36.5,
+    "Tsoil": 31.7,
     "soil": {
-      "c5": 27.4,
+      "c5": 27.3,
       "c10": 25.4,
       "c20": null,
       "c30": 21.8,
       "c50": null,
-      "c100": 16.7
+      "c100": 16.8
     },
     "rain5": 0.0,
     "rain1h": 0.0,
@@ -2199,26 +4491,26 @@ const DATA = {
     "rain6h": 0.0,
     "rainAccum": 0.0,
     "cloudBase": null,
-    "vis": 41115,
+    "vis": 54519,
     "Sdur5": 5.0,
-    "SdurAccum": 14.0,
-    "Sg": 153,
-    "SgAccum": 27.95,
-    "Sb": 129,
-    "Sd": 65,
-    "Rn": 43,
-    "G": 29,
-    "Pmsl": 1014.0,
-    "delP1": 0.0,
-    "delP3": -0.4,
-    "dir": 91,
-    "U10": 3.8,
-    "U10max": 7.1,
+    "SdurAccum": 14.1,
+    "Sg": 128,
+    "SgAccum": 28.04,
+    "Sb": 118,
+    "Sd": 59,
+    "Rn": 25,
+    "G": 26,
+    "Pmsl": 1014.1,
+    "delP1": 0.1,
+    "delP3": -0.2,
+    "dir": 87,
+    "U10": 3.4,
+    "U10max": 7.9,
     "U10maxAcc": 9.4,
     "U2run": 2.0,
     "U10run": 3.0,
     "ae": {
-      "pg": 56.0,
+      "pg": 55.0,
       "unit": "V/m"
     },
     "clim": {
@@ -2227,36 +4519,19 @@ const DATA = {
         "name": "June",
         "source": "/storage/silver/metweb/new-web/VirtualSites/met-secure/Data/climat/monthly_datafiles",
         "variables": {
-          "rain": {
-            "label": "Daily rainfall",
-            "unit": "mm",
+          "tmax": {
+            "label": "Daily maximum temperature",
+            "unit": "°C",
             "recordLow": {
-              "value": 0.0,
-              "date": "1908-06-02"
+              "value": 10.6,
+              "date": "1953-06-03"
             },
-            "p05": 0.0,
-            "mean": 46.9,
-            "p95": 9.6,
+            "p05": 15.2,
+            "mean": 20.4,
+            "p95": 27.0,
             "recordHigh": {
-              "value": 60.5,
-              "date": "1970-06-11"
-            },
-            "meanKind": "monthTotal",
-            "baselineCount": 900
-          },
-          "pressure": {
-            "label": "MSL pressure",
-            "unit": "hPa",
-            "recordLow": {
-              "value": 989.9,
-              "date": "2004-06-23"
-            },
-            "p05": 1003.1,
-            "mean": 1016.8,
-            "p95": 1028.1,
-            "recordHigh": {
-              "value": 1037.5,
-              "date": "1962-06-07"
+              "value": 34.0,
+              "date": "1976-06-26"
             },
             "meanKind": "dailyMean",
             "baselineCount": 900
@@ -2274,23 +4549,6 @@ const DATA = {
             "recordHigh": {
               "value": 18.9,
               "date": "1949-06-29"
-            },
-            "meanKind": "dailyMean",
-            "baselineCount": 900
-          },
-          "tmax": {
-            "label": "Daily maximum temperature",
-            "unit": "°C",
-            "recordLow": {
-              "value": 10.6,
-              "date": "1953-06-03"
-            },
-            "p05": 15.2,
-            "mean": 20.4,
-            "p95": 27.0,
-            "recordHigh": {
-              "value": 34.0,
-              "date": "1976-06-26"
             },
             "meanKind": "dailyMean",
             "baselineCount": 900
@@ -2325,6 +4583,40 @@ const DATA = {
             "recordHigh": {
               "value": 26.2,
               "date": "1976-06-27"
+            },
+            "meanKind": "dailyMean",
+            "baselineCount": 900
+          },
+          "rain": {
+            "label": "Daily rainfall",
+            "unit": "mm",
+            "recordLow": {
+              "value": 0.0,
+              "date": "1908-06-02"
+            },
+            "p05": 0.0,
+            "mean": 46.9,
+            "p95": 9.6,
+            "recordHigh": {
+              "value": 60.5,
+              "date": "1970-06-11"
+            },
+            "meanKind": "monthTotal",
+            "baselineCount": 900
+          },
+          "pressure": {
+            "label": "MSL pressure",
+            "unit": "hPa",
+            "recordLow": {
+              "value": 989.9,
+              "date": "2004-06-23"
+            },
+            "p05": 1003.1,
+            "mean": 1016.8,
+            "p95": 1028.1,
+            "recordHigh": {
+              "value": 1037.5,
+              "date": "1962-06-07"
             },
             "meanKind": "dailyMean",
             "baselineCount": 900
@@ -3029,6 +5321,81 @@ function tempHistoryChart(samples, delT){
     <div class="temp-legend"><span class="today"><i></i>today</span><span class="yesterday"><i></i>yesterday</span></div>
   </div>`;
 }
+function traceValue(key, value){
+  if(!isNum(value)) return null;
+  if(key==='temp') return state.tUnit==='F' ? c2f(value) : value;
+  if(key==='wind') return state.wUnit==='mph' ? value*2.236936 : value;
+  return value;
+}
+function traceFormat(key, value){
+  if(!isNum(value)) return 'n/a';
+  if(key==='temp') return `${fmtT(value,1)}${tUnitLabel()}`;
+  if(key==='wind') return `${fmtW(value,1)} ${wUnitLabel()}`;
+  if(key==='rh') return `${Math.round(value)}%`;
+  if(key==='pressure') return `${value.toFixed(1)} hPa`;
+  if(key==='rain') return `${value.toFixed(1)} mm`;
+  if(key==='solar') return `${Math.round(value)} W/m&sup2;`;
+  return value.toFixed(1);
+}
+function traceAxisValue(key, value){
+  if(!isNum(value)) return '';
+  if(key==='pressure') return value.toFixed(0);
+  if(key==='rain') return value.toFixed(1);
+  return String(Math.round(value));
+}
+function tracePanel(rows, key, label, cls){
+  const pts=rows
+    .filter(p=>isNum(p?.x) && isNum(p[key]))
+    .map(p=>({x:p.x,time:p.time,raw:p[key],v:traceValue(key,p[key])}))
+    .filter(p=>isNum(p.v))
+    .sort((a,b)=>a.x-b.x);
+  if(pts.length<2){
+    return `<div class="trace-panel ${cls}"><div class="trace-title"><span>${label}</span><b>n/a</b></div><div class="trace-empty">trace unavailable</div></div>`;
+  }
+  const values=pts.map(p=>p.v);
+  let lo=Math.min(...values), hi=Math.max(...values);
+  if(key==='rain') lo=Math.min(0,lo);
+  if(hi===lo){ hi+=1; lo-=key==='rain'?0:1; }
+  const pad=Math.max(key==='pressure'?0.3:.5,(hi-lo)*.12);
+  lo-=key==='rain'?0:pad; hi+=pad;
+  if(key==='rh'){ lo=Math.max(0,lo); hi=Math.min(100,hi); }
+  const W=240,H=74,L=24,R=8,T=8,B=17,plotW=W-L-R,plotH=H-T-B;
+  const xMax=Math.max(60,pts[pts.length-1].x);
+  const xFor=x=>L+(Math.max(0,Math.min(xMax,x))/xMax)*plotW;
+  const yFor=v=>T+(hi-v)/(hi-lo)*plotH;
+  const d=pts.map((p,i)=>`${i?'L':'M'}${xFor(p.x).toFixed(1)} ${yFor(p.v).toFixed(1)}`).join(' ');
+  const latest=pts[pts.length-1];
+  return `<div class="trace-panel ${cls}">
+    <div class="trace-title"><span>${label}</span><b>${traceFormat(key, latest.raw)}</b></div>
+    <svg class="trace-spark" viewBox="0 0 ${W} ${H}" aria-label="${label} trace since 00 UTC">
+      <line class="gridline" x1="${L}" y1="${T}" x2="${W-R}" y2="${T}"/>
+      <line class="gridline" x1="${L}" y1="${T+plotH}" x2="${W-R}" y2="${T+plotH}"/>
+      <path class="series-line" d="${d}"/>
+      <circle class="latest-dot" cx="${xFor(latest.x).toFixed(1)}" cy="${yFor(latest.v).toFixed(1)}" r="3"/>
+      <text class="axis-label" x="${L-4}" y="${T+3}" text-anchor="end">${traceAxisValue(key,hi)}</text>
+      <text class="axis-label" x="${L-4}" y="${T+plotH+3}" text-anchor="end">${traceAxisValue(key,lo)}</text>
+      <text class="axis-label" x="${L}" y="${H-3}">0000</text>
+      <text class="axis-label" x="${W-R}" y="${H-3}" text-anchor="end">${hhmm(latest.time)}</text>
+    </svg>
+  </div>`;
+}
+function renderTraceDrawer(s){
+  const rows=(Array.isArray(s.dayTraces)?s.dayTraces:[]).filter(p=>isNum(p?.x)).sort((a,b)=>a.x-b.x);
+  if(rows.length<2) return `<div class="trace-empty">Daily traces unavailable.</div>`;
+  const latest=rows[rows.length-1];
+  const panels=[
+    tracePanel(rows,'temp','Air temperature','trace-temp'),
+    tracePanel(rows,'rh','Relative humidity','trace-rh'),
+    tracePanel(rows,'pressure','Pressure','trace-pressure'),
+    tracePanel(rows,'rain','Rain since 0000','trace-rain'),
+    tracePanel(rows,'wind','Mean wind','trace-wind'),
+    tracePanel(rows,'solar','Solar radiation','trace-solar')
+  ].join('');
+  return `<details class="trace-drawer">
+    <summary><span>Today since 00 UTC</span><span>${hhmm(latest.time)} UTC</span></summary>
+    <div class="trace-grid">${panels}</div>
+  </details>`;
+}
 function climPct(v, lo, hi){
   if(!isNum(v) || !isNum(lo) || !isNum(hi) || hi===lo) return 0;
   return Math.max(0,Math.min(100,((v-lo)/(hi-lo))*100));
@@ -3102,6 +5469,56 @@ function climateRecordBadges(s){
   addLow(ext.mn, vars.tmin, 'daily min');
   addHigh(ext.mn, vars.tmin, 'warm-night');
   return out.slice(0,2);
+}
+function ageLabel(minutes){
+  if(!isNum(minutes)) return 'n/a';
+  if(minutes>=1440) return `${(minutes/1440).toFixed(1)} d`;
+  if(minutes>=90) return `${(minutes/60).toFixed(1)} h`;
+  return `${Math.round(minutes)} min`;
+}
+function thresholdBadges(s, cond, sun){
+  const badges=[];
+  const add=(text,tone='warn')=>badges.push({t:text,w:tone==='warn',c:tone==='cool'});
+  const age=(Date.now()-obsDate(s).valueOf())/60000;
+  if(isNum(age) && age>60) add(`Data lag ${ageLabel(age)}`);
+  else if(isNum(age) && age>30) add(`Data lag ${ageLabel(age)}`,'cool');
+
+  if(isNum(s.Td) && s.Td>=32) add('Very hot');
+  else if(isNum(s.Td) && s.Td>=28) add('Hot');
+  if(isNum(s.Td) && s.Td<0) add('Air frost');
+  if(isNum(s.Tgrass) && s.Tgrass<0) add('Grass frost');
+
+  if(isNum(s.Tdew) && s.Tdew>=20) add('Very humid','cool');
+  else if(isNum(s.Tdew) && s.Tdew>=18) add('Humid','cool');
+  if(isNum(s.RH) && s.RH>=95) add('Air saturated','cool');
+  else if(isNum(s.RH) && s.RH<=35) add('Dry air','cool');
+
+  if(isNum(s.rain1h) && s.rain1h>=10) add(`${s.rain1h.toFixed(1)} mm last hour`);
+  else if(isNum(s.rain1h) && s.rain1h>=4) add(`${s.rain1h.toFixed(1)} mm last hour`,'cool');
+  else if(isNum(s.rain1h) && s.rain1h>0) add(`${s.rain1h.toFixed(1)} mm last hour`,'cool');
+  if(isNum(s.rain5) && s.rain5>=1) add('Tipping bucket active','cool');
+
+  if(isNum(s.U10max) && s.U10max>=17.2) add('Strong gusts');
+  else if(isNum(s.U10max) && s.U10max>=13.9) add('Gusty');
+
+  if(isNum(s.vis) && s.vis<200) add('Dense fog');
+  else if(isNum(s.vis) && s.vis<1000) add('Fog');
+  if(isNum(s.cloudBase) && s.cloudBase>0 && s.cloudBase<200) add('Low cloud','cool');
+
+  if(cond?.key==='sunny' && isNum(s.Sg) && s.Sg>700) add('Strong sun','cool');
+  if(isNum(s.delP3) && s.delP3<=-3) add('Falling barometer');
+  else if(isNum(s.delP3) && s.delP3>=3) add('Rising barometer','cool');
+
+  climateRecordBadges(s).forEach(t=>add(t));
+  const seen=new Set(), out=[];
+  for(const badge of badges){
+    const key=badge.t.toLowerCase();
+    if(seen.has(key)) continue;
+    seen.add(key); out.push(badge);
+    if(out.length>=8) break;
+  }
+  if(out.length===0) out.push({t:'Quiet conditions',w:false,c:false});
+  return out;
 }
 function svgSunPath(times, s, sun){
   const W=240,H=80, pad=18;
@@ -3322,6 +5739,7 @@ function renderGrid(s, sun, times){
         <span style="font-family:var(--serif);font-size:22px;color:var(--ink)"> ${fmtDistance(s.vis)}</span><br>
         ${visWord(s.vis)} &middot; <span class="k">present wx</span> <b>${WW[s.ww]||'—'}</b>
       </div>`},
+    {h:['Daily traces','00 UTC to now'], cls:'trace-wide', body:renderTraceDrawer(s)},
     {h:['Forecast','Met Office / IFS'], cls:'forecast-wide', body:renderForecastCard(s.forecast)}
   ];
 
@@ -3428,17 +5846,7 @@ function render(){
   document.getElementById('heroFeels').innerHTML=feels.join(' &nbsp;&middot;&nbsp; ') || 'Latest derived fields are partially unavailable.';
 
   // badges
-  const badges=[];
-  if(isNum(s.Tgrass) && s.Tgrass<0) badges.push({t:'Grass frost',w:true});
-  if(isNum(s.Td) && s.Td<0) badges.push({t:'Air frost',w:true});
-  if(isNum(s.U10max) && s.U10max>=13.9) badges.push({t:'Gusty',w:true});
-  if(isNum(s.vis) && s.vis<1000) badges.push({t:'Fog — low visibility',w:true});
-  if(isNum(s.RH) && s.RH>=95) badges.push({t:'Air saturated',w:false,c:true});
-  if(isNum(s.rain1h) && s.rain1h>0) badges.push({t:`${s.rain1h.toFixed(1)} mm last hour`,w:false,c:true});
-  if(cond.key==='sunny' && isNum(s.Sg) && s.Sg>700) badges.push({t:'Strong sun',w:false});
-  if(isNum(s.delP3) && s.delP3<=-3) badges.push({t:'Falling barometer',w:true});
-  climateRecordBadges(s).forEach(t=>badges.push({t,w:true}));
-  if(badges.length===0) badges.push({t:'Quiet conditions',w:false});
+  const badges=thresholdBadges(s, cond, sun);
   document.getElementById('heroBadges').innerHTML=badges.map(b=>
     `<span class="badge ${b.w?'warn':''} ${b.c?'cool':''}"><span class="dot"></span>${b.t}</span>`).join('');
 
@@ -3503,6 +5911,8 @@ function selfTest(){
   assert(tempWord(-10)==='Bitterly cold','tempWord cold');
   assert(fmtDeltaT(1).startsWith('+'),'delta temperature sign');
   { const chart=tempHistoryChart([{x:0,time:'0000',today:10,yesterday:8},{x:720,time:'1200',today:12,yesterday:11},{x:1440,time:'2400',yesterday:9}],1); assert(chart.includes('temp-chart') && chart.includes('Today / yesterday') && chart.includes('2400'), 'temperature history chart'); }
+  { const drawer=renderTraceDrawer({dayTraces:[{x:0,time:'0000',temp:10,rh:80,pressure:1010,rain:0,wind:1,solar:0},{x:60,time:'0100',temp:11,rh:82,pressure:1011,rain:.2,wind:2,solar:5}]}); assert(drawer.includes('trace-grid') && drawer.includes('Air temperature') && drawer.includes('Rain since 0000'), 'daily trace drawer'); }
+  { const now=new Date(), p=n=>String(n).padStart(2,'0'); const sample={y:now.getUTCFullYear(),mo:now.getUTCMonth()+1,d:now.getUTCDate(),time:`${p(now.getUTCHours())}${p(now.getUTCMinutes())}`,Td:29,Tdew:19,RH:91,rain1h:5,U10max:14,Sg:800}; const b=thresholdBadges(sample,{key:'sunny'},{}); assert(b.some(x=>x.t==='Hot') && b.some(x=>x.t==='5.0 mm last hour') && b.length<=8, 'threshold badges'); }
   { const fc=renderForecastCard({days:[{date:'2026-06-23',tmax:23,tmin:12,rain:1.2,pop:45}],source:'UKMO seamless + ECMWF IFS ensemble',fetchedAt:'2026-06-23T12:00:00Z'}); const oldModelTag=['<span class="forecast-label">','UKV','</span>'].join(''); assert(fc.includes('forecast-grid') && fc.includes('UKV days 1-2') && fc.includes('UKMO days 3-4') && fc.includes('precip: IFS ens') && !fc.includes(oldModelTag), 'forecast card'); }
   // pressure tendency signs
   assert(pressureTendency(4).dir==='up' && pressureTendency(-4).dir==='down','tendency sign');
