@@ -4,6 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Reading Atmospheric Observatory — Live Conditions</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:wght@300;400;500;600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   /* ============================================================
      Reading Atmospheric Observatory — live conditions dashboard
@@ -25,11 +28,9 @@
     --accent:#e6b34a;          /* overwritten per-condition by JS */
     --accent-soft:rgba(230,179,74,.16);
     --warm:#e8754a; --cool:#5b9bd5; --good:#7fcf9a; --bad:#e0607a;
-    --uor-font:'Effra','Effra Std','Effra W01','Effra-Regular','Aptos','Segoe UI',Arial,Helvetica,sans-serif;
-    --uor-display:'Effra','Effra Std','Effra W01','Effra Display','Aptos Display','Segoe UI',Arial,Helvetica,sans-serif;
-    --mono:var(--uor-font);
-    --serif:var(--uor-display);
-    --body:var(--uor-font);
+    --mono:'IBM Plex Mono',ui-monospace,Menlo,Consolas,monospace;
+    --serif:'IBM Plex Serif',Georgia,serif;
+    --body:'IBM Plex Sans',Arial,Helvetica,sans-serif;
     --r:16px;
     --shadow:0 18px 50px -28px rgba(0,0,0,.85);
   }
@@ -67,7 +68,7 @@
   }
   .brand h1{
     font-family:var(--serif);font-weight:400;font-size:clamp(22px,3.6vw,30px);
-    line-height:1.05;margin:3px 0 0;letter-spacing:0;
+    line-height:1.05;margin:3px 0 0;letter-spacing:-.01em;
   }
   .brand h1 em{font-style:normal;color:var(--accent);transition:color .6s}
   .coords{font-family:var(--mono);font-size:11.5px;color:var(--ink-dim);margin-top:5px;letter-spacing:.04em}
@@ -101,7 +102,7 @@
   .now-row{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
   .bigtemp{
     font-family:var(--serif);font-weight:300;font-size:clamp(64px,13vw,118px);
-    line-height:.86;letter-spacing:0;font-variant-numeric:tabular-nums;
+    line-height:.86;letter-spacing:-.03em;font-variant-numeric:tabular-nums;
   }
   .bigtemp .deg{font-size:.42em;color:var(--ink-dim);vertical-align:top;margin-left:2px}
   .cond-word{
@@ -169,7 +170,7 @@
   }
   .card h2 .var{color:var(--accent);transition:color .6s}
   .card h2 .instr{color:var(--ink-faint);font-weight:500;letter-spacing:.11em;text-transform:uppercase}
-  .readout{font-family:var(--serif);font-weight:400;font-size:42px;line-height:1;letter-spacing:0;font-variant-numeric:tabular-nums}
+  .readout{font-family:var(--serif);font-weight:400;font-size:42px;line-height:1;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
   .readout .u{font-family:var(--mono);font-size:14px;color:var(--ink-dim);margin-left:6px;letter-spacing:0}
   .sub{font-family:var(--mono);font-size:11.5px;color:var(--ink-dim);margin-top:6px;letter-spacing:.02em;line-height:1.55}
   .sub .k{color:var(--ink-faint)}
@@ -531,18 +532,18 @@ const LAT = 51.4414, LON = -0.9418;
 
 const DATA = {
   "live": {
-    "label": "Live now · 27 Jun 2026 2030 UTC",
+    "label": "Live now · 27 Jun 2026 2040 UTC",
     "y": 2026,
     "mo": 6,
     "d": 27,
-    "time": "2030",
+    "time": "2040",
     "ww": 0,
-    "Td": 22.4,
-    "Tw": 17.2,
+    "Td": 22.3,
+    "Tw": 17.1,
     "Tdew": 12.3,
     "VP": 14.3,
     "RH": 53,
-    "delT": -1.5,
+    "delT": -1.3,
     "tempHistory": [
       {
         "time": "0005",
@@ -2023,12 +2024,14 @@ const DATA = {
       {
         "time": "2035",
         "x": 1235,
-        "yesterday": 25.4
+        "yesterday": 25.4,
+        "today": 22.5
       },
       {
         "time": "2040",
         "x": 1240,
-        "yesterday": 25.3
+        "yesterday": 25.3,
+        "today": 22.3
       },
       {
         "time": "2045",
@@ -4691,11 +4694,31 @@ const DATA = {
         "rain": 0.0,
         "wind": 1.7,
         "solar": -1
+      },
+      {
+        "time": "2035",
+        "x": 1235,
+        "temp": 22.5,
+        "rh": 53,
+        "pressure": 1014.8,
+        "rain": 0.0,
+        "wind": 2.1,
+        "solar": -2
+      },
+      {
+        "time": "2040",
+        "x": 1240,
+        "temp": 22.3,
+        "rh": 53,
+        "pressure": 1014.7,
+        "rain": 0.0,
+        "wind": 2.1,
+        "solar": -3
       }
     ],
     "Tgrass": 21.4,
-    "Tconc": 27.1,
-    "Tsoil": 22.7,
+    "Tconc": 26.7,
+    "Tsoil": 22.4,
     "soil": {
       "c5": 25.9,
       "c10": 24.8,
@@ -4709,22 +4732,22 @@ const DATA = {
     "rain3h": 0.0,
     "rain6h": 0.0,
     "rainAccum": 0.0,
-    "cloudBase": null,
+    "cloudBase": 4974,
     "vis": 75000,
     "Sdur5": 0.0,
     "SdurAccum": 10.7,
-    "Sg": -1,
+    "Sg": -3,
     "SgAccum": 24.34,
     "Sb": 0,
-    "Sd": -1,
-    "Rn": -40,
-    "G": 0,
-    "Pmsl": 1014.8,
+    "Sd": -2,
+    "Rn": -38,
+    "G": -1,
+    "Pmsl": 1014.7,
     "delP1": -0.3,
-    "delP3": 0.7,
-    "dir": 211,
-    "U10": 1.7,
-    "U10max": 4.2,
+    "delP3": 0.5,
+    "dir": 203,
+    "U10": 2.1,
+    "U10max": 2.9,
     "U10maxAcc": 8.2,
     "U2run": 1.6,
     "U10run": 2.1,
@@ -4738,21 +4761,38 @@ const DATA = {
         "name": "June",
         "source": "/storage/silver/metweb/new-web/VirtualSites/met-secure/Data/climat/monthly_datafiles",
         "variables": {
-          "sunshine": {
-            "label": "Daily sunshine",
-            "unit": "h",
+          "tmin": {
+            "label": "Daily minimum temperature",
+            "unit": "°C",
             "recordLow": {
-              "value": 0.0,
-              "date": "1958-06-17"
+              "value": 0.6,
+              "date": "1923-06-03"
             },
-            "p05": 0.0,
-            "mean": 195.4,
-            "p95": 14.0,
+            "p05": 6.2,
+            "mean": 10.8,
+            "p95": 14.9,
             "recordHigh": {
-              "value": 16.0,
-              "date": "1976-06-30"
+              "value": 18.9,
+              "date": "1949-06-29"
             },
-            "meanKind": "monthTotal",
+            "meanKind": "dailyMean",
+            "baselineCount": 900
+          },
+          "tmax": {
+            "label": "Daily maximum temperature",
+            "unit": "°C",
+            "recordLow": {
+              "value": 10.6,
+              "date": "1953-06-03"
+            },
+            "p05": 15.2,
+            "mean": 20.4,
+            "p95": 27.0,
+            "recordHigh": {
+              "value": 34.0,
+              "date": "1976-06-26"
+            },
+            "meanKind": "dailyMean",
             "baselineCount": 900
           },
           "pressure": {
@@ -4806,38 +4846,21 @@ const DATA = {
             "meanKind": "monthTotal",
             "baselineCount": 900
           },
-          "tmax": {
-            "label": "Daily maximum temperature",
-            "unit": "°C",
+          "sunshine": {
+            "label": "Daily sunshine",
+            "unit": "h",
             "recordLow": {
-              "value": 10.6,
-              "date": "1953-06-03"
+              "value": 0.0,
+              "date": "1958-06-17"
             },
-            "p05": 15.2,
-            "mean": 20.4,
-            "p95": 27.0,
+            "p05": 0.0,
+            "mean": 195.4,
+            "p95": 14.0,
             "recordHigh": {
-              "value": 34.0,
-              "date": "1976-06-26"
+              "value": 16.0,
+              "date": "1976-06-30"
             },
-            "meanKind": "dailyMean",
-            "baselineCount": 900
-          },
-          "tmin": {
-            "label": "Daily minimum temperature",
-            "unit": "°C",
-            "recordLow": {
-              "value": 0.6,
-              "date": "1923-06-03"
-            },
-            "p05": 6.2,
-            "mean": 10.8,
-            "p95": 14.9,
-            "recordHigh": {
-              "value": 18.9,
-              "date": "1949-06-29"
-            },
-            "meanKind": "dailyMean",
+            "meanKind": "monthTotal",
             "baselineCount": 900
           }
         }
