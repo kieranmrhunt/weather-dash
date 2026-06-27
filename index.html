@@ -532,18 +532,18 @@ const LAT = 51.4414, LON = -0.9418;
 
 const DATA = {
   "live": {
-    "label": "Live now · 27 Jun 2026 1210 UTC",
+    "label": "Live now · 27 Jun 2026 1220 UTC",
     "y": 2026,
     "mo": 6,
     "d": 27,
-    "time": "1210",
+    "time": "1220",
     "ww": 23,
-    "Td": 29.6,
-    "Tw": 20.4,
-    "Tdew": 13.6,
-    "VP": 15.6,
-    "RH": 38,
-    "delT": 1.0,
+    "Td": 29.4,
+    "Tw": 20.2,
+    "Tdew": 13.2,
+    "VP": 15.2,
+    "RH": 37,
+    "delT": 0.7,
     "tempHistory": [
       {
         "time": "0005",
@@ -1424,12 +1424,14 @@ const DATA = {
       {
         "time": "1215",
         "x": 735,
-        "yesterday": 33.0
+        "yesterday": 33.0,
+        "today": 29.2
       },
       {
         "time": "1220",
         "x": 740,
-        "yesterday": 32.7
+        "yesterday": 32.7,
+        "today": 29.4
       },
       {
         "time": "1225",
@@ -3592,16 +3594,36 @@ const DATA = {
         "rain": 0.0,
         "wind": 2.9,
         "solar": 560
+      },
+      {
+        "time": "1215",
+        "x": 735,
+        "temp": 29.2,
+        "rh": 38,
+        "pressure": 1015.7,
+        "rain": 0.0,
+        "wind": 2.9,
+        "solar": 611
+      },
+      {
+        "time": "1220",
+        "x": 740,
+        "temp": 29.4,
+        "rh": 37,
+        "pressure": 1015.7,
+        "rain": 0.0,
+        "wind": 2.8,
+        "solar": 1022
       }
     ],
-    "Tgrass": 46.7,
-    "Tconc": 44.1,
-    "Tsoil": 46.9,
+    "Tgrass": 50.1,
+    "Tconc": 47.3,
+    "Tsoil": 49.0,
     "soil": {
-      "c5": 25.9,
-      "c10": 23.6,
+      "c5": 26.0,
+      "c10": 23.7,
       "c20": null,
-      "c30": 21.6,
+      "c30": 21.7,
       "c50": null,
       "c100": 17.2
     },
@@ -3611,26 +3633,26 @@ const DATA = {
     "rain6h": 0.0,
     "rainAccum": 0.0,
     "cloudBase": null,
-    "vis": 75000,
+    "vis": 55929,
     "Sdur5": 5.0,
-    "SdurAccum": 6.7,
-    "Sg": 560,
-    "SgAccum": 13.43,
-    "Sb": 90,
-    "Sd": 439,
-    "Rn": 354,
-    "G": 43,
+    "SdurAccum": 6.8,
+    "Sg": 1022,
+    "SgAccum": 13.86,
+    "Sb": 308,
+    "Sd": 508,
+    "Rn": 718,
+    "G": 44,
     "Pmsl": 1015.7,
-    "delP1": -0.5,
-    "delP3": -2.1,
-    "dir": 214,
-    "U10": 2.9,
-    "U10max": 5.7,
+    "delP1": -0.4,
+    "delP3": -2.0,
+    "dir": 219,
+    "U10": 2.8,
+    "U10max": 5.6,
     "U10maxAcc": 8.2,
     "U2run": 1.1,
-    "U10run": 1.4,
+    "U10run": 1.5,
     "ae": {
-      "pg": 41.0,
+      "pg": 38.0,
       "unit": "V/m"
     },
     "clim": {
@@ -3639,19 +3661,19 @@ const DATA = {
         "name": "June",
         "source": "/storage/silver/metweb/new-web/VirtualSites/met-secure/Data/climat/monthly_datafiles",
         "variables": {
-          "tmin": {
-            "label": "Daily minimum temperature",
-            "unit": "°C",
+          "pressure": {
+            "label": "MSL pressure",
+            "unit": "hPa",
             "recordLow": {
-              "value": 0.6,
-              "date": "1923-06-03"
+              "value": 989.9,
+              "date": "2004-06-23"
             },
-            "p05": 6.2,
-            "mean": 10.8,
-            "p95": 14.9,
+            "p05": 1003.1,
+            "mean": 1016.8,
+            "p95": 1028.1,
             "recordHigh": {
-              "value": 18.9,
-              "date": "1949-06-29"
+              "value": 1037.5,
+              "date": "1962-06-07"
             },
             "meanKind": "dailyMean",
             "baselineCount": 900
@@ -3673,36 +3695,19 @@ const DATA = {
             "meanKind": "monthTotal",
             "baselineCount": 900
           },
-          "tmax": {
-            "label": "Daily maximum temperature",
+          "tmin": {
+            "label": "Daily minimum temperature",
             "unit": "°C",
             "recordLow": {
-              "value": 10.6,
-              "date": "1953-06-03"
+              "value": 0.6,
+              "date": "1923-06-03"
             },
-            "p05": 15.2,
-            "mean": 20.4,
-            "p95": 27.0,
+            "p05": 6.2,
+            "mean": 10.8,
+            "p95": 14.9,
             "recordHigh": {
-              "value": 34.0,
-              "date": "1976-06-26"
-            },
-            "meanKind": "dailyMean",
-            "baselineCount": 900
-          },
-          "pressure": {
-            "label": "MSL pressure",
-            "unit": "hPa",
-            "recordLow": {
-              "value": 989.9,
-              "date": "2004-06-23"
-            },
-            "p05": 1003.1,
-            "mean": 1016.8,
-            "p95": 1028.1,
-            "recordHigh": {
-              "value": 1037.5,
-              "date": "1962-06-07"
+              "value": 18.9,
+              "date": "1949-06-29"
             },
             "meanKind": "dailyMean",
             "baselineCount": 900
@@ -3722,6 +3727,23 @@ const DATA = {
               "date": "1970-06-11"
             },
             "meanKind": "monthTotal",
+            "baselineCount": 900
+          },
+          "tmax": {
+            "label": "Daily maximum temperature",
+            "unit": "°C",
+            "recordLow": {
+              "value": 10.6,
+              "date": "1953-06-03"
+            },
+            "p05": 15.2,
+            "mean": 20.4,
+            "p95": 27.0,
+            "recordHigh": {
+              "value": 34.0,
+              "date": "1976-06-26"
+            },
+            "meanKind": "dailyMean",
             "baselineCount": 900
           },
           "tmean": {
@@ -3747,23 +3769,6 @@ const DATA = {
         "name": "Summer",
         "source": "/storage/silver/metweb/new-web/VirtualSites/met-secure/Data/climat/monthly_datafiles",
         "variables": {
-          "tmin": {
-            "label": "Daily minimum temperature",
-            "unit": "°C",
-            "recordLow": {
-              "value": 0.6,
-              "date": "1923-06-03"
-            },
-            "p05": 7.5,
-            "mean": 12.1,
-            "p95": 16.5,
-            "recordHigh": {
-              "value": 20.8,
-              "date": "1995-08-02"
-            },
-            "meanKind": "dailyMean",
-            "baselineCount": 2760
-          },
           "tmax": {
             "label": "Daily maximum temperature",
             "unit": "°C",
@@ -3777,6 +3782,23 @@ const DATA = {
             "recordHigh": {
               "value": 37.6,
               "date": "2022-07-19"
+            },
+            "meanKind": "dailyMean",
+            "baselineCount": 2760
+          },
+          "tmin": {
+            "label": "Daily minimum temperature",
+            "unit": "°C",
+            "recordLow": {
+              "value": 0.6,
+              "date": "1923-06-03"
+            },
+            "p05": 7.5,
+            "mean": 12.1,
+            "p95": 16.5,
+            "recordHigh": {
+              "value": 20.8,
+              "date": "1995-08-02"
             },
             "meanKind": "dailyMean",
             "baselineCount": 2760
@@ -3840,7 +3862,7 @@ const DATA = {
         "mx": 1018.3,
         "mxt": "0751",
         "mn": 1015.7,
-        "mnt": "1210"
+        "mnt": "1220"
       },
       "Tgrass": {
         "mn": 15.2,
@@ -4759,7 +4781,19 @@ function forecastUpdatedLabel(value){
   return `updated ${String(d.getUTCHours()).padStart(2,'0')}:${String(d.getUTCMinutes()).padStart(2,'0')} UTC`;
 }
 function forecastSourceLabel(f){
-  return 'temps: UKV days 1-2, UKMO days 3-4 · precip: IFS ens';
+  return 'temps: UKV days 1-2, UKMO days 3-4 · rain: UKMO total, IFS chance';
+}
+function forecastRainIsTrace(d){
+  const rain=d?.rain, pop=d?.pop;
+  return (isNum(rain) && rain>0 && rain<0.1) || (rain===0 && isNum(pop) && pop>=30);
+}
+function forecastRainLabel(d){
+  if(forecastRainIsTrace(d)) return '&lt;0.1';
+  return fmtRain(d?.rain);
+}
+function forecastRainAria(d){
+  if(forecastRainIsTrace(d)) return 'less than 0.1 mm forecast rain';
+  return `${fmtRain(d?.rain)} mm forecast rain`;
 }
 function renderForecastCard(forecast){
   const days=(forecast?.days||[]).filter(d=>d && typeof d.date==='string').slice(0,4);
@@ -4768,11 +4802,12 @@ function renderForecastCard(forecast){
   const body=days.map((d,i)=>{
     const rain=valOr(d.rain,0), h=Math.max(2,(rain/maxRain)*34);
     const pop=isNum(d.pop)?`${Math.round(d.pop)}%`:'n/a';
+    const rainLabel=forecastRainLabel(d);
     return `<div class="forecast-day">
       <span class="forecast-label">${forecastDayLabel(d.date,i)}</span>
       <div class="forecast-temp"><span class="hi">${fmtT(d.tmax,0)}&deg;</span><span class="lo">${fmtT(d.tmin,0)}&deg;</span></div>
-      <div class="forecast-rain" aria-label="${fmtRain(d.rain)} mm forecast rain"><span style="height:${h}px"></span></div>
-      <div class="forecast-pop"><b>${pop}</b> &middot; ${fmtRain(d.rain)} mm</div>
+      <div class="forecast-rain" aria-label="${forecastRainAria(d)}"><span style="height:${h}px"></span></div>
+      <div class="forecast-pop"><b>${pop}</b> &middot; ${rainLabel}${rainLabel==='n/a'?'':' mm'}</div>
     </div>`;
   }).join('');
   return `<div class="forecast-card">
@@ -5033,7 +5068,8 @@ function selfTest(){
   { const chart=tempHistoryChart([{x:0,time:'0000',today:10,yesterday:8},{x:720,time:'1200',today:12,yesterday:11},{x:1440,time:'2400',yesterday:9}],1); assert(chart.includes('temp-chart') && chart.includes('Today / yesterday') && chart.includes('2400'), 'temperature history chart'); }
   { const drawer=renderTraceDrawer({dayTraces:[{x:0,time:'0000',temp:10,rh:80,pressure:1010,rain:0,wind:1,solar:0},{x:60,time:'0100',temp:11,rh:82,pressure:1011,rain:.2,wind:2,solar:5}]}); assert(drawer.includes('trace-grid') && drawer.includes('Air temperature') && drawer.includes('Rain since 0000'), 'daily trace drawer'); }
   { const now=new Date(), p=n=>String(n).padStart(2,'0'); const sample={y:now.getUTCFullYear(),mo:now.getUTCMonth()+1,d:now.getUTCDate(),time:`${p(now.getUTCHours())}${p(now.getUTCMinutes())}`,Td:29,Tdew:19,RH:91,rain1h:5,U10max:14,Sg:800}; const b=thresholdBadges(sample,{key:'sunny'},{}); assert(b.some(x=>x.t==='Hot') && b.some(x=>x.t==='5.0 mm last hour') && b.length<=8, 'threshold badges'); }
-  { const fc=renderForecastCard({days:[{date:'2026-06-23',tmax:23,tmin:12,rain:1.2,pop:45}],source:'UKMO seamless + ECMWF IFS ensemble',fetchedAt:'2026-06-23T12:00:00Z'}); const oldModelTag=['<span class="forecast-label">','UKV','</span>'].join(''); assert(fc.includes('forecast-grid') && fc.includes('UKV days 1-2') && fc.includes('UKMO days 3-4') && fc.includes('precip: IFS ens') && !fc.includes(oldModelTag), 'forecast card'); }
+  { const fc=renderForecastCard({days:[{date:'2026-06-23',tmax:23,tmin:12,rain:1.2,pop:45}],source:'UKMO seamless + ECMWF IFS ensemble',fetchedAt:'2026-06-23T12:00:00Z'}); const oldModelTag=['<span class="forecast-label">','UKV','</span>'].join(''); assert(fc.includes('forecast-grid') && fc.includes('UKV days 1-2') && fc.includes('UKMO days 3-4') && fc.includes('rain: UKMO total, IFS chance') && !fc.includes(oldModelTag), 'forecast card'); }
+  { const fc=renderForecastCard({days:[{date:'2026-06-23',tmax:23,tmin:12,rain:0,pop:70}],source:'UKMO seamless + ECMWF IFS ensemble',fetchedAt:'2026-06-23T12:00:00Z'}); assert(fc.includes('&lt;0.1 mm') && fc.includes('less than 0.1 mm forecast rain'), 'forecast trace rain'); }
   // pressure tendency signs
   assert(pressureTendency(4).dir==='up' && pressureTendency(-4).dir==='down','tendency sign');
   assert(pressureTendency(0.1).dir==='flat','tendency flat');
