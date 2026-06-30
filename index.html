@@ -532,18 +532,18 @@ const LAT = 51.4414, LON = -0.9418;
 
 const DATA = {
   "live": {
-    "label": "Live now · 30 Jun 2026 0310 UTC",
+    "label": "Live now · 30 Jun 2026 0320 UTC",
     "y": 2026,
     "mo": 6,
     "d": 30,
-    "time": "0310",
+    "time": "0320",
     "ww": null,
     "Td": 14.9,
-    "Tw": 14.0,
-    "Tdew": 13.7,
+    "Tw": 14.1,
+    "Tdew": 13.8,
     "VP": 15.7,
     "RH": 93,
-    "delT": -0.3,
+    "delT": -0.1,
     "tempHistory": [
       {
         "time": "0005",
@@ -776,12 +776,14 @@ const DATA = {
       {
         "time": "0315",
         "x": 195,
-        "yesterday": 10.3
+        "yesterday": 10.3,
+        "today": 15.0
       },
       {
         "time": "0320",
         "x": 200,
-        "yesterday": 10.2
+        "yesterday": 10.2,
+        "today": 14.9
       },
       {
         "time": "0325",
@@ -2404,13 +2406,33 @@ const DATA = {
         "rain": 0.0,
         "wind": 1.1,
         "solar": -2
+      },
+      {
+        "time": "0315",
+        "x": 195,
+        "temp": 15.0,
+        "rh": 93,
+        "pressure": 1024.3,
+        "rain": 0.0,
+        "wind": 0.9,
+        "solar": -2
+      },
+      {
+        "time": "0320",
+        "x": 200,
+        "temp": 14.9,
+        "rh": 93,
+        "pressure": 1024.3,
+        "rain": 0.0,
+        "wind": 0.9,
+        "solar": -2
       }
     ],
-    "Tgrass": 14.3,
-    "Tconc": 18.0,
-    "Tsoil": 15.6,
+    "Tgrass": 13.9,
+    "Tconc": 17.9,
+    "Tsoil": 15.5,
     "soil": {
-      "c5": 20.9,
+      "c5": 20.8,
       "c10": 20.8,
       "c20": null,
       "c30": 20.3,
@@ -2422,21 +2444,21 @@ const DATA = {
     "rain3h": 0.0,
     "rain6h": 0.0,
     "rainAccum": 0.0,
-    "cloudBase": 3109,
+    "cloudBase": 3447,
     "vis": null,
     "Sdur5": 0.0,
     "SdurAccum": 0.0,
     "Sg": -2,
     "SgAccum": 0.0,
-    "Sb": -2,
+    "Sb": -1,
     "Sd": -2,
-    "Rn": -18,
+    "Rn": -25,
     "G": -8,
-    "Pmsl": 1024.4,
-    "delP1": -0.3,
+    "Pmsl": 1024.3,
+    "delP1": -0.0,
     "delP3": -1.2,
-    "dir": 232,
-    "U10": 1.1,
+    "dir": 233,
+    "U10": 0.9,
     "U10max": 1.8,
     "U10maxAcc": 2.5,
     "U2run": 0.4,
@@ -2451,53 +2473,19 @@ const DATA = {
         "name": "June",
         "source": "/storage/silver/metweb/new-web/VirtualSites/met-secure/Data/climat/monthly_datafiles",
         "variables": {
-          "rain": {
-            "label": "Daily rainfall",
-            "unit": "mm",
-            "recordLow": {
-              "value": 0.0,
-              "date": "1908-06-02"
-            },
-            "p05": 0.0,
-            "mean": 46.9,
-            "p95": 9.6,
-            "recordHigh": {
-              "value": 60.5,
-              "date": "1970-06-11"
-            },
-            "meanKind": "monthTotal",
-            "baselineCount": 900
-          },
-          "tmean": {
-            "label": "Daily mean temperature",
+          "tmax": {
+            "label": "Daily maximum temperature",
             "unit": "°C",
             "recordLow": {
-              "value": 8.0,
-              "date": "1991-06-02"
+              "value": 10.6,
+              "date": "1953-06-03"
             },
-            "p05": 11.6,
-            "mean": 15.6,
-            "p95": 20.1,
+            "p05": 15.2,
+            "mean": 20.4,
+            "p95": 27.0,
             "recordHigh": {
-              "value": 26.2,
-              "date": "1976-06-27"
-            },
-            "meanKind": "dailyMean",
-            "baselineCount": 900
-          },
-          "pressure": {
-            "label": "MSL pressure",
-            "unit": "hPa",
-            "recordLow": {
-              "value": 989.9,
-              "date": "2004-06-23"
-            },
-            "p05": 1003.1,
-            "mean": 1016.8,
-            "p95": 1028.1,
-            "recordHigh": {
-              "value": 1037.5,
-              "date": "1962-06-07"
+              "value": 34.0,
+              "date": "1976-06-26"
             },
             "meanKind": "dailyMean",
             "baselineCount": 900
@@ -2519,19 +2507,53 @@ const DATA = {
             "meanKind": "monthTotal",
             "baselineCount": 900
           },
-          "tmax": {
-            "label": "Daily maximum temperature",
+          "tmean": {
+            "label": "Daily mean temperature",
             "unit": "°C",
             "recordLow": {
-              "value": 10.6,
-              "date": "1953-06-03"
+              "value": 8.0,
+              "date": "1991-06-02"
             },
-            "p05": 15.2,
-            "mean": 20.4,
-            "p95": 27.0,
+            "p05": 11.6,
+            "mean": 15.6,
+            "p95": 20.1,
             "recordHigh": {
-              "value": 34.0,
-              "date": "1976-06-26"
+              "value": 26.2,
+              "date": "1976-06-27"
+            },
+            "meanKind": "dailyMean",
+            "baselineCount": 900
+          },
+          "rain": {
+            "label": "Daily rainfall",
+            "unit": "mm",
+            "recordLow": {
+              "value": 0.0,
+              "date": "1908-06-02"
+            },
+            "p05": 0.0,
+            "mean": 46.9,
+            "p95": 9.6,
+            "recordHigh": {
+              "value": 60.5,
+              "date": "1970-06-11"
+            },
+            "meanKind": "monthTotal",
+            "baselineCount": 900
+          },
+          "pressure": {
+            "label": "MSL pressure",
+            "unit": "hPa",
+            "recordLow": {
+              "value": 989.9,
+              "date": "2004-06-23"
+            },
+            "p05": 1003.1,
+            "mean": 1016.8,
+            "p95": 1028.1,
+            "recordHigh": {
+              "value": 1037.5,
+              "date": "1962-06-07"
             },
             "meanKind": "dailyMean",
             "baselineCount": 900
@@ -2660,7 +2682,7 @@ const DATA = {
       },
       "Sg": {
         "mx": -2,
-        "mxt": "0000"
+        "mxt": "0315"
       }
     }
   }
