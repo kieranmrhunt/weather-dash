@@ -4976,23 +4976,6 @@ const DATA = {
             "meanKind": "monthTotal",
             "baselineCount": 900
           },
-          "tmean": {
-            "label": "Daily mean temperature",
-            "unit": "°C",
-            "recordLow": {
-              "value": 8.0,
-              "date": "1991-06-02"
-            },
-            "p05": 11.6,
-            "mean": 15.6,
-            "p95": 20.1,
-            "recordHigh": {
-              "value": 26.2,
-              "date": "1976-06-27"
-            },
-            "meanKind": "dailyMean",
-            "baselineCount": 900
-          },
           "sunshine": {
             "label": "Daily sunshine",
             "unit": "h",
@@ -5008,23 +4991,6 @@ const DATA = {
               "date": "1976-06-30"
             },
             "meanKind": "monthTotal",
-            "baselineCount": 900
-          },
-          "pressure": {
-            "label": "MSL pressure",
-            "unit": "hPa",
-            "recordLow": {
-              "value": 989.9,
-              "date": "2004-06-23"
-            },
-            "p05": 1003.1,
-            "mean": 1016.8,
-            "p95": 1028.1,
-            "recordHigh": {
-              "value": 1037.5,
-              "date": "1962-06-07"
-            },
-            "meanKind": "dailyMean",
             "baselineCount": 900
           },
           "tmin": {
@@ -5044,6 +5010,23 @@ const DATA = {
             "meanKind": "dailyMean",
             "baselineCount": 900
           },
+          "pressure": {
+            "label": "MSL pressure",
+            "unit": "hPa",
+            "recordLow": {
+              "value": 989.9,
+              "date": "2004-06-23"
+            },
+            "p05": 1003.1,
+            "mean": 1016.8,
+            "p95": 1028.1,
+            "recordHigh": {
+              "value": 1037.5,
+              "date": "1962-06-07"
+            },
+            "meanKind": "dailyMean",
+            "baselineCount": 900
+          },
           "tmax": {
             "label": "Daily maximum temperature",
             "unit": "°C",
@@ -5057,6 +5040,23 @@ const DATA = {
             "recordHigh": {
               "value": 34.0,
               "date": "1976-06-26"
+            },
+            "meanKind": "dailyMean",
+            "baselineCount": 900
+          },
+          "tmean": {
+            "label": "Daily mean temperature",
+            "unit": "°C",
+            "recordLow": {
+              "value": 8.0,
+              "date": "1991-06-02"
+            },
+            "p05": 11.6,
+            "mean": 15.6,
+            "p95": 20.1,
+            "recordHigh": {
+              "value": 26.2,
+              "date": "1976-06-27"
             },
             "meanKind": "dailyMean",
             "baselineCount": 900
@@ -5107,40 +5107,40 @@ const DATA = {
     "forecast": {
       "days": [
         {
-          "date": "2026-06-30",
-          "tmax": 23.5,
-          "tmin": 15.1,
-          "rain": 0.6,
-          "pop": 100,
-          "model": "UKV"
-        },
-        {
           "date": "2026-07-01",
-          "tmax": 24.3,
-          "tmin": 15.2,
+          "tmax": 23.8,
+          "tmin": 15.6,
           "rain": 0.0,
-          "pop": 62,
+          "pop": 56,
           "model": "UKV"
         },
         {
           "date": "2026-07-02",
-          "tmax": 24.7,
-          "tmin": 15.5,
+          "tmax": 24.6,
+          "tmin": 15.8,
           "rain": 0.1,
-          "pop": 34,
-          "model": "UKMO global"
+          "pop": 30,
+          "model": "UKV"
         },
         {
           "date": "2026-07-03",
-          "tmax": 24.5,
-          "tmin": 11.7,
+          "tmax": 25.2,
+          "tmin": 10.9,
           "rain": 0.0,
           "pop": 0,
+          "model": "UKMO global"
+        },
+        {
+          "date": "2026-07-04",
+          "tmax": 24.9,
+          "tmin": 13.9,
+          "rain": 0.0,
+          "pop": 12,
           "model": "UKMO global"
         }
       ],
       "source": "UKMO seamless + ECMWF IFS ensemble",
-      "fetchedAt": "2026-06-30T21:20:02Z",
+      "fetchedAt": "2026-07-01T03:20:02Z",
       "stale": false
     },
     "ext": {
