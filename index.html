@@ -532,18 +532,18 @@ const LAT = 51.4414, LON = -0.9418;
 
 const DATA = {
   "live": {
-    "label": "Live now · 03 Jul 2026 0410 UTC",
+    "label": "Live now · 03 Jul 2026 0420 UTC",
     "y": 2026,
     "mo": 7,
     "d": 3,
-    "time": "0410",
+    "time": "0420",
     "ww": 0,
-    "Td": 9.8,
-    "Tw": 8.8,
-    "Tdew": 8.8,
-    "VP": 11.3,
-    "RH": 93,
-    "delT": 0.8,
+    "Td": 9.7,
+    "Tw": 8.7,
+    "Tdew": 8.0,
+    "VP": 10.7,
+    "RH": 89,
+    "delT": 0.4,
     "tempHistory": [
       {
         "time": "0005",
@@ -848,12 +848,14 @@ const DATA = {
       {
         "time": "0415",
         "x": 255,
-        "yesterday": 16.6
+        "yesterday": 16.6,
+        "today": 10.5
       },
       {
         "time": "0420",
         "x": 260,
-        "yesterday": 16.6
+        "yesterday": 16.6,
+        "today": 9.7
       },
       {
         "time": "0425",
@@ -2536,13 +2538,33 @@ const DATA = {
         "rain": 0.0,
         "wind": 0.7,
         "solar": 14
+      },
+      {
+        "time": "0415",
+        "x": 255,
+        "temp": 10.5,
+        "rh": 92,
+        "pressure": 1030.0,
+        "rain": 0.0,
+        "wind": 0.3,
+        "solar": 17
+      },
+      {
+        "time": "0420",
+        "x": 260,
+        "temp": 9.7,
+        "rh": 89,
+        "pressure": 1030.0,
+        "rain": 0.0,
+        "wind": 0.4,
+        "solar": 20
       }
     ],
-    "Tgrass": 4.8,
-    "Tconc": 12.4,
-    "Tsoil": 9.4,
+    "Tgrass": 5.0,
+    "Tconc": 13.0,
+    "Tsoil": 9.9,
     "soil": {
-      "c5": 19.7,
+      "c5": 19.6,
       "c10": 20.4,
       "c20": null,
       "c30": 20.2,
@@ -2555,26 +2577,26 @@ const DATA = {
     "rain6h": 0.0,
     "rainAccum": 0.0,
     "cloudBase": null,
-    "vis": 56616,
-    "Sdur5": 0.0,
-    "SdurAccum": 0.0,
-    "Sg": 14,
-    "SgAccum": 0.01,
-    "Sb": -3,
-    "Sd": 14,
-    "Rn": -30,
+    "vis": 44708,
+    "Sdur5": 4.9,
+    "SdurAccum": 0.1,
+    "Sg": 20,
+    "SgAccum": 0.02,
+    "Sb": -2,
+    "Sd": 21,
+    "Rn": -21,
     "G": -21,
     "Pmsl": 1030.0,
     "delP1": 0.4,
-    "delP3": 0.8,
-    "dir": 305,
-    "U10": 0.7,
-    "U10max": 0.9,
+    "delP3": 0.6,
+    "dir": 278,
+    "U10": 0.4,
+    "U10max": 1.1,
     "U10maxAcc": 2.1,
     "U2run": 0.2,
     "U10run": 0.4,
     "ae": {
-      "pg": 46.0,
+      "pg": 42.0,
       "unit": "V/m"
     },
     "clim": {
@@ -2595,23 +2617,6 @@ const DATA = {
             "p95": 22.3,
             "recordHigh": {
               "value": 28.9,
-              "date": "2022-07-19"
-            },
-            "meanKind": "dailyMean",
-            "baselineCount": 930
-          },
-          "tmax": {
-            "label": "Daily maximum temperature",
-            "unit": "°C",
-            "recordLow": {
-              "value": 13.3,
-              "date": "1910-07-07"
-            },
-            "p05": 17.6,
-            "mean": 22.7,
-            "p95": 29.5,
-            "recordHigh": {
-              "value": 37.6,
               "date": "2022-07-19"
             },
             "meanKind": "dailyMean",
@@ -2649,6 +2654,23 @@ const DATA = {
               "date": "1959-07-04"
             },
             "meanKind": "monthTotal",
+            "baselineCount": 930
+          },
+          "tmax": {
+            "label": "Daily maximum temperature",
+            "unit": "°C",
+            "recordLow": {
+              "value": 13.3,
+              "date": "1910-07-07"
+            },
+            "p05": 17.6,
+            "mean": 22.7,
+            "p95": 29.5,
+            "recordHigh": {
+              "value": 37.6,
+              "date": "2022-07-19"
+            },
+            "meanKind": "dailyMean",
             "baselineCount": 930
           },
           "tmin": {
@@ -2691,23 +2713,6 @@ const DATA = {
         "name": "Summer",
         "source": "/storage/silver/metweb/new-web/VirtualSites/met-secure/Data/climat/monthly_datafiles",
         "variables": {
-          "tmin": {
-            "label": "Daily minimum temperature",
-            "unit": "°C",
-            "recordLow": {
-              "value": 0.6,
-              "date": "1923-06-03"
-            },
-            "p05": 7.5,
-            "mean": 12.1,
-            "p95": 16.5,
-            "recordHigh": {
-              "value": 21.3,
-              "date": "2026-06-26"
-            },
-            "meanKind": "dailyMean",
-            "baselineCount": 2760
-          },
           "tmax": {
             "label": "Daily maximum temperature",
             "unit": "°C",
@@ -2724,6 +2729,23 @@ const DATA = {
             },
             "meanKind": "dailyMean",
             "baselineCount": 2760
+          },
+          "tmin": {
+            "label": "Daily minimum temperature",
+            "unit": "°C",
+            "recordLow": {
+              "value": 0.6,
+              "date": "1923-06-03"
+            },
+            "p05": 7.5,
+            "mean": 12.1,
+            "p95": 16.5,
+            "recordHigh": {
+              "value": 21.3,
+              "date": "2026-06-26"
+            },
+            "meanKind": "dailyMean",
+            "baselineCount": 2760
           }
         }
       }
@@ -2731,40 +2753,40 @@ const DATA = {
     "forecast": {
       "days": [
         {
-          "date": "2026-07-02",
-          "tmax": 24.9,
-          "tmin": 15.5,
-          "rain": 0.0,
-          "pop": 50,
-          "model": "UKV"
-        },
-        {
           "date": "2026-07-03",
-          "tmax": 25.2,
-          "tmin": 13.2,
+          "tmax": 25.4,
+          "tmin": 13.3,
           "rain": 0.0,
           "pop": 0,
           "model": "UKV"
         },
         {
           "date": "2026-07-04",
-          "tmax": 24.5,
-          "tmin": 14.3,
+          "tmax": 24.8,
+          "tmin": 14.1,
           "rain": 0.0,
-          "pop": 6,
-          "model": "UKMO global"
+          "pop": 4,
+          "model": "UKV"
         },
         {
           "date": "2026-07-05",
           "tmax": 28.0,
-          "tmin": 15.1,
+          "tmin": 15.7,
           "rain": 0.0,
           "pop": 0,
+          "model": "UKMO global"
+        },
+        {
+          "date": "2026-07-06",
+          "tmax": 27.3,
+          "tmin": 13.8,
+          "rain": 0.0,
+          "pop": 8,
           "model": "UKMO global"
         }
       ],
       "source": "UKMO seamless + ECMWF IFS ensemble",
-      "fetchedAt": "2026-07-02T22:20:02Z",
+      "fetchedAt": "2026-07-03T04:30:04Z",
       "stale": false
     },
     "ext": {
@@ -2781,8 +2803,8 @@ const DATA = {
         "mnt": "0002"
       },
       "Pmsl": {
-        "mx": 1030.0,
-        "mxt": "0410",
+        "mx": 1030.1,
+        "mxt": "0414",
         "mn": 1028.9,
         "mnt": "0003"
       },
@@ -2791,8 +2813,8 @@ const DATA = {
         "mnt": "0307"
       },
       "Sg": {
-        "mx": 14,
-        "mxt": "0409"
+        "mx": 20,
+        "mxt": "0420"
       }
     }
   }
