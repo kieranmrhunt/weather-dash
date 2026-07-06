@@ -532,18 +532,18 @@ const LAT = 51.4414, LON = -0.9418;
 
 const DATA = {
   "live": {
-    "label": "Live now · 06 Jul 2026 0650 UTC",
+    "label": "Live now · 06 Jul 2026 0700 UTC",
     "y": 2026,
     "mo": 7,
     "d": 6,
-    "time": "0650",
+    "time": "0700",
     "ww": 0,
-    "Td": 18.9,
+    "Td": 19.1,
     "Tw": 15.4,
-    "Tdew": 13.2,
-    "VP": 15.1,
-    "RH": 69,
-    "delT": 2.5,
+    "Tdew": 13.1,
+    "VP": 15.0,
+    "RH": 68,
+    "delT": 2.3,
     "tempHistory": [
       {
         "time": "0005",
@@ -1040,12 +1040,14 @@ const DATA = {
       {
         "time": "0655",
         "x": 415,
-        "yesterday": 17.5
+        "yesterday": 17.5,
+        "today": 18.9
       },
       {
         "time": "0700",
         "x": 420,
-        "yesterday": 17.7
+        "yesterday": 17.7,
+        "today": 19.1
       },
       {
         "time": "0705",
@@ -2888,14 +2890,34 @@ const DATA = {
         "rain": 0.0,
         "wind": 2.4,
         "solar": 378
+      },
+      {
+        "time": "0655",
+        "x": 415,
+        "temp": 18.9,
+        "rh": 68,
+        "pressure": 1020.4,
+        "rain": 0.0,
+        "wind": 2.5,
+        "solar": 392
+      },
+      {
+        "time": "0700",
+        "x": 420,
+        "temp": 19.1,
+        "rh": 68,
+        "pressure": 1020.4,
+        "rain": 0.0,
+        "wind": 2.5,
+        "solar": 397
       }
     ],
-    "Tgrass": 34.2,
-    "Tconc": 28.3,
-    "Tsoil": 28.4,
+    "Tgrass": 35.5,
+    "Tconc": 28.2,
+    "Tsoil": 29.1,
     "soil": {
       "c5": 21.0,
-      "c10": 21.1,
+      "c10": 21.0,
       "c20": null,
       "c30": 20.6,
       "c50": null,
@@ -2909,24 +2931,24 @@ const DATA = {
     "cloudBase": null,
     "vis": 75000,
     "Sdur5": 5.0,
-    "SdurAccum": 1.6,
-    "Sg": 378,
-    "SgAccum": 1.48,
-    "Sb": 115,
-    "Sd": 182,
-    "Rn": 198,
-    "G": -6,
-    "Pmsl": 1020.5,
-    "delP1": -0.1,
-    "delP3": -0.5,
-    "dir": 266,
-    "U10": 2.4,
-    "U10max": 3.7,
+    "SdurAccum": 1.8,
+    "Sg": 397,
+    "SgAccum": 1.71,
+    "Sb": 80,
+    "Sd": 266,
+    "Rn": 226,
+    "G": -5,
+    "Pmsl": 1020.4,
+    "delP1": -0.2,
+    "delP3": -0.6,
+    "dir": 259,
+    "U10": 2.5,
+    "U10max": 3.5,
     "U10maxAcc": 4.8,
     "U2run": 1.1,
-    "U10run": 1.5,
+    "U10run": 1.6,
     "ae": {
-      "pg": 39.0,
+      "pg": 40.0,
       "unit": "V/m"
     },
     "clim": {
@@ -2969,23 +2991,6 @@ const DATA = {
             "meanKind": "monthTotal",
             "baselineCount": 930
           },
-          "sunshine": {
-            "label": "Daily sunshine",
-            "unit": "h",
-            "recordLow": {
-              "value": 0.0,
-              "date": "1956-07-13"
-            },
-            "p05": 0.1,
-            "mean": 203.8,
-            "p95": 13.8,
-            "recordHigh": {
-              "value": 15.8,
-              "date": "1959-07-04"
-            },
-            "meanKind": "monthTotal",
-            "baselineCount": 930
-          },
           "tmin": {
             "label": "Daily minimum temperature",
             "unit": "°C",
@@ -3001,6 +3006,23 @@ const DATA = {
               "date": "2022-07-19"
             },
             "meanKind": "dailyMean",
+            "baselineCount": 930
+          },
+          "sunshine": {
+            "label": "Daily sunshine",
+            "unit": "h",
+            "recordLow": {
+              "value": 0.0,
+              "date": "1956-07-13"
+            },
+            "p05": 0.1,
+            "mean": 203.8,
+            "p95": 13.8,
+            "recordHigh": {
+              "value": 15.8,
+              "date": "1959-07-04"
+            },
+            "meanKind": "monthTotal",
             "baselineCount": 930
           },
           "tmean": {
@@ -3121,16 +3143,16 @@ const DATA = {
     },
     "ext": {
       "Td": {
-        "mx": 18.9,
-        "mxt": "0650",
+        "mx": 19.1,
+        "mxt": "0700",
         "mn": 15.0,
         "mnt": "0457"
       },
       "RH": {
         "mx": 90,
         "mxt": "0506",
-        "mn": 69,
-        "mnt": "0646"
+        "mn": 68,
+        "mnt": "0658"
       },
       "Pmsl": {
         "mx": 1022.0,
@@ -3143,8 +3165,8 @@ const DATA = {
         "mnt": "0258"
       },
       "Sg": {
-        "mx": 378,
-        "mxt": "0649"
+        "mx": 397,
+        "mxt": "0700"
       }
     }
   }
