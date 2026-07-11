@@ -238,6 +238,28 @@
     .forecast-wide .forecast-source{justify-content:space-between}
   }
 
+  /* air quality */
+  .aq-card{width:100%;display:grid;gap:12px;margin:auto 0;text-align:left}
+  .aq-top{display:flex;align-items:center;gap:16px}
+  .aq-ring{
+    --p:0;--aq:var(--good);
+    width:92px;height:92px;border-radius:50%;flex:none;position:relative;
+    display:grid;place-items:center;background:conic-gradient(var(--aq) calc(var(--p) * 1%), var(--line-strong) 0);
+    box-shadow:0 0 22px rgba(0,0,0,.22);
+  }
+  .aq-ring::before{content:'';position:absolute;inset:10px;border-radius:50%;background:var(--panel)}
+  .aq-ring span{position:relative;font-family:var(--serif);font-size:30px;line-height:1;color:var(--ink);font-variant-numeric:tabular-nums}
+  .aq-ring small{position:relative;font-family:var(--mono);font-size:8px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-faint);margin-top:-18px}
+  .aq-word{font-family:var(--mono);font-size:11px;line-height:1.55;color:var(--ink-dim);letter-spacing:.03em}
+  .aq-word b{display:block;font-family:var(--serif);font-size:25px;font-weight:400;line-height:1.15;color:var(--ink);letter-spacing:0;text-transform:none}
+  .aq-word .k{color:var(--ink-faint);text-transform:uppercase;font-size:9.5px;letter-spacing:.12em}
+  .aq-pollutants{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+  .aq-pol{min-width:0;border-top:1px solid var(--line);padding-top:7px;font-family:var(--mono);font-size:9px;color:var(--ink-faint);letter-spacing:.08em;text-transform:uppercase}
+  .aq-pol b{display:block;margin-top:3px;font-family:var(--serif);font-size:17px;font-weight:400;line-height:1;color:var(--ink);letter-spacing:0;text-transform:none;font-variant-numeric:tabular-nums}
+  .aq-pol small{font-family:var(--mono);font-size:8px;color:var(--ink-faint);margin-left:2px}
+  .aq-source{display:flex;justify-content:space-between;gap:4px 10px;flex-wrap:wrap;font-family:var(--mono);font-size:9px;line-height:1.35;color:var(--ink-faint);letter-spacing:.05em;text-transform:uppercase}
+  .aq-source .stale{color:#f0b637}
+
 
   /* climate records */
   .clim-card{align-self:stretch;width:100%;display:flex;flex-direction:column;gap:9px;text-align:left}
@@ -532,18 +554,18 @@ const LAT = 51.4414, LON = -0.9418;
 
 const DATA = {
   "live": {
-    "label": "Live now · 11 Jul 2026 2150 UTC",
+    "label": "Live now · 11 Jul 2026 2200 UTC",
     "y": 2026,
     "mo": 7,
     "d": 11,
-    "time": "2150",
+    "time": "2200",
     "ww": 0,
-    "Td": 22.6,
-    "Tw": 17.8,
-    "Tdew": 13.7,
-    "VP": 15.7,
-    "RH": 57,
-    "delT": -1.6,
+    "Td": 22.3,
+    "Tw": 17.7,
+    "Tdew": 13.6,
+    "VP": 15.6,
+    "RH": 58,
+    "delT": -1.7,
     "tempHistory": [
       {
         "time": "0005",
@@ -2120,12 +2142,14 @@ const DATA = {
       {
         "time": "2155",
         "x": 1315,
-        "yesterday": 22.2
+        "yesterday": 22.2,
+        "today": 22.5
       },
       {
         "time": "2200",
         "x": 1320,
-        "yesterday": 22.1
+        "yesterday": 22.1,
+        "today": 22.3
       },
       {
         "time": "2205",
@@ -4868,13 +4892,33 @@ const DATA = {
         "rain": 0.0,
         "wind": 3.3,
         "solar": -4
+      },
+      {
+        "time": "2155",
+        "x": 1315,
+        "temp": 22.5,
+        "rh": 58,
+        "pressure": 1022.9,
+        "rain": 0.0,
+        "wind": 2.6,
+        "solar": -4
+      },
+      {
+        "time": "2200",
+        "x": 1320,
+        "temp": 22.3,
+        "rh": 58,
+        "pressure": 1022.9,
+        "rain": 0.0,
+        "wind": 2.4,
+        "solar": -4
       }
     ],
-    "Tgrass": 22.4,
-    "Tconc": 24.7,
-    "Tsoil": 21.8,
+    "Tgrass": 21.6,
+    "Tconc": 24.8,
+    "Tsoil": 21.4,
     "soil": {
-      "c5": 26.1,
+      "c5": 26.0,
       "c10": 25.1,
       "c20": null,
       "c30": 22.4,
@@ -4894,19 +4938,19 @@ const DATA = {
     "SgAccum": 28.98,
     "Sb": 0,
     "Sd": -4,
-    "Rn": -68,
-    "G": -1,
-    "Pmsl": 1022.8,
-    "delP1": 0.9,
+    "Rn": -64,
+    "G": -2,
+    "Pmsl": 1022.9,
+    "delP1": 0.8,
     "delP3": 2.4,
-    "dir": 60,
-    "U10": 3.3,
-    "U10max": 5.2,
+    "dir": 72,
+    "U10": 2.4,
+    "U10max": 4.9,
     "U10maxAcc": 8.8,
     "U2run": 1.9,
     "U10run": 2.8,
     "ae": {
-      "pg": 59.0,
+      "pg": 64.0,
       "unit": "V/m"
     },
     "clim": {
@@ -4915,6 +4959,23 @@ const DATA = {
         "name": "July",
         "source": "/storage/silver/metweb/new-web/VirtualSites/met-secure/Data/climat/monthly_datafiles",
         "variables": {
+          "tmax": {
+            "label": "Daily maximum temperature",
+            "unit": "°C",
+            "recordLow": {
+              "value": 13.3,
+              "date": "1910-07-07"
+            },
+            "p05": 17.6,
+            "mean": 22.7,
+            "p95": 29.5,
+            "recordHigh": {
+              "value": 37.6,
+              "date": "2022-07-19"
+            },
+            "meanKind": "dailyMean",
+            "baselineCount": 930
+          },
           "tmin": {
             "label": "Daily minimum temperature",
             "unit": "°C",
@@ -4928,6 +4989,57 @@ const DATA = {
             "recordHigh": {
               "value": 20.1,
               "date": "2022-07-19"
+            },
+            "meanKind": "dailyMean",
+            "baselineCount": 930
+          },
+          "tmean": {
+            "label": "Daily mean temperature",
+            "unit": "°C",
+            "recordLow": {
+              "value": 10.3,
+              "date": "1965-07-04"
+            },
+            "p05": 14.1,
+            "mean": 17.8,
+            "p95": 22.3,
+            "recordHigh": {
+              "value": 28.9,
+              "date": "2022-07-19"
+            },
+            "meanKind": "dailyMean",
+            "baselineCount": 930
+          },
+          "rain": {
+            "label": "Daily rainfall",
+            "unit": "mm",
+            "recordLow": {
+              "value": 0.0,
+              "date": "1908-07-01"
+            },
+            "p05": 0.0,
+            "mean": 48.7,
+            "p95": 8.9,
+            "recordHigh": {
+              "value": 50.3,
+              "date": "1941-07-25"
+            },
+            "meanKind": "monthTotal",
+            "baselineCount": 930
+          },
+          "pressure": {
+            "label": "MSL pressure",
+            "unit": "hPa",
+            "recordLow": {
+              "value": 982.8,
+              "date": "1956-07-29"
+            },
+            "p05": 1005.1,
+            "mean": 1015.9,
+            "p95": 1026.3,
+            "recordHigh": {
+              "value": 1035.2,
+              "date": "1911-07-10"
             },
             "meanKind": "dailyMean",
             "baselineCount": 930
@@ -4948,74 +5060,6 @@ const DATA = {
             },
             "meanKind": "monthTotal",
             "baselineCount": 930
-          },
-          "rain": {
-            "label": "Daily rainfall",
-            "unit": "mm",
-            "recordLow": {
-              "value": 0.0,
-              "date": "1908-07-01"
-            },
-            "p05": 0.0,
-            "mean": 48.7,
-            "p95": 8.9,
-            "recordHigh": {
-              "value": 50.3,
-              "date": "1941-07-25"
-            },
-            "meanKind": "monthTotal",
-            "baselineCount": 930
-          },
-          "tmean": {
-            "label": "Daily mean temperature",
-            "unit": "°C",
-            "recordLow": {
-              "value": 10.3,
-              "date": "1965-07-04"
-            },
-            "p05": 14.1,
-            "mean": 17.8,
-            "p95": 22.3,
-            "recordHigh": {
-              "value": 28.9,
-              "date": "2022-07-19"
-            },
-            "meanKind": "dailyMean",
-            "baselineCount": 930
-          },
-          "tmax": {
-            "label": "Daily maximum temperature",
-            "unit": "°C",
-            "recordLow": {
-              "value": 13.3,
-              "date": "1910-07-07"
-            },
-            "p05": 17.6,
-            "mean": 22.7,
-            "p95": 29.5,
-            "recordHigh": {
-              "value": 37.6,
-              "date": "2022-07-19"
-            },
-            "meanKind": "dailyMean",
-            "baselineCount": 930
-          },
-          "pressure": {
-            "label": "MSL pressure",
-            "unit": "hPa",
-            "recordLow": {
-              "value": 982.8,
-              "date": "1956-07-29"
-            },
-            "p05": 1005.1,
-            "mean": 1015.9,
-            "p95": 1026.3,
-            "recordHigh": {
-              "value": 1035.2,
-              "date": "1911-07-10"
-            },
-            "meanKind": "dailyMean",
-            "baselineCount": 930
           }
         }
       },
@@ -5023,23 +5067,6 @@ const DATA = {
         "name": "Summer",
         "source": "/storage/silver/metweb/new-web/VirtualSites/met-secure/Data/climat/monthly_datafiles",
         "variables": {
-          "tmin": {
-            "label": "Daily minimum temperature",
-            "unit": "°C",
-            "recordLow": {
-              "value": 0.6,
-              "date": "1923-06-03"
-            },
-            "p05": 7.5,
-            "mean": 12.1,
-            "p95": 16.5,
-            "recordHigh": {
-              "value": 21.3,
-              "date": "2026-06-26"
-            },
-            "meanKind": "dailyMean",
-            "baselineCount": 2760
-          },
           "tmax": {
             "label": "Daily maximum temperature",
             "unit": "°C",
@@ -5053,6 +5080,23 @@ const DATA = {
             "recordHigh": {
               "value": 37.6,
               "date": "2022-07-19"
+            },
+            "meanKind": "dailyMean",
+            "baselineCount": 2760
+          },
+          "tmin": {
+            "label": "Daily minimum temperature",
+            "unit": "°C",
+            "recordLow": {
+              "value": 0.6,
+              "date": "1923-06-03"
+            },
+            "p05": 7.5,
+            "mean": 12.1,
+            "p95": 16.5,
+            "recordHigh": {
+              "value": 21.3,
+              "date": "2026-06-26"
             },
             "meanKind": "dailyMean",
             "baselineCount": 2760
@@ -5099,6 +5143,23 @@ const DATA = {
       "fetchedAt": "2026-07-11T07:00:04Z",
       "stale": true
     },
+    "airQuality": {
+      "aqi": 24,
+      "time": "2026-07-11T22:00",
+      "pm25": 4.9,
+      "pm10": 7.0,
+      "no2": 7.5,
+      "o3": 61.0,
+      "components": {
+        "pm25": 11,
+        "pm10": 10,
+        "no2": 4,
+        "o3": 24
+      },
+      "source": "Open-Meteo / CAMS Europe",
+      "fetchedAt": "2026-07-11T22:10:02Z",
+      "stale": false
+    },
     "ext": {
       "Td": {
         "mx": 31.1,
@@ -5113,8 +5174,8 @@ const DATA = {
         "mnt": "1557"
       },
       "Pmsl": {
-        "mx": 1022.8,
-        "mxt": "2150",
+        "mx": 1022.9,
+        "mxt": "2200",
         "mn": 1019.8,
         "mnt": "0006"
       },
@@ -6069,6 +6130,50 @@ function renderForecastCard(forecast){
     <div class="forecast-source"><span>${forecastSourceLabel(forecast)}</span><span class="${forecast?.stale?'stale':''}">${forecast?.stale?'cached ':''}${forecastUpdatedLabel(forecast?.fetchedAt)}</span></div>
   </div>`;
 }
+function aqLevel(aqi){
+  if(!isNum(aqi)) return {label:'Unavailable', color:'var(--ink-faint)'};
+  if(aqi<=20) return {label:'Good', color:'var(--good)'};
+  if(aqi<=40) return {label:'Fair', color:'#c6d46a'};
+  if(aqi<=60) return {label:'Moderate', color:'var(--accent)'};
+  if(aqi<=80) return {label:'Poor', color:'#f08a78'};
+  if(aqi<=100) return {label:'Very poor', color:'var(--bad)'};
+  return {label:'Extremely poor', color:'#d96cff'};
+}
+function aqDominant(aq){
+  const labels={pm25:'PM2.5',pm10:'PM10',no2:'NO2',o3:'O3'};
+  const comp=aq?.components||{};
+  const rows=Object.keys(labels).filter(k=>isNum(comp[k])).map(k=>({key:k,value:comp[k]})).sort((a,b)=>b.value-a.value);
+  return rows.length ? `${labels[rows[0].key]} (${rows[0].value})` : 'n/a';
+}
+function fmtAqPollutant(value){
+  return isNum(value) ? value.toFixed(1) : 'n/a';
+}
+function aqTimeLabel(value){
+  if(!value) return 'not updated';
+  const m=String(value).match(/T(\d{2}):(\d{2})/);
+  if(m) return `model ${m[1]}:${m[2]} UTC`;
+  return 'model updated';
+}
+function renderAirQualityCard(aq){
+  if(!aq || (!isNum(aq.aqi) && !isNum(aq.pm25) && !isNum(aq.pm10) && !isNum(aq.no2) && !isNum(aq.o3))){
+    return `<div class="forecast-empty">Air quality unavailable.</div>`;
+  }
+  const level=aqLevel(aq.aqi), p=isNum(aq.aqi)?Math.max(0,Math.min(100,aq.aqi)):0;
+  const pollutants=[
+    ['PM<sub>2.5</sub>', aq.pm25],
+    ['PM<sub>10</sub>', aq.pm10],
+    ['NO<sub>2</sub>', aq.no2],
+    ['O<sub>3</sub>', aq.o3]
+  ].map(([label,value])=>`<div class="aq-pol"><span>${label}</span><b>${fmtAqPollutant(value)}${isNum(value)?'<small>&micro;g/m&sup3;</small>':''}</b></div>`).join('');
+  return `<div class="aq-card">
+    <div class="aq-top">
+      <div class="aq-ring" style="--p:${p};--aq:${level.color}"><span>${isNum(aq.aqi)?Math.round(aq.aqi):'n/a'}</span><small>EAQI</small></div>
+      <div class="aq-word"><span class="k">European AQI</span><b>${level.label}</b><span class="k">Driver</span><br>${aqDominant(aq)}</div>
+    </div>
+    <div class="aq-pollutants">${pollutants}</div>
+    <div class="aq-source"><span>Open-Meteo / CAMS</span><span class="${aq.stale?'stale':''}">${aq.stale?'cached ':''}${aqTimeLabel(aq.time)}</span></div>
+  </div>`;
+}
 function renderGrid(s, sun, times){
   const press=pressureTendency(s.delP3), tt=tempTendency(s.delT);
   const cb = isNum(s.cloudBase) ? fmtInt(s.cloudBase) : 'None detected';
@@ -6148,6 +6253,7 @@ function renderGrid(s, sun, times){
         <span style="font-family:var(--serif);font-size:22px;color:var(--ink)"> ${fmtDistance(s.vis)}</span><br>
         ${visWord(s.vis)} &middot; <span class="k">present wx</span> <b>${WW[s.ww]||'—'}</b>
       </div>`},
+    {h:['Air quality','Open-Meteo / CAMS'], body:renderAirQualityCard(s.airQuality)},
     {h:['Daily traces','00 UTC to now'], cls:'trace-wide', body:renderTraceDrawer(s)},
     {h:['Forecast','Met Office / IFS'], cls:'forecast-wide', body:renderForecastCard(s.forecast)}
   ];
@@ -6324,6 +6430,7 @@ function selfTest(){
   { const now=new Date(), p=n=>String(n).padStart(2,'0'); const sample={y:now.getUTCFullYear(),mo:now.getUTCMonth()+1,d:now.getUTCDate(),time:`${p(now.getUTCHours())}${p(now.getUTCMinutes())}`,Td:29,Tdew:19,RH:91,rain1h:5,U10max:14,Sg:800}; const b=thresholdBadges(sample,{key:'sunny'},{}); assert(b.some(x=>x.t==='Hot') && b.some(x=>x.t==='5.0 mm last hour') && b.length<=8, 'threshold badges'); }
   { const fc=renderForecastCard({days:[{date:'2026-06-23',tmax:23,tmin:12,rain:1.2,pop:45}],source:'UKMO seamless + ECMWF IFS ensemble',fetchedAt:'2026-06-23T12:00:00Z'}); const oldModelTag=['<span class="forecast-label">','UKV','</span>'].join(''); assert(fc.includes('forecast-grid') && fc.includes('UKV days 1-2') && fc.includes('UKMO days 3-4') && fc.includes('rain: UKMO total, IFS chance') && !fc.includes(oldModelTag), 'forecast card'); }
   { const fc=renderForecastCard({days:[{date:'2026-06-23',tmax:23,tmin:12,rain:0,pop:70}],source:'UKMO seamless + ECMWF IFS ensemble',fetchedAt:'2026-06-23T12:00:00Z'}); assert(fc.includes('&lt;0.1 mm') && fc.includes('less than 0.1 mm forecast rain'), 'forecast trace rain'); }
+  { const aq=renderAirQualityCard({aqi:37,pm25:8.1,pm10:13.2,no2:18.4,o3:62.5,components:{pm25:37,pm10:22,no2:18,o3:31},time:'2026-07-11T12:00',source:'Open-Meteo / CAMS Europe',stale:false}); assert(aq.includes('European AQI') && aq.includes('Fair') && aq.includes('Open-Meteo / CAMS') && aq.includes('PM<sub>2.5</sub>'), 'air quality card'); }
   // pressure tendency signs
   assert(pressureTendency(4).dir==='up' && pressureTendency(-4).dir==='down','tendency sign');
   assert(pressureTendency(0.1).dir==='flat','tendency flat');
