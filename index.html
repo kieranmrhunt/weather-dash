@@ -36,7 +36,7 @@
   }
 
   *{box-sizing:border-box}
-  html{-webkit-text-size-adjust:100%}
+  html{-webkit-text-size-adjust:100%;overflow-x:clip}
   body{
     margin:0;
     background:
@@ -49,6 +49,7 @@
     line-height:1.5;
     min-height:100vh;
     -webkit-font-smoothing:antialiased;
+    overflow-x:clip;
   }
 
   .wrap{max-width:1180px;margin:0 auto;padding:22px clamp(14px,3vw,30px) 60px}
@@ -155,9 +156,10 @@
 
   /* ---------- instrument grid ---------- */
   .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:18px;margin-bottom:18px}
+  .grid > *{min-width:0}
   .card{
     background:var(--panel);border:1px solid var(--line);border-radius:var(--r);
-    padding:18px 18px 16px;display:flex;flex-direction:column;min-height:188px;box-shadow:var(--shadow);
+    padding:18px 18px 16px;display:flex;flex-direction:column;min-width:0;min-height:188px;box-shadow:var(--shadow);
   }
   .card.trace-wide{min-height:0}
   @media (min-width:760px){
@@ -215,7 +217,7 @@
   .radar-time{font-family:var(--mono);font-size:10px;color:var(--ink-dim);font-variant-numeric:tabular-nums;white-space:nowrap;min-width:74px;text-align:right}
 
   /* forecast */
-  .forecast-card{width:100%;display:grid;gap:10px;margin:auto 0}
+  .forecast-card{width:100%;min-width:0;display:grid;gap:10px;margin:auto 0}
   .forecast-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
   .forecast-day{min-width:0;padding:9px 8px 10px;display:grid;gap:5px;align-content:start}
   .forecast-day + .forecast-day{border-left:1px solid var(--line)}
@@ -239,9 +241,9 @@
   }
 
   /* aurora forecast */
-  .aurora-card{--aurora:#71c98b;width:100%;display:grid;gap:10px;margin:auto 0;text-align:left}
-  .aurora-main{display:grid;grid-template-columns:minmax(128px,.72fr) minmax(0,1.28fr);gap:18px;align-items:stretch}
-  .aurora-local{position:relative;min-height:118px;overflow:hidden;border-right:1px solid var(--line);padding-right:18px}
+  .aurora-card{--aurora:#71c98b;width:100%;min-width:0;display:grid;gap:10px;margin:auto 0;text-align:left}
+  .aurora-main{display:grid;min-width:0;grid-template-columns:minmax(128px,.72fr) minmax(0,1.28fr);gap:18px;align-items:stretch}
+  .aurora-local{position:relative;min-width:0;min-height:118px;overflow:hidden;border-right:1px solid var(--line);padding-right:18px}
   .aurora-local svg{position:absolute;inset:0 18px 0 0;width:calc(100% - 18px);height:100%;display:block}
   .aurora-horizon{stroke:var(--line-strong);stroke-width:1;fill:none}
   .aurora-band{stroke:var(--aurora);stroke-width:7;stroke-linecap:round;fill:none;opacity:var(--aurora-alpha,.48);filter:drop-shadow(0 0 7px var(--aurora))}
@@ -481,7 +483,7 @@
     .soil-item{grid-template-columns:6px 38px minmax(0,1fr) auto;padding-left:4px;padding-right:4px}
     .surface-glyph{width:38px;height:25px}
     .soil-item .temp{font-size:19px}
-    .aurora-main{grid-template-columns:minmax(142px,.9fr) minmax(0,1.1fr);gap:12px}
+    .aurora-main{grid-template-columns:minmax(0,.88fr) minmax(0,1.12fr);gap:10px}
     .aurora-local{padding-right:12px}
     .aurora-local svg{inset:0 12px 0 0;width:calc(100% - 12px)}
     .aurora-reading{right:12px}
@@ -585,18 +587,18 @@ const LAT = 51.4414, LON = -0.9418;
 
 const DATA = {
   "live": {
-    "label": "Live now · 14 Jul 2026 1910 UTC",
+    "label": "Live now · 14 Jul 2026 1920 UTC",
     "y": 2026,
     "mo": 7,
     "d": 14,
-    "time": "1910",
+    "time": "1920",
     "ww": 0,
-    "Td": 24.8,
-    "Tw": 19.0,
-    "Tdew": 14.3,
-    "VP": 16.4,
-    "RH": 52,
-    "delT": -1.4,
+    "Td": 24.5,
+    "Tw": 18.7,
+    "Tdew": 14.2,
+    "VP": 16.2,
+    "RH": 53,
+    "delT": -1.7,
     "tempHistory": [
       {
         "time": "0005",
@@ -1981,12 +1983,14 @@ const DATA = {
       {
         "time": "1915",
         "x": 1155,
-        "yesterday": 24.6
+        "yesterday": 24.6,
+        "today": 24.7
       },
       {
         "time": "1920",
         "x": 1160,
-        "yesterday": 24.5
+        "yesterday": 24.5,
+        "today": 24.5
       },
       {
         "time": "1925",
@@ -4569,13 +4573,33 @@ const DATA = {
         "rain": 0.0,
         "wind": 3.6,
         "solar": 81
+      },
+      {
+        "time": "1915",
+        "x": 1155,
+        "temp": 24.7,
+        "rh": 52,
+        "pressure": 1020.9,
+        "rain": 0.0,
+        "wind": 3.2,
+        "solar": 71
+      },
+      {
+        "time": "1920",
+        "x": 1160,
+        "temp": 24.5,
+        "rh": 53,
+        "pressure": 1020.9,
+        "rain": 0.0,
+        "wind": 3.4,
+        "solar": 61
       }
     ],
-    "Tgrass": 28.0,
-    "Tconc": 29.5,
-    "Tsoil": 26.0,
+    "Tgrass": 26.1,
+    "Tconc": 27.8,
+    "Tsoil": 25.4,
     "soil": {
-      "c5": 25.8,
+      "c5": 25.7,
       "c10": 24.0,
       "c20": null,
       "c30": 21.4,
@@ -4588,26 +4612,26 @@ const DATA = {
     "rain6h": 0.0,
     "rainAccum": 0.0,
     "cloudBase": null,
-    "vis": 35890,
+    "vis": 38957,
     "Sdur5": 5.0,
-    "SdurAccum": 6.7,
-    "Sg": 81,
-    "SgAccum": 19.06,
-    "Sb": 106,
-    "Sd": 46,
-    "Rn": -6,
-    "G": 18,
+    "SdurAccum": 6.9,
+    "Sg": 61,
+    "SgAccum": 19.1,
+    "Sb": 86,
+    "Sd": 38,
+    "Rn": -41,
+    "G": 17,
     "Pmsl": 1020.9,
     "delP1": 0.4,
     "delP3": 0.6,
-    "dir": 41,
-    "U10": 3.6,
-    "U10max": 6.9,
-    "U10maxAcc": 8.6,
+    "dir": 49,
+    "U10": 3.4,
+    "U10max": 8.7,
+    "U10maxAcc": 8.7,
     "U2run": 2.5,
     "U10run": 3.4,
     "ae": {
-      "pg": 33.0,
+      "pg": 34.0,
       "unit": "V/m"
     },
     "clim": {
@@ -4633,38 +4657,21 @@ const DATA = {
             "meanKind": "dailyMean",
             "baselineCount": 930
           },
-          "tmin": {
-            "label": "Daily minimum temperature",
-            "unit": "°C",
+          "rain": {
+            "label": "Daily rainfall",
+            "unit": "mm",
             "recordLow": {
-              "value": 4.9,
-              "date": "1978-07-25"
+              "value": 0.0,
+              "date": "1908-07-01"
             },
-            "p05": 8.6,
-            "mean": 12.8,
-            "p95": 16.7,
+            "p05": 0.0,
+            "mean": 48.7,
+            "p95": 8.9,
             "recordHigh": {
-              "value": 20.1,
-              "date": "2022-07-19"
+              "value": 50.3,
+              "date": "1941-07-25"
             },
-            "meanKind": "dailyMean",
-            "baselineCount": 930
-          },
-          "tmean": {
-            "label": "Daily mean temperature",
-            "unit": "°C",
-            "recordLow": {
-              "value": 10.3,
-              "date": "1965-07-04"
-            },
-            "p05": 14.1,
-            "mean": 17.8,
-            "p95": 22.3,
-            "recordHigh": {
-              "value": 28.9,
-              "date": "2022-07-19"
-            },
-            "meanKind": "dailyMean",
+            "meanKind": "monthTotal",
             "baselineCount": 930
           },
           "tmax": {
@@ -4701,21 +4708,38 @@ const DATA = {
             "meanKind": "monthTotal",
             "baselineCount": 930
           },
-          "rain": {
-            "label": "Daily rainfall",
-            "unit": "mm",
+          "tmean": {
+            "label": "Daily mean temperature",
+            "unit": "°C",
             "recordLow": {
-              "value": 0.0,
-              "date": "1908-07-01"
+              "value": 10.3,
+              "date": "1965-07-04"
             },
-            "p05": 0.0,
-            "mean": 48.7,
-            "p95": 8.9,
+            "p05": 14.1,
+            "mean": 17.8,
+            "p95": 22.3,
             "recordHigh": {
-              "value": 50.3,
-              "date": "1941-07-25"
+              "value": 28.9,
+              "date": "2022-07-19"
             },
-            "meanKind": "monthTotal",
+            "meanKind": "dailyMean",
+            "baselineCount": 930
+          },
+          "tmin": {
+            "label": "Daily minimum temperature",
+            "unit": "°C",
+            "recordLow": {
+              "value": 4.9,
+              "date": "1978-07-25"
+            },
+            "p05": 8.6,
+            "mean": 12.8,
+            "p95": 16.7,
+            "recordHigh": {
+              "value": 20.1,
+              "date": "2022-07-19"
+            },
+            "meanKind": "dailyMean",
             "baselineCount": 930
           }
         }
@@ -4724,23 +4748,6 @@ const DATA = {
         "name": "Summer",
         "source": "/storage/silver/metweb/new-web/VirtualSites/met-secure/Data/climat/monthly_datafiles",
         "variables": {
-          "tmin": {
-            "label": "Daily minimum temperature",
-            "unit": "°C",
-            "recordLow": {
-              "value": 0.6,
-              "date": "1923-06-03"
-            },
-            "p05": 7.5,
-            "mean": 12.1,
-            "p95": 16.5,
-            "recordHigh": {
-              "value": 21.3,
-              "date": "2026-06-26"
-            },
-            "meanKind": "dailyMean",
-            "baselineCount": 2760
-          },
           "tmax": {
             "label": "Daily maximum temperature",
             "unit": "°C",
@@ -4754,6 +4761,23 @@ const DATA = {
             "recordHigh": {
               "value": 37.6,
               "date": "2022-07-19"
+            },
+            "meanKind": "dailyMean",
+            "baselineCount": 2760
+          },
+          "tmin": {
+            "label": "Daily minimum temperature",
+            "unit": "°C",
+            "recordLow": {
+              "value": 0.6,
+              "date": "1923-06-03"
+            },
+            "p05": 7.5,
+            "mean": 12.1,
+            "p95": 16.5,
+            "recordHigh": {
+              "value": 21.3,
+              "date": "2026-06-26"
             },
             "meanKind": "dailyMean",
             "baselineCount": 2760
