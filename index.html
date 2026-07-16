@@ -598,18 +598,18 @@ const LAT = 51.4414, LON = -0.9418;
 
 const DATA = {
   "live": {
-    "label": "Live now · 16 Jul 2026 1820 UTC",
+    "label": "Live now · 16 Jul 2026 1830 UTC",
     "y": 2026,
     "mo": 7,
     "d": 16,
-    "time": "1820",
+    "time": "1830",
     "ww": 0,
-    "Td": 26.6,
-    "Tw": 17.8,
-    "Tdew": 10.3,
+    "Td": 26.5,
+    "Tw": 17.9,
+    "Tdew": 10.4,
     "VP": 12.6,
     "RH": 36,
-    "delT": -1.6,
+    "delT": -1.8,
     "tempHistory": [
       {
         "time": "0005",
@@ -1934,12 +1934,14 @@ const DATA = {
       {
         "time": "1825",
         "x": 1105,
-        "yesterday": 27.1
+        "yesterday": 27.1,
+        "today": 26.5
       },
       {
         "time": "1830",
         "x": 1110,
-        "yesterday": 26.6
+        "yesterday": 26.6,
+        "today": 26.5
       },
       {
         "time": "1835",
@@ -4472,13 +4474,33 @@ const DATA = {
         "rain": 0.0,
         "wind": 3.6,
         "solar": 181
+      },
+      {
+        "time": "1825",
+        "x": 1105,
+        "temp": 26.5,
+        "rh": 36,
+        "pressure": 1017.0,
+        "rain": 0.0,
+        "wind": 3.4,
+        "solar": 152
+      },
+      {
+        "time": "1830",
+        "x": 1110,
+        "temp": 26.5,
+        "rh": 36,
+        "pressure": 1017.1,
+        "rain": 0.0,
+        "wind": 3.3,
+        "solar": 63
       }
     ],
-    "Tgrass": 32.0,
-    "Tconc": 34.6,
-    "Tsoil": 32.5,
+    "Tgrass": 30.6,
+    "Tconc": 33.9,
+    "Tsoil": 31.3,
     "soil": {
-      "c5": 27.1,
+      "c5": 27.0,
       "c10": 24.8,
       "c20": null,
       "c30": 21.4,
@@ -4490,22 +4512,22 @@ const DATA = {
     "rain3h": 0.0,
     "rain6h": 0.0,
     "rainAccum": 0.0,
-    "cloudBase": null,
-    "vis": 70845,
-    "Sdur5": 5.0,
-    "SdurAccum": 13.0,
-    "Sg": 181,
-    "SgAccum": 26.76,
-    "Sb": 136,
-    "Sd": 86,
-    "Rn": 42,
-    "G": 29,
-    "Pmsl": 1017.0,
-    "delP1": 0.1,
-    "delP3": -0.9,
-    "dir": 113,
-    "U10": 3.6,
-    "U10max": 6.3,
+    "cloudBase": 2862,
+    "vis": 66054,
+    "Sdur5": 4.2,
+    "SdurAccum": 13.1,
+    "Sg": 63,
+    "SgAccum": 26.85,
+    "Sb": 21,
+    "Sd": 55,
+    "Rn": -20,
+    "G": 27,
+    "Pmsl": 1017.1,
+    "delP1": 0.2,
+    "delP3": -0.8,
+    "dir": 118,
+    "U10": 3.3,
+    "U10max": 5.4,
     "U10maxAcc": 8.0,
     "U2run": 1.8,
     "U10run": 2.4,
@@ -4534,23 +4556,6 @@ const DATA = {
               "date": "2022-07-19"
             },
             "meanKind": "dailyMean",
-            "baselineCount": 930
-          },
-          "rain": {
-            "label": "Daily rainfall",
-            "unit": "mm",
-            "recordLow": {
-              "value": 0.0,
-              "date": "1908-07-01"
-            },
-            "p05": 0.0,
-            "mean": 48.7,
-            "p95": 8.9,
-            "recordHigh": {
-              "value": 50.3,
-              "date": "1941-07-25"
-            },
-            "meanKind": "monthTotal",
             "baselineCount": 930
           },
           "tmean": {
@@ -4583,6 +4588,23 @@ const DATA = {
             "recordHigh": {
               "value": 15.8,
               "date": "1959-07-04"
+            },
+            "meanKind": "monthTotal",
+            "baselineCount": 930
+          },
+          "rain": {
+            "label": "Daily rainfall",
+            "unit": "mm",
+            "recordLow": {
+              "value": 0.0,
+              "date": "1908-07-01"
+            },
+            "p05": 0.0,
+            "mean": 48.7,
+            "p95": 8.9,
+            "recordHigh": {
+              "value": 50.3,
+              "date": "1941-07-25"
             },
             "meanKind": "monthTotal",
             "baselineCount": 930
