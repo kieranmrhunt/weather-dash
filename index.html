@@ -598,18 +598,18 @@ const LAT = 51.4414, LON = -0.9418;
 
 const DATA = {
   "live": {
-    "label": "Live now · 18 Jul 2026 1240 UTC",
+    "label": "Live now · 18 Jul 2026 1250 UTC",
     "y": 2026,
     "mo": 7,
     "d": 18,
-    "time": "1240",
+    "time": "1250",
     "ww": 0,
-    "Td": 22.5,
+    "Td": 22.3,
     "Tw": 14.8,
-    "Tdew": 7.4,
-    "VP": 10.3,
-    "RH": 38,
-    "delT": 0.2,
+    "Tdew": 7.5,
+    "VP": 10.4,
+    "RH": 39,
+    "delT": 0.6,
     "tempHistory": [
       {
         "time": "0005",
@@ -1526,12 +1526,14 @@ const DATA = {
       {
         "time": "1245",
         "x": 765,
-        "yesterday": 27.0
+        "yesterday": 27.0,
+        "today": 22.3
       },
       {
         "time": "1250",
         "x": 770,
-        "yesterday": 27.3
+        "yesterday": 27.3,
+        "today": 22.3
       },
       {
         "time": "1255",
@@ -3724,14 +3726,34 @@ const DATA = {
         "rain": 0.0,
         "wind": 3.2,
         "solar": 875
+      },
+      {
+        "time": "1245",
+        "x": 765,
+        "temp": 22.3,
+        "rh": 38,
+        "pressure": 1020.4,
+        "rain": 0.0,
+        "wind": 3.3,
+        "solar": 874
+      },
+      {
+        "time": "1250",
+        "x": 770,
+        "temp": 22.3,
+        "rh": 39,
+        "pressure": 1020.4,
+        "rain": 0.0,
+        "wind": 3.3,
+        "solar": 881
       }
     ],
-    "Tgrass": 40.7,
-    "Tconc": 40.2,
-    "Tsoil": 38.7,
+    "Tgrass": 41.3,
+    "Tconc": 41.3,
+    "Tsoil": 40.9,
     "soil": {
-      "c5": 25.1,
-      "c10": 23.0,
+      "c5": 25.2,
+      "c10": 23.1,
       "c20": null,
       "c30": 21.3,
       "c50": null,
@@ -3743,26 +3765,26 @@ const DATA = {
     "rain6h": 0.0,
     "rainAccum": 0.0,
     "cloudBase": null,
-    "vis": 57693,
+    "vis": 62151,
     "Sdur5": 5.0,
-    "SdurAccum": 7.0,
-    "Sg": 875,
-    "SgAccum": 14.7,
-    "Sb": 264,
-    "Sd": 465,
-    "Rn": 526,
-    "G": 38,
+    "SdurAccum": 7.2,
+    "Sg": 881,
+    "SgAccum": 15.23,
+    "Sb": 258,
+    "Sd": 436,
+    "Rn": 556,
+    "G": 39,
     "Pmsl": 1020.4,
-    "delP1": 0.2,
+    "delP1": 0.1,
     "delP3": 0.0,
-    "dir": 14,
-    "U10": 3.2,
-    "U10max": 5.4,
+    "dir": 52,
+    "U10": 3.3,
+    "U10max": 6.0,
     "U10maxAcc": 8.4,
     "U2run": 1.7,
     "U10run": 2.3,
     "ae": {
-      "pg": 19.0,
+      "pg": 11.0,
       "unit": "V/m"
     },
     "clim": {
@@ -3786,23 +3808,6 @@ const DATA = {
               "date": "2022-07-19"
             },
             "meanKind": "dailyMean",
-            "baselineCount": 930
-          },
-          "sunshine": {
-            "label": "Daily sunshine",
-            "unit": "h",
-            "recordLow": {
-              "value": 0.0,
-              "date": "1956-07-13"
-            },
-            "p05": 0.1,
-            "mean": 203.8,
-            "p95": 13.8,
-            "recordHigh": {
-              "value": 15.8,
-              "date": "1959-07-04"
-            },
-            "meanKind": "monthTotal",
             "baselineCount": 930
           },
           "tmin": {
@@ -3871,6 +3876,23 @@ const DATA = {
               "date": "2022-07-19"
             },
             "meanKind": "dailyMean",
+            "baselineCount": 930
+          },
+          "sunshine": {
+            "label": "Daily sunshine",
+            "unit": "h",
+            "recordLow": {
+              "value": 0.0,
+              "date": "1956-07-13"
+            },
+            "p05": 0.1,
+            "mean": 203.8,
+            "p95": 13.8,
+            "recordHigh": {
+              "value": 15.8,
+              "date": "1959-07-04"
+            },
+            "meanKind": "monthTotal",
             "baselineCount": 930
           }
         }
@@ -3956,28 +3978,28 @@ const DATA = {
       "stale": false
     },
     "airQuality": {
-      "aqi": 34,
-      "time": "2026-07-18T12:00",
-      "pm25": 6.0,
-      "pm10": 9.9,
+      "aqi": 36,
+      "time": "2026-07-18T13:00",
+      "pm25": 6.2,
+      "pm10": 9.8,
       "no2": 2.2,
-      "o3": 85.0,
+      "o3": 91.0,
       "components": {
         "pm25": 21,
         "pm10": 15,
         "no2": 1,
-        "o3": 34
+        "o3": 36
       },
       "uv": {
-        "now": 6.3,
-        "clearNow": 6.7,
+        "now": 5.8,
+        "clearNow": 6.3,
         "max": 6.3,
         "maxTime": "2026-07-18T12:00",
         "clearMax": 6.7,
         "source": "Open-Meteo / CAMS Global"
       },
       "source": "Open-Meteo / CAMS",
-      "fetchedAt": "2026-07-18T12:00:02Z",
+      "fetchedAt": "2026-07-18T13:00:02Z",
       "stale": false
     },
     "spaceWeather": {
