@@ -5047,21 +5047,21 @@ const DATA = {
         "name": "July",
         "source": "/storage/silver/metweb/new-web/VirtualSites/met-secure/Data/climat/monthly_datafiles",
         "variables": {
-          "pressure": {
-            "label": "MSL pressure",
-            "unit": "hPa",
+          "rain": {
+            "label": "Daily rainfall",
+            "unit": "mm",
             "recordLow": {
-              "value": 982.8,
-              "date": "1956-07-29"
+              "value": 0.0,
+              "date": "1908-07-01"
             },
-            "p05": 1005.1,
-            "mean": 1015.9,
-            "p95": 1026.3,
+            "p05": 0.0,
+            "mean": 48.7,
+            "p95": 8.9,
             "recordHigh": {
-              "value": 1035.2,
-              "date": "1911-07-10"
+              "value": 50.3,
+              "date": "1941-07-25"
             },
-            "meanKind": "dailyMean",
+            "meanKind": "monthTotal",
             "baselineCount": 930
           },
           "tmin": {
@@ -5081,38 +5081,21 @@ const DATA = {
             "meanKind": "dailyMean",
             "baselineCount": 930
           },
-          "tmean": {
-            "label": "Daily mean temperature",
-            "unit": "°C",
+          "pressure": {
+            "label": "MSL pressure",
+            "unit": "hPa",
             "recordLow": {
-              "value": 10.3,
-              "date": "1965-07-04"
+              "value": 982.8,
+              "date": "1956-07-29"
             },
-            "p05": 14.1,
-            "mean": 17.8,
-            "p95": 22.3,
+            "p05": 1005.1,
+            "mean": 1015.9,
+            "p95": 1026.3,
             "recordHigh": {
-              "value": 28.9,
-              "date": "2022-07-19"
+              "value": 1035.2,
+              "date": "1911-07-10"
             },
             "meanKind": "dailyMean",
-            "baselineCount": 930
-          },
-          "rain": {
-            "label": "Daily rainfall",
-            "unit": "mm",
-            "recordLow": {
-              "value": 0.0,
-              "date": "1908-07-01"
-            },
-            "p05": 0.0,
-            "mean": 48.7,
-            "p95": 8.9,
-            "recordHigh": {
-              "value": 50.3,
-              "date": "1941-07-25"
-            },
-            "meanKind": "monthTotal",
             "baselineCount": 930
           },
           "tmax": {
@@ -5148,6 +5131,23 @@ const DATA = {
             },
             "meanKind": "monthTotal",
             "baselineCount": 930
+          },
+          "tmean": {
+            "label": "Daily mean temperature",
+            "unit": "°C",
+            "recordLow": {
+              "value": 10.3,
+              "date": "1965-07-04"
+            },
+            "p05": 14.1,
+            "mean": 17.8,
+            "p95": 22.3,
+            "recordHigh": {
+              "value": 28.9,
+              "date": "2022-07-19"
+            },
+            "meanKind": "dailyMean",
+            "baselineCount": 930
           }
         }
       },
@@ -5155,23 +5155,6 @@ const DATA = {
         "name": "Summer",
         "source": "/storage/silver/metweb/new-web/VirtualSites/met-secure/Data/climat/monthly_datafiles",
         "variables": {
-          "tmax": {
-            "label": "Daily maximum temperature",
-            "unit": "°C",
-            "recordLow": {
-              "value": 10.6,
-              "date": "1953-06-03"
-            },
-            "p05": 16.5,
-            "mean": 21.8,
-            "p95": 28.7,
-            "recordHigh": {
-              "value": 37.6,
-              "date": "2022-07-19"
-            },
-            "meanKind": "dailyMean",
-            "baselineCount": 2760
-          },
           "tmin": {
             "label": "Daily minimum temperature",
             "unit": "°C",
@@ -5185,6 +5168,23 @@ const DATA = {
             "recordHigh": {
               "value": 21.3,
               "date": "2026-06-26"
+            },
+            "meanKind": "dailyMean",
+            "baselineCount": 2760
+          },
+          "tmax": {
+            "label": "Daily maximum temperature",
+            "unit": "°C",
+            "recordLow": {
+              "value": 10.6,
+              "date": "1953-06-03"
+            },
+            "p05": 16.5,
+            "mean": 21.8,
+            "p95": 28.7,
+            "recordHigh": {
+              "value": 37.6,
+              "date": "2022-07-19"
             },
             "meanKind": "dailyMean",
             "baselineCount": 2760
@@ -5232,37 +5232,37 @@ const DATA = {
       "stale": false
     },
     "airQuality": {
-      "aqi": 26,
-      "time": "2026-07-20T22:00",
-      "pm25": 5.6,
-      "pm10": 8.5,
-      "no2": 14.6,
-      "o3": 65.0,
+      "aqi": 20,
+      "time": "2026-07-21T00:00",
+      "pm25": 6.1,
+      "pm10": 10.8,
+      "no2": 19.7,
+      "o3": 51.0,
       "components": {
         "pm25": 9,
         "pm10": 9,
-        "no2": 7,
-        "o3": 26
+        "no2": 10,
+        "o3": 20
       },
       "uv": {
         "now": 0.0,
         "clearNow": 0.0,
-        "max": 6.2,
-        "maxTime": "2026-07-20T12:00",
-        "clearMax": 6.2,
+        "max": 5.3,
+        "maxTime": "2026-07-21T11:00",
+        "clearMax": 6.0,
         "source": "Open-Meteo / CAMS Global"
       },
       "source": "Open-Meteo / CAMS",
-      "fetchedAt": "2026-07-20T22:50:02Z",
+      "fetchedAt": "2026-07-21T00:00:02Z",
       "stale": false
     },
     "spaceWeather": {
       "readingProbability": 0,
-      "ukProbability": 5,
+      "ukProbability": 6,
       "ukPeakLatitude": 61.0,
-      "observationTime": "2026-07-20T23:22:00Z",
-      "validTime": "2026-07-21T00:56:00Z",
-      "currentKp": 2.0,
+      "observationTime": "2026-07-20T23:52:00Z",
+      "validTime": "2026-07-21T01:24:00Z",
+      "currentKp": 1.0,
       "kpPeak": 5.3,
       "kpDays": [
         {
@@ -5282,7 +5282,7 @@ const DATA = {
         }
       ],
       "source": "NOAA SWPC OVATION + Kp",
-      "fetchedAt": "2026-07-20T23:30:02Z",
+      "fetchedAt": "2026-07-21T00:00:02Z",
       "stale": false
     },
     "ext": {
