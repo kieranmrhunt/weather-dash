@@ -4893,6 +4893,23 @@ const DATA = {
         "name": "July",
         "source": "/storage/silver/metweb/new-web/VirtualSites/met-secure/Data/climat/monthly_datafiles",
         "variables": {
+          "tmean": {
+            "label": "Daily mean temperature",
+            "unit": "°C",
+            "recordLow": {
+              "value": 10.3,
+              "date": "1965-07-04"
+            },
+            "p05": 14.1,
+            "mean": 17.8,
+            "p95": 22.3,
+            "recordHigh": {
+              "value": 28.9,
+              "date": "2022-07-19"
+            },
+            "meanKind": "dailyMean",
+            "baselineCount": 930
+          },
           "pressure": {
             "label": "MSL pressure",
             "unit": "hPa",
@@ -4910,23 +4927,6 @@ const DATA = {
             "meanKind": "dailyMean",
             "baselineCount": 930
           },
-          "rain": {
-            "label": "Daily rainfall",
-            "unit": "mm",
-            "recordLow": {
-              "value": 0.0,
-              "date": "1908-07-01"
-            },
-            "p05": 0.0,
-            "mean": 48.7,
-            "p95": 8.9,
-            "recordHigh": {
-              "value": 50.3,
-              "date": "1941-07-25"
-            },
-            "meanKind": "monthTotal",
-            "baselineCount": 930
-          },
           "tmin": {
             "label": "Daily minimum temperature",
             "unit": "°C",
@@ -4939,23 +4939,6 @@ const DATA = {
             "p95": 16.7,
             "recordHigh": {
               "value": 20.1,
-              "date": "2022-07-19"
-            },
-            "meanKind": "dailyMean",
-            "baselineCount": 930
-          },
-          "tmean": {
-            "label": "Daily mean temperature",
-            "unit": "°C",
-            "recordLow": {
-              "value": 10.3,
-              "date": "1965-07-04"
-            },
-            "p05": 14.1,
-            "mean": 17.8,
-            "p95": 22.3,
-            "recordHigh": {
-              "value": 28.9,
               "date": "2022-07-19"
             },
             "meanKind": "dailyMean",
@@ -4993,6 +4976,23 @@ const DATA = {
               "date": "2022-07-19"
             },
             "meanKind": "dailyMean",
+            "baselineCount": 930
+          },
+          "rain": {
+            "label": "Daily rainfall",
+            "unit": "mm",
+            "recordLow": {
+              "value": 0.0,
+              "date": "1908-07-01"
+            },
+            "p05": 0.0,
+            "mean": 48.7,
+            "p95": 8.9,
+            "recordHigh": {
+              "value": 50.3,
+              "date": "1941-07-25"
+            },
+            "meanKind": "monthTotal",
             "baselineCount": 930
           }
         }
