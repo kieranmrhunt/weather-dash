@@ -6,7 +6,7 @@
 <title>Reading Atmospheric Observatory — Live Conditions</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:wght@300;400;500;600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@400;500;600&family=Source+Sans+3:wght@400;500;600&family=Source+Serif+4:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
   /* ============================================================
      Reading Atmospheric Observatory — live conditions dashboard
@@ -28,9 +28,10 @@
     --accent:#e6b34a;          /* overwritten per-condition by JS */
     --accent-soft:rgba(230,179,74,.16);
     --warm:#e8754a; --cool:#5b9bd5; --good:#7fcf9a; --bad:#e0607a;
-    --mono:'IBM Plex Mono',ui-monospace,Menlo,Consolas,monospace;
-    --serif:'IBM Plex Serif',Georgia,serif;
-    --body:'IBM Plex Sans',Arial,Helvetica,sans-serif;
+    --mono:'Source Code Pro',ui-monospace,Menlo,Consolas,monospace;
+    --serif:'Source Serif 4',Georgia,serif;
+    --body:'Source Sans 3',Arial,Helvetica,sans-serif;
+    --title:'Effra','Effra CC','Source Sans 3',Arial,Helvetica,sans-serif;
     --r:16px;
     --shadow:0 18px 50px -28px rgba(0,0,0,.85);
   }
@@ -59,20 +60,16 @@
     display:flex;flex-wrap:wrap;align-items:flex-end;gap:18px 26px;
     padding-bottom:18px;margin-bottom:22px;border-bottom:1px solid var(--line);
   }
-  .brand-lockup{display:flex;align-items:flex-start;gap:12px;min-width:0}
-  .uor-crest{width:34px;height:42px;flex:none;margin-top:0;border:1px solid var(--line-strong);border-radius:6px;background:rgba(236,233,224,.06);padding:4px;display:flex;align-items:center;justify-content:center;box-shadow:0 10px 24px -18px rgba(0,0,0,.9)}
+  .brand-lockup{display:flex;align-items:flex-start;gap:14px;min-width:0}
+  .uor-crest{width:40px;height:50px;flex:none;margin-top:1px;border:1px solid var(--line-strong);border-radius:6px;background:rgba(236,233,224,.06);padding:4px;display:flex;align-items:center;justify-content:center;box-shadow:0 10px 24px -18px rgba(0,0,0,.9)}
   .uor-crest img{display:block;width:100%;height:100%;object-fit:contain}
-  .brand{display:flex;flex-direction:column;gap:2px;min-width:0}
-  .eyebrow{
-    font-family:var(--mono);font-size:11px;letter-spacing:.32em;text-transform:uppercase;
-    color:var(--ink-faint);
-  }
+  .brand{display:flex;flex-direction:column;min-width:0}
   .brand h1{
-    font-family:var(--serif);font-weight:400;font-size:clamp(22px,3.6vw,30px);
-    line-height:1.05;margin:3px 0 0;letter-spacing:-.01em;
+    font-family:var(--title);font-weight:500;font-size:32px;
+    line-height:1.06;margin:0;letter-spacing:0;
   }
-  .brand h1 em{font-style:normal;color:var(--accent);transition:color .6s}
-  .coords{font-family:var(--mono);font-size:11.5px;color:var(--ink-dim);margin-top:5px;letter-spacing:.04em}
+  .coords{font-family:var(--mono);font-size:10.5px;color:var(--ink-dim);margin-top:7px;letter-spacing:.04em;line-height:1.45}
+  .coords .live{color:var(--accent);transition:color .6s}
 
   .clocks{margin-left:auto;display:flex;gap:26px;text-align:right}
   .clk{display:flex;flex-direction:column;gap:3px}
@@ -166,12 +163,12 @@
     .card.forecast-wide,.card.trace-wide,.card.aurora-wide{grid-column:span 2}
   }
   .card h2{
-    font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;
+    font-family:var(--title);font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;
     color:var(--ink-faint);margin:0 0 12px;display:flex;justify-content:center;align-items:baseline;
     gap:.85em;flex-wrap:wrap;text-align:center;line-height:1.35;
   }
   .card h2 .var{color:var(--accent);transition:color .6s}
-  .card h2 .instr{color:var(--ink-faint);font-weight:500;letter-spacing:.11em;text-transform:uppercase}
+  .card h2 .instr{font-family:var(--mono);color:var(--ink-faint);font-weight:500;letter-spacing:.11em;text-transform:uppercase}
   .readout{font-family:var(--serif);font-weight:400;font-size:42px;line-height:1;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
   .readout .u{font-family:var(--mono);font-size:14px;color:var(--ink-dim);margin-left:6px;letter-spacing:0}
   .sub{font-family:var(--mono);font-size:11.5px;color:var(--ink-dim);margin-top:6px;letter-spacing:.02em;line-height:1.55}
@@ -383,6 +380,7 @@
   .trace-spark .gridline{stroke:var(--line);stroke-width:1}
   .trace-spark .axis-label{font-family:var(--mono);font-size:8px;fill:var(--ink-faint)}
   .trace-spark .series-line{fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+  .trace-spark .series-line.yesterday-line{stroke:var(--ink-faint);stroke-width:1.5;stroke-dasharray:4 4;opacity:.82}
   .trace-spark .latest-dot{stroke:rgba(8,11,17,.85);stroke-width:2}
   .trace-temp .series-line{stroke:#f08a78}.trace-temp .latest-dot{stroke:#f08a78;fill:#f08a78}
   .trace-rh .series-line{stroke:#7fcf9a}.trace-rh .latest-dot{stroke:#7fcf9a;fill:#7fcf9a}
@@ -390,6 +388,12 @@
   .trace-rain .series-line{stroke:#8bbcff}.trace-rain .latest-dot{stroke:#8bbcff;fill:#8bbcff}
   .trace-wind .series-line{stroke:#d7a4ff}.trace-wind .latest-dot{stroke:#d7a4ff;fill:#d7a4ff}
   .trace-solar .series-line{stroke:#ffd166}.trace-solar .latest-dot{stroke:#ffd166;fill:#ffd166}
+  .trace-legend{display:flex;justify-content:flex-end;gap:12px;margin-top:8px;font-family:var(--mono);font-size:8.5px;color:var(--ink-faint);text-transform:uppercase;letter-spacing:.06em}
+  .trace-legend span{display:inline-flex;align-items:center;gap:5px}
+  .trace-legend i{width:13px;height:0;border-top:2px solid currentColor}
+  .trace-legend .today{color:var(--ink-dim)}
+  .trace-legend .yesterday{color:var(--ink-faint)}
+  .trace-legend .yesterday i{border-top-style:dashed}
   .trace-empty{font-family:var(--mono);font-size:11px;color:var(--ink-faint);text-align:center;padding:12px 0 2px}
 
 
@@ -402,7 +406,7 @@
     --soil-img-core:url(data:image/jpeg;base64,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);
   }
   .soil{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:18px clamp(16px,2.5vw,26px) 16px;margin-bottom:18px;box-shadow:var(--shadow)}
-  .soil h2{font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-faint);margin:0 0 12px}
+  .soil h2{font-family:var(--title);font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-faint);margin:0 0 12px}
   .core{display:block}
   .soil-table{display:grid;grid-template-columns:minmax(220px,.72fr) minmax(0,1.45fr);gap:clamp(22px,3vw,38px)}
   .soil-group{min-width:0}
@@ -431,8 +435,8 @@
 
   /* ---------- extremes ---------- */
   .extremes{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:20px clamp(16px,2.5vw,24px) 8px;box-shadow:var(--shadow)}
-  .extremes h2{font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-faint);margin:0 0 16px;display:flex;justify-content:space-between;align-items:baseline;gap:10px}
-  .extremes h2 .since{color:var(--ink-faint);font-weight:400;letter-spacing:.08em}
+  .extremes h2{font-family:var(--title);font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-faint);margin:0 0 16px;display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+  .extremes h2 .since{font-family:var(--mono);color:var(--ink-faint);font-weight:400;letter-spacing:.08em}
   .ext-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:2px 30px}
   .ext-row{display:grid;grid-template-columns:1fr auto auto;gap:10px;align-items:baseline;padding:11px 0;border-bottom:1px solid var(--line)}
   .ext-row .lbl{font-family:var(--body);font-size:16px;color:var(--ink-dim)}
@@ -476,6 +480,8 @@
 
   @media (max-width:760px){
     body{font-size:17px}
+    .brand h1{font-size:25px}
+    .coords{font-size:9.5px}
     .hero{grid-template-columns:1fr}
     .hero-sky{border-left:0;border-top:1px solid var(--line);min-height:240px;order:-1}
     .hero-read{padding-right:clamp(20px,3vw,34px)}
@@ -512,9 +518,8 @@
     <div class="brand-lockup">
       <span class="uor-crest"><img src="data:image/png;base64,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" alt="University of Reading crest"></span>
       <div class="brand">
-        <div class="eyebrow">University of Reading &middot; METFiDAS</div>
-        <h1>Atmospheric Observatory <em>&mdash; live conditions</em></h1>
-        <div class="coords">51.4414&deg;N&nbsp; 0.9418&deg;W &middot; 66&nbsp;m AMSL &middot; all times UTC</div>
+        <h1>University of Reading atmospheric observatory</h1>
+        <div class="coords"><span class="live">live conditions</span> &middot; METFiDAS &middot; 51.4414&deg;N&nbsp; 0.9418&deg;W &middot; 66&nbsp;m AMSL &middot; all times UTC</div>
       </div>
     </div>
     <div class="clocks">
@@ -598,18 +603,18 @@ const LAT = 51.4414, LON = -0.9418;
 
 const DATA = {
   "live": {
-    "label": "Live now · 29 Jul 2026 1330 UTC",
+    "label": "Live now · 29 Jul 2026 1340 UTC",
     "y": 2026,
     "mo": 7,
     "d": 29,
-    "time": "1330",
+    "time": "1340",
     "ww": 0,
-    "Td": 32.7,
-    "Tw": 20.0,
-    "Tdew": 9.7,
-    "VP": 12.0,
-    "RH": 24,
-    "delT": 1.5,
+    "Td": 32.3,
+    "Tw": 20.1,
+    "Tdew": 10.3,
+    "VP": 12.6,
+    "RH": 26,
+    "delT": 0.7,
     "tempHistory": [
       {
         "time": "0005",
@@ -1586,12 +1591,14 @@ const DATA = {
       {
         "time": "1335",
         "x": 815,
-        "yesterday": 27.6
+        "yesterday": 27.6,
+        "today": 32.6
       },
       {
         "time": "1340",
         "x": 820,
-        "yesterday": 27.5
+        "yesterday": 27.5,
+        "today": 32.3
       },
       {
         "time": "1345",
@@ -2218,6 +2225,12 @@ const DATA = {
       {
         "time": "0005",
         "x": 5,
+        "tempYesterday": 18.1,
+        "rhYesterday": 86,
+        "pressureYesterday": 1020.9,
+        "rainYesterday": 0.0,
+        "windYesterday": 1.6,
+        "solarYesterday": -3,
         "temp": 18.2,
         "rh": 80,
         "pressure": 1016.9,
@@ -2228,6 +2241,12 @@ const DATA = {
       {
         "time": "0010",
         "x": 10,
+        "tempYesterday": 18.1,
+        "rhYesterday": 87,
+        "pressureYesterday": 1021.0,
+        "rainYesterday": 0.0,
+        "windYesterday": 1.8,
+        "solarYesterday": -3,
         "temp": 17.9,
         "rh": 82,
         "pressure": 1016.9,
@@ -2238,6 +2257,12 @@ const DATA = {
       {
         "time": "0015",
         "x": 15,
+        "tempYesterday": 18.0,
+        "rhYesterday": 87,
+        "pressureYesterday": 1020.9,
+        "rainYesterday": 0.0,
+        "windYesterday": 1.9,
+        "solarYesterday": -3,
         "temp": 17.8,
         "rh": 82,
         "pressure": 1016.9,
@@ -2248,6 +2273,12 @@ const DATA = {
       {
         "time": "0020",
         "x": 20,
+        "tempYesterday": 18.0,
+        "rhYesterday": 87,
+        "pressureYesterday": 1020.9,
+        "rainYesterday": 0.0,
+        "windYesterday": 1.7,
+        "solarYesterday": -3,
         "temp": 17.6,
         "rh": 85,
         "pressure": 1016.8,
@@ -2258,6 +2289,12 @@ const DATA = {
       {
         "time": "0025",
         "x": 25,
+        "tempYesterday": 17.9,
+        "rhYesterday": 87,
+        "pressureYesterday": 1020.9,
+        "rainYesterday": 0.0,
+        "windYesterday": 1.7,
+        "solarYesterday": -3,
         "temp": 17.5,
         "rh": 85,
         "pressure": 1016.8,
@@ -2268,6 +2305,12 @@ const DATA = {
       {
         "time": "0030",
         "x": 30,
+        "tempYesterday": 17.9,
+        "rhYesterday": 88,
+        "pressureYesterday": 1020.8,
+        "rainYesterday": 0.0,
+        "windYesterday": 1.6,
+        "solarYesterday": -3,
         "temp": 17.4,
         "rh": 87,
         "pressure": 1016.8,
@@ -2278,6 +2321,12 @@ const DATA = {
       {
         "time": "0035",
         "x": 35,
+        "tempYesterday": 18.0,
+        "rhYesterday": 88,
+        "pressureYesterday": 1020.8,
+        "rainYesterday": 0.0,
+        "windYesterday": 1.2,
+        "solarYesterday": -3,
         "temp": 17.3,
         "rh": 87,
         "pressure": 1016.7,
@@ -2288,6 +2337,12 @@ const DATA = {
       {
         "time": "0040",
         "x": 40,
+        "tempYesterday": 18.0,
+        "rhYesterday": 88,
+        "pressureYesterday": 1020.9,
+        "rainYesterday": 0.0,
+        "windYesterday": 1.1,
+        "solarYesterday": -3,
         "temp": 17.2,
         "rh": 87,
         "pressure": 1016.7,
@@ -2298,6 +2353,12 @@ const DATA = {
       {
         "time": "0045",
         "x": 45,
+        "tempYesterday": 18.0,
+        "rhYesterday": 88,
+        "pressureYesterday": 1020.8,
+        "rainYesterday": 0.0,
+        "windYesterday": 1.2,
+        "solarYesterday": -3,
         "temp": 17.1,
         "rh": 88,
         "pressure": 1016.7,
@@ -2308,6 +2369,12 @@ const DATA = {
       {
         "time": "0050",
         "x": 50,
+        "tempYesterday": 17.7,
+        "rhYesterday": 88,
+        "pressureYesterday": 1020.8,
+        "rainYesterday": 0.0,
+        "windYesterday": 1.2,
+        "solarYesterday": -3,
         "temp": 17.0,
         "rh": 88,
         "pressure": 1016.7,
@@ -2318,6 +2385,12 @@ const DATA = {
       {
         "time": "0055",
         "x": 55,
+        "tempYesterday": 17.5,
+        "rhYesterday": 88,
+        "pressureYesterday": 1020.7,
+        "rainYesterday": 0.0,
+        "windYesterday": 1.1,
+        "solarYesterday": -4,
         "temp": 16.9,
         "rh": 89,
         "pressure": 1016.7,
@@ -2328,6 +2401,12 @@ const DATA = {
       {
         "time": "0100",
         "x": 60,
+        "tempYesterday": 17.4,
+        "rhYesterday": 89,
+        "pressureYesterday": 1020.8,
+        "rainYesterday": 0.0,
+        "windYesterday": 0.9,
+        "solarYesterday": -4,
         "temp": 16.8,
         "rh": 89,
         "pressure": 1016.7,
@@ -2338,6 +2417,12 @@ const DATA = {
       {
         "time": "0105",
         "x": 65,
+        "tempYesterday": 17.7,
+        "rhYesterday": 90,
+        "pressureYesterday": 1020.8,
+        "rainYesterday": 0.0,
+        "windYesterday": 0.9,
+        "solarYesterday": -3,
         "temp": 16.7,
         "rh": 91,
         "pressure": 1016.8,
@@ -2348,6 +2433,12 @@ const DATA = {
       {
         "time": "0110",
         "x": 70,
+        "tempYesterday": 17.5,
+        "rhYesterday": 89,
+        "pressureYesterday": 1020.7,
+        "rainYesterday": 0.0,
+        "windYesterday": 1.0,
+        "solarYesterday": -3,
         "temp": 16.6,
         "rh": 91,
         "pressure": 1016.9,
@@ -2358,6 +2449,12 @@ const DATA = {
       {
         "time": "0115",
         "x": 75,
+        "tempYesterday": 17.3,
+        "rhYesterday": 89,
+        "pressureYesterday": 1020.7,
+        "rainYesterday": 0.0,
+        "windYesterday": 0.9,
+        "solarYesterday": -3,
         "temp": 16.6,
         "rh": 92,
         "pressure": 1016.9,
@@ -2368,6 +2465,12 @@ const DATA = {
       {
         "time": "0120",
         "x": 80,
+        "tempYesterday": 17.2,
+        "rhYesterday": 90,
+        "pressureYesterday": 1020.6,
+        "rainYesterday": 0.0,
+        "windYesterday": 0.7,
+        "solarYesterday": -3,
         "temp": 16.5,
         "rh": 92,
         "pressure": 1016.8,
@@ -2378,6 +2481,12 @@ const DATA = {
       {
         "time": "0125",
         "x": 85,
+        "tempYesterday": 17.4,
+        "rhYesterday": 90,
+        "pressureYesterday": 1020.6,
+        "rainYesterday": 0.0,
+        "windYesterday": 0.5,
+        "solarYesterday": -3,
         "temp": 16.5,
         "rh": 92,
         "pressure": 1016.8,
@@ -2388,6 +2497,12 @@ const DATA = {
       {
         "time": "0130",
         "x": 90,
+        "tempYesterday": 17.4,
+        "rhYesterday": 90,
+        "pressureYesterday": 1020.6,
+        "rainYesterday": 0.0,
+        "windYesterday": 0.5,
+        "solarYesterday": -2,
         "temp": 16.7,
         "rh": 93,
         "pressure": 1016.8,
@@ -2398,6 +2513,12 @@ const DATA = {
       {
         "time": "0135",
         "x": 95,
+        "tempYesterday": 17.2,
+        "rhYesterday": 90,
+        "pressureYesterday": 1020.6,
+        "rainYesterday": 0.0,
+        "windYesterday": 0.5,
+        "solarYesterday": -3,
         "temp": 16.6,
         "rh": 93,
         "pressure": 1016.7,
@@ -2408,6 +2529,12 @@ const DATA = {
       {
         "time": "0140",
         "x": 100,
+        "tempYesterday": 17.0,
+        "rhYesterday": 91,
+        "pressureYesterday": 1020.6,
+        "rainYesterday": 0.0,
+        "windYesterday": 0.7,
+        "solarYesterday": -3,
         "temp": 16.3,
         "rh": 92,
         "pressure": 1016.7,
@@ -2418,6 +2545,12 @@ const DATA = {
       {
         "time": "0145",
         "x": 105,
+        "tempYesterday": 16.8,
+        "rhYesterday": 91,
+        "pressureYesterday": 1020.6,
+        "rainYesterday": 0.0,
+        "windYesterday": 1.0,
+        "solarYesterday": -3,
         "temp": 16.1,
         "rh": 92,
         "pressure": 1016.7,
@@ -2428,6 +2561,12 @@ const DATA = {
       {
         "time": "0150",
         "x": 110,
+        "tempYesterday": 16.9,
+        "rhYesterday": 91,
+        "pressureYesterday": 1020.6,
+        "rainYesterday": 0.0,
+        "windYesterday": 0.8,
+        "solarYesterday": -3,
         "temp": 15.9,
         "rh": 92,
         "pressure": 1016.7,
@@ -2438,6 +2577,12 @@ const DATA = {
       {
         "time": "0155",
         "x": 115,
+        "tempYesterday": 17.4,
+        "rhYesterday": 92,
+        "pressureYesterday": 1020.5,
+        "rainYesterday": 0.0,
+        "windYesterday": 1.0,
+        "solarYesterday": -2,
         "temp": 15.9,
         "rh": 92,
         "pressure": 1016.7,
@@ -2448,6 +2593,12 @@ const DATA = {
       {
         "time": "0200",
         "x": 120,
+        "tempYesterday": 17.1,
+        "rhYesterday": 92,
+        "pressureYesterday": 1020.5,
+        "rainYesterday": 0.0,
+        "windYesterday": 1.1,
+        "solarYesterday": -3,
         "temp": 15.7,
         "rh": 92,
         "pressure": 1016.7,
@@ -2458,6 +2609,12 @@ const DATA = {
       {
         "time": "0205",
         "x": 125,
+        "tempYesterday": 16.9,
+        "rhYesterday": 91,
+        "pressureYesterday": 1020.5,
+        "rainYesterday": 0.0,
+        "windYesterday": 0.9,
+        "solarYesterday": -3,
         "temp": 15.8,
         "rh": 93,
         "pressure": 1016.6,
@@ -2468,6 +2625,12 @@ const DATA = {
       {
         "time": "0210",
         "x": 130,
+        "tempYesterday": 16.9,
+        "rhYesterday": 92,
+        "pressureYesterday": 1020.5,
+        "rainYesterday": 0.0,
+        "windYesterday": 0.7,
+        "solarYesterday": -3,
         "temp": 15.8,
         "rh": 94,
         "pressure": 1016.6,
@@ -2478,6 +2641,12 @@ const DATA = {
       {
         "time": "0215",
         "x": 135,
+        "tempYesterday": 16.8,
+        "rhYesterday": 92,
+        "pressureYesterday": 1020.5,
+        "rainYesterday": 0.0,
+        "windYesterday": 0.8,
+        "solarYesterday": -3,
         "temp": 15.8,
         "rh": 94,
         "pressure": 1016.6,
@@ -2488,6 +2657,12 @@ const DATA = {
       {
         "time": "0220",
         "x": 140,
+        "tempYesterday": 16.8,
+        "rhYesterday": 93,
+        "pressureYesterday": 1020.4,
+        "rainYesterday": 0.0,
+        "windYesterday": 1.1,
+        "solarYesterday": -2,
         "temp": 15.6,
         "rh": 94,
         "pressure": 1016.6,
@@ -2498,6 +2673,12 @@ const DATA = {
       {
         "time": "0225",
         "x": 145,
+        "tempYesterday": 16.9,
+        "rhYesterday": 93,
+        "pressureYesterday": 1020.5,
+        "rainYesterday": 0.0,
+        "windYesterday": 1.2,
+        "solarYesterday": -2,
         "temp": 15.5,
         "rh": 95,
         "pressure": 1016.5,
@@ -2508,6 +2689,12 @@ const DATA = {
       {
         "time": "0230",
         "x": 150,
+        "tempYesterday": 17.0,
+        "rhYesterday": 94,
+        "pressureYesterday": 1020.4,
+        "rainYesterday": 0.0,
+        "windYesterday": 1.0,
+        "solarYesterday": -2,
         "temp": 15.2,
         "rh": 95,
         "pressure": 1016.4,
@@ -2518,6 +2705,12 @@ const DATA = {
       {
         "time": "0235",
         "x": 155,
+        "tempYesterday": 17.1,
+        "rhYesterday": 94,
+        "pressureYesterday": 1020.4,
+        "rainYesterday": 0.0,
+        "windYesterday": 1.1,
+        "solarYesterday": -2,
         "temp": 15.3,
         "rh": 95,
         "pressure": 1016.5,
@@ -2528,6 +2721,12 @@ const DATA = {
       {
         "time": "0240",
         "x": 160,
+        "tempYesterday": 17.0,
+        "rhYesterday": 93,
+        "pressureYesterday": 1020.4,
+        "rainYesterday": 0.0,
+        "windYesterday": 1.2,
+        "solarYesterday": -2,
         "temp": 15.3,
         "rh": 95,
         "pressure": 1016.5,
@@ -2538,6 +2737,12 @@ const DATA = {
       {
         "time": "0245",
         "x": 165,
+        "tempYesterday": 16.9,
+        "rhYesterday": 93,
+        "pressureYesterday": 1020.3,
+        "rainYesterday": 0.0,
+        "windYesterday": 1.0,
+        "solarYesterday": -2,
         "temp": 15.2,
         "rh": 96,
         "pressure": 1016.5,
@@ -2548,6 +2753,12 @@ const DATA = {
       {
         "time": "0250",
         "x": 170,
+        "tempYesterday": 17.0,
+        "rhYesterday": 94,
+        "pressureYesterday": 1020.4,
+        "rainYesterday": 0.0,
+        "windYesterday": 1.0,
+        "solarYesterday": -3,
         "temp": 15.1,
         "rh": 96,
         "pressure": 1016.5,
@@ -2558,6 +2769,12 @@ const DATA = {
       {
         "time": "0255",
         "x": 175,
+        "tempYesterday": 17.1,
+        "rhYesterday": 94,
+        "pressureYesterday": 1020.3,
+        "rainYesterday": 0.0,
+        "windYesterday": 0.9,
+        "solarYesterday": -3,
         "temp": 15.0,
         "rh": 96,
         "pressure": 1016.5,
@@ -2568,6 +2785,12 @@ const DATA = {
       {
         "time": "0300",
         "x": 180,
+        "tempYesterday": 16.9,
+        "rhYesterday": 94,
+        "pressureYesterday": 1020.2,
+        "rainYesterday": 0.0,
+        "windYesterday": 0.8,
+        "solarYesterday": -3,
         "temp": 15.0,
         "rh": 96,
         "pressure": 1016.4,
@@ -2578,6 +2801,12 @@ const DATA = {
       {
         "time": "0305",
         "x": 185,
+        "tempYesterday": 16.7,
+        "rhYesterday": 94,
+        "pressureYesterday": 1020.1,
+        "rainYesterday": 0.0,
+        "windYesterday": 0.8,
+        "solarYesterday": -3,
         "temp": 15.2,
         "rh": 97,
         "pressure": 1016.4,
@@ -2588,6 +2817,12 @@ const DATA = {
       {
         "time": "0310",
         "x": 190,
+        "tempYesterday": 16.6,
+        "rhYesterday": 93,
+        "pressureYesterday": 1020.1,
+        "rainYesterday": 0.0,
+        "windYesterday": 0.8,
+        "solarYesterday": -3,
         "temp": 15.3,
         "rh": 97,
         "pressure": 1016.4,
@@ -2598,6 +2833,12 @@ const DATA = {
       {
         "time": "0315",
         "x": 195,
+        "tempYesterday": 16.5,
+        "rhYesterday": 94,
+        "pressureYesterday": 1020.1,
+        "rainYesterday": 0.0,
+        "windYesterday": 0.5,
+        "solarYesterday": -2,
         "temp": 15.3,
         "rh": 97,
         "pressure": 1016.3,
@@ -2608,6 +2849,12 @@ const DATA = {
       {
         "time": "0320",
         "x": 200,
+        "tempYesterday": 16.6,
+        "rhYesterday": 94,
+        "pressureYesterday": 1020.1,
+        "rainYesterday": 0.0,
+        "windYesterday": 0.3,
+        "solarYesterday": -2,
         "temp": 15.4,
         "rh": 97,
         "pressure": 1016.2,
@@ -2618,6 +2865,12 @@ const DATA = {
       {
         "time": "0325",
         "x": 205,
+        "tempYesterday": 16.3,
+        "rhYesterday": 94,
+        "pressureYesterday": 1020.0,
+        "rainYesterday": 0.0,
+        "windYesterday": 0.3,
+        "solarYesterday": -3,
         "temp": 15.2,
         "rh": 97,
         "pressure": 1016.2,
@@ -2628,6 +2881,12 @@ const DATA = {
       {
         "time": "0330",
         "x": 210,
+        "tempYesterday": 16.7,
+        "rhYesterday": 95,
+        "pressureYesterday": 1020.0,
+        "rainYesterday": 0.0,
+        "windYesterday": 0.4,
+        "solarYesterday": -2,
         "temp": 15.1,
         "rh": 97,
         "pressure": 1016.1,
@@ -2638,6 +2897,12 @@ const DATA = {
       {
         "time": "0335",
         "x": 215,
+        "tempYesterday": 16.6,
+        "rhYesterday": 95,
+        "pressureYesterday": 1020.0,
+        "rainYesterday": 0.0,
+        "windYesterday": 0.6,
+        "solarYesterday": -2,
         "temp": 15.0,
         "rh": 97,
         "pressure": 1016.0,
@@ -2648,6 +2913,12 @@ const DATA = {
       {
         "time": "0340",
         "x": 220,
+        "tempYesterday": 16.6,
+        "rhYesterday": 95,
+        "pressureYesterday": 1019.9,
+        "rainYesterday": 0.0,
+        "windYesterday": 0.6,
+        "solarYesterday": -3,
         "temp": 15.2,
         "rh": 97,
         "pressure": 1016.0,
@@ -2658,6 +2929,12 @@ const DATA = {
       {
         "time": "0345",
         "x": 225,
+        "tempYesterday": 16.5,
+        "rhYesterday": 95,
+        "pressureYesterday": 1019.9,
+        "rainYesterday": 0.0,
+        "windYesterday": 0.4,
+        "solarYesterday": -2,
         "temp": 14.9,
         "rh": 97,
         "pressure": 1016.0,
@@ -2668,6 +2945,12 @@ const DATA = {
       {
         "time": "0350",
         "x": 230,
+        "tempYesterday": 16.3,
+        "rhYesterday": 96,
+        "pressureYesterday": 1019.8,
+        "rainYesterday": 0.0,
+        "windYesterday": 0.6,
+        "solarYesterday": -2,
         "temp": 15.0,
         "rh": 97,
         "pressure": 1016.0,
@@ -2678,6 +2961,12 @@ const DATA = {
       {
         "time": "0355",
         "x": 235,
+        "tempYesterday": 16.1,
+        "rhYesterday": 96,
+        "pressureYesterday": 1019.8,
+        "rainYesterday": 0.0,
+        "windYesterday": 0.8,
+        "solarYesterday": -2,
         "temp": 15.1,
         "rh": 97,
         "pressure": 1016.0,
@@ -2688,6 +2977,12 @@ const DATA = {
       {
         "time": "0400",
         "x": 240,
+        "tempYesterday": 16.1,
+        "rhYesterday": 96,
+        "pressureYesterday": 1019.7,
+        "rainYesterday": 0.0,
+        "windYesterday": 0.5,
+        "solarYesterday": -2,
         "temp": 14.9,
         "rh": 97,
         "pressure": 1016.0,
@@ -2698,6 +2993,12 @@ const DATA = {
       {
         "time": "0405",
         "x": 245,
+        "tempYesterday": 16.0,
+        "rhYesterday": 96,
+        "pressureYesterday": 1019.7,
+        "rainYesterday": 0.0,
+        "windYesterday": 0.2,
+        "solarYesterday": -1,
         "temp": 14.7,
         "rh": 97,
         "pressure": 1016.0,
@@ -2708,6 +3009,12 @@ const DATA = {
       {
         "time": "0410",
         "x": 250,
+        "tempYesterday": 16.1,
+        "rhYesterday": 96,
+        "pressureYesterday": 1019.7,
+        "rainYesterday": 0.0,
+        "windYesterday": 0.2,
+        "solarYesterday": 0,
         "temp": 14.7,
         "rh": 97,
         "pressure": 1015.9,
@@ -2718,6 +3025,12 @@ const DATA = {
       {
         "time": "0415",
         "x": 255,
+        "tempYesterday": 16.1,
+        "rhYesterday": 96,
+        "pressureYesterday": 1019.8,
+        "rainYesterday": 0.0,
+        "windYesterday": 0.3,
+        "solarYesterday": 1,
         "temp": 14.6,
         "rh": 97,
         "pressure": 1015.9,
@@ -2728,6 +3041,12 @@ const DATA = {
       {
         "time": "0420",
         "x": 260,
+        "tempYesterday": 16.3,
+        "rhYesterday": 97,
+        "pressureYesterday": 1019.9,
+        "rainYesterday": 0.0,
+        "windYesterday": 0.5,
+        "solarYesterday": 2,
         "temp": 14.4,
         "rh": 97,
         "pressure": 1015.8,
@@ -2738,6 +3057,12 @@ const DATA = {
       {
         "time": "0425",
         "x": 265,
+        "tempYesterday": 16.8,
+        "rhYesterday": 97,
+        "pressureYesterday": 1019.8,
+        "rainYesterday": 0.0,
+        "windYesterday": 0.8,
+        "solarYesterday": 4,
         "temp": 14.6,
         "rh": 97,
         "pressure": 1015.8,
@@ -2748,6 +3073,12 @@ const DATA = {
       {
         "time": "0430",
         "x": 270,
+        "tempYesterday": 16.8,
+        "rhYesterday": 97,
+        "pressureYesterday": 1019.8,
+        "rainYesterday": 0.0,
+        "windYesterday": 0.9,
+        "solarYesterday": 6,
         "temp": 14.7,
         "rh": 97,
         "pressure": 1015.8,
@@ -2758,6 +3089,12 @@ const DATA = {
       {
         "time": "0435",
         "x": 275,
+        "tempYesterday": 16.8,
+        "rhYesterday": 97,
+        "pressureYesterday": 1019.7,
+        "rainYesterday": 0.0,
+        "windYesterday": 0.9,
+        "solarYesterday": 9,
         "temp": 14.5,
         "rh": 97,
         "pressure": 1015.7,
@@ -2768,6 +3105,12 @@ const DATA = {
       {
         "time": "0440",
         "x": 280,
+        "tempYesterday": 17.2,
+        "rhYesterday": 97,
+        "pressureYesterday": 1019.7,
+        "rainYesterday": 0.0,
+        "windYesterday": 0.9,
+        "solarYesterday": 14,
         "temp": 14.4,
         "rh": 97,
         "pressure": 1015.7,
@@ -2778,6 +3121,12 @@ const DATA = {
       {
         "time": "0445",
         "x": 285,
+        "tempYesterday": 17.1,
+        "rhYesterday": 97,
+        "pressureYesterday": 1019.7,
+        "rainYesterday": 0.0,
+        "windYesterday": 0.6,
+        "solarYesterday": 16,
         "temp": 14.6,
         "rh": 97,
         "pressure": 1015.7,
@@ -2788,6 +3137,12 @@ const DATA = {
       {
         "time": "0450",
         "x": 290,
+        "tempYesterday": 17.3,
+        "rhYesterday": 96,
+        "pressureYesterday": 1019.8,
+        "rainYesterday": 0.0,
+        "windYesterday": 0.5,
+        "solarYesterday": 16,
         "temp": 14.5,
         "rh": 97,
         "pressure": 1015.6,
@@ -2798,6 +3153,12 @@ const DATA = {
       {
         "time": "0455",
         "x": 295,
+        "tempYesterday": 17.5,
+        "rhYesterday": 96,
+        "pressureYesterday": 1019.8,
+        "rainYesterday": 0.0,
+        "windYesterday": 0.7,
+        "solarYesterday": 18,
         "temp": 14.5,
         "rh": 97,
         "pressure": 1015.6,
@@ -2808,6 +3169,12 @@ const DATA = {
       {
         "time": "0500",
         "x": 300,
+        "tempYesterday": 17.5,
+        "rhYesterday": 95,
+        "pressureYesterday": 1019.8,
+        "rainYesterday": 0.0,
+        "windYesterday": 0.9,
+        "solarYesterday": 25,
         "temp": 14.4,
         "rh": 97,
         "pressure": 1015.6,
@@ -2818,6 +3185,12 @@ const DATA = {
       {
         "time": "0505",
         "x": 305,
+        "tempYesterday": 17.7,
+        "rhYesterday": 95,
+        "pressureYesterday": 1019.8,
+        "rainYesterday": 0.0,
+        "windYesterday": 1.0,
+        "solarYesterday": 30,
         "temp": 14.3,
         "rh": 97,
         "pressure": 1015.5,
@@ -2828,6 +3201,12 @@ const DATA = {
       {
         "time": "0510",
         "x": 310,
+        "tempYesterday": 17.7,
+        "rhYesterday": 94,
+        "pressureYesterday": 1019.8,
+        "rainYesterday": 0.0,
+        "windYesterday": 1.1,
+        "solarYesterday": 38,
         "temp": 14.9,
         "rh": 97,
         "pressure": 1015.5,
@@ -2838,6 +3217,12 @@ const DATA = {
       {
         "time": "0515",
         "x": 315,
+        "tempYesterday": 17.8,
+        "rhYesterday": 93,
+        "pressureYesterday": 1019.8,
+        "rainYesterday": 0.0,
+        "windYesterday": 1.3,
+        "solarYesterday": 44,
         "temp": 14.7,
         "rh": 97,
         "pressure": 1015.5,
@@ -2848,6 +3233,12 @@ const DATA = {
       {
         "time": "0520",
         "x": 320,
+        "tempYesterday": 17.9,
+        "rhYesterday": 93,
+        "pressureYesterday": 1019.9,
+        "rainYesterday": 0.0,
+        "windYesterday": 1.3,
+        "solarYesterday": 65,
         "temp": 14.9,
         "rh": 97,
         "pressure": 1015.5,
@@ -2858,6 +3249,12 @@ const DATA = {
       {
         "time": "0525",
         "x": 325,
+        "tempYesterday": 18.0,
+        "rhYesterday": 92,
+        "pressureYesterday": 1019.9,
+        "rainYesterday": 0.0,
+        "windYesterday": 1.6,
+        "solarYesterday": 80,
         "temp": 15.3,
         "rh": 97,
         "pressure": 1015.5,
@@ -2868,6 +3265,12 @@ const DATA = {
       {
         "time": "0530",
         "x": 330,
+        "tempYesterday": 18.1,
+        "rhYesterday": 92,
+        "pressureYesterday": 1019.9,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.0,
+        "solarYesterday": 94,
         "temp": 15.6,
         "rh": 97,
         "pressure": 1015.6,
@@ -2878,6 +3281,12 @@ const DATA = {
       {
         "time": "0535",
         "x": 335,
+        "tempYesterday": 18.2,
+        "rhYesterday": 91,
+        "pressureYesterday": 1020.0,
+        "rainYesterday": 0.0,
+        "windYesterday": 1.9,
+        "solarYesterday": 102,
         "temp": 15.8,
         "rh": 97,
         "pressure": 1015.7,
@@ -2888,6 +3297,12 @@ const DATA = {
       {
         "time": "0540",
         "x": 340,
+        "tempYesterday": 18.3,
+        "rhYesterday": 91,
+        "pressureYesterday": 1020.1,
+        "rainYesterday": 0.0,
+        "windYesterday": 1.8,
+        "solarYesterday": 87,
         "temp": 15.8,
         "rh": 97,
         "pressure": 1015.7,
@@ -2898,6 +3313,12 @@ const DATA = {
       {
         "time": "0545",
         "x": 345,
+        "tempYesterday": 18.3,
+        "rhYesterday": 90,
+        "pressureYesterday": 1020.2,
+        "rainYesterday": 0.0,
+        "windYesterday": 1.9,
+        "solarYesterday": 79,
         "temp": 16.0,
         "rh": 97,
         "pressure": 1015.8,
@@ -2908,6 +3329,12 @@ const DATA = {
       {
         "time": "0550",
         "x": 350,
+        "tempYesterday": 18.4,
+        "rhYesterday": 90,
+        "pressureYesterday": 1020.2,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.1,
+        "solarYesterday": 63,
         "temp": 16.3,
         "rh": 97,
         "pressure": 1015.8,
@@ -2918,6 +3345,12 @@ const DATA = {
       {
         "time": "0555",
         "x": 355,
+        "tempYesterday": 18.4,
+        "rhYesterday": 90,
+        "pressureYesterday": 1020.3,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.4,
+        "solarYesterday": 55,
         "temp": 16.5,
         "rh": 97,
         "pressure": 1015.8,
@@ -2928,6 +3361,12 @@ const DATA = {
       {
         "time": "0600",
         "x": 360,
+        "tempYesterday": 18.4,
+        "rhYesterday": 90,
+        "pressureYesterday": 1020.3,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.7,
+        "solarYesterday": 64,
         "temp": 16.7,
         "rh": 97,
         "pressure": 1015.8,
@@ -2938,6 +3377,12 @@ const DATA = {
       {
         "time": "0605",
         "x": 365,
+        "tempYesterday": 18.4,
+        "rhYesterday": 90,
+        "pressureYesterday": 1020.3,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.5,
+        "solarYesterday": 58,
         "temp": 17.1,
         "rh": 97,
         "pressure": 1015.8,
@@ -2948,6 +3393,12 @@ const DATA = {
       {
         "time": "0610",
         "x": 370,
+        "tempYesterday": 18.5,
+        "rhYesterday": 89,
+        "pressureYesterday": 1020.3,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.5,
+        "solarYesterday": 78,
         "temp": 17.5,
         "rh": 97,
         "pressure": 1015.8,
@@ -2958,6 +3409,12 @@ const DATA = {
       {
         "time": "0615",
         "x": 375,
+        "tempYesterday": 18.5,
+        "rhYesterday": 88,
+        "pressureYesterday": 1020.3,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.4,
+        "solarYesterday": 102,
         "temp": 17.7,
         "rh": 97,
         "pressure": 1015.8,
@@ -2968,6 +3425,12 @@ const DATA = {
       {
         "time": "0620",
         "x": 380,
+        "tempYesterday": 18.6,
+        "rhYesterday": 88,
+        "pressureYesterday": 1020.3,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.1,
+        "solarYesterday": 86,
         "temp": 17.9,
         "rh": 95,
         "pressure": 1015.8,
@@ -2978,6 +3441,12 @@ const DATA = {
       {
         "time": "0625",
         "x": 385,
+        "tempYesterday": 18.7,
+        "rhYesterday": 88,
+        "pressureYesterday": 1020.3,
+        "rainYesterday": 0.0,
+        "windYesterday": 1.9,
+        "solarYesterday": 112,
         "temp": 18.2,
         "rh": 92,
         "pressure": 1015.8,
@@ -2988,6 +3457,12 @@ const DATA = {
       {
         "time": "0630",
         "x": 390,
+        "tempYesterday": 18.6,
+        "rhYesterday": 87,
+        "pressureYesterday": 1020.4,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.2,
+        "solarYesterday": 86,
         "temp": 18.5,
         "rh": 89,
         "pressure": 1015.8,
@@ -2998,6 +3473,12 @@ const DATA = {
       {
         "time": "0635",
         "x": 395,
+        "tempYesterday": 18.6,
+        "rhYesterday": 87,
+        "pressureYesterday": 1020.4,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.5,
+        "solarYesterday": 70,
         "temp": 18.8,
         "rh": 86,
         "pressure": 1015.8,
@@ -3008,6 +3489,12 @@ const DATA = {
       {
         "time": "0640",
         "x": 400,
+        "tempYesterday": 18.7,
+        "rhYesterday": 87,
+        "pressureYesterday": 1020.3,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.3,
+        "solarYesterday": 75,
         "temp": 19.8,
         "rh": 83,
         "pressure": 1015.8,
@@ -3018,6 +3505,12 @@ const DATA = {
       {
         "time": "0645",
         "x": 405,
+        "tempYesterday": 18.7,
+        "rhYesterday": 86,
+        "pressureYesterday": 1020.4,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.3,
+        "solarYesterday": 86,
         "temp": 19.4,
         "rh": 83,
         "pressure": 1015.8,
@@ -3028,6 +3521,12 @@ const DATA = {
       {
         "time": "0650",
         "x": 410,
+        "tempYesterday": 18.7,
+        "rhYesterday": 86,
+        "pressureYesterday": 1020.4,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.5,
+        "solarYesterday": 154,
         "temp": 19.5,
         "rh": 82,
         "pressure": 1015.8,
@@ -3038,6 +3537,12 @@ const DATA = {
       {
         "time": "0655",
         "x": 415,
+        "tempYesterday": 18.8,
+        "rhYesterday": 86,
+        "pressureYesterday": 1020.5,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.7,
+        "solarYesterday": 92,
         "temp": 19.7,
         "rh": 81,
         "pressure": 1015.8,
@@ -3048,6 +3553,12 @@ const DATA = {
       {
         "time": "0700",
         "x": 420,
+        "tempYesterday": 18.8,
+        "rhYesterday": 86,
+        "pressureYesterday": 1020.6,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.9,
+        "solarYesterday": 88,
         "temp": 19.8,
         "rh": 79,
         "pressure": 1015.7,
@@ -3058,6 +3569,12 @@ const DATA = {
       {
         "time": "0705",
         "x": 425,
+        "tempYesterday": 18.8,
+        "rhYesterday": 86,
+        "pressureYesterday": 1020.6,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.6,
+        "solarYesterday": 95,
         "temp": 20.0,
         "rh": 77,
         "pressure": 1015.7,
@@ -3068,6 +3585,12 @@ const DATA = {
       {
         "time": "0710",
         "x": 430,
+        "tempYesterday": 18.9,
+        "rhYesterday": 85,
+        "pressureYesterday": 1020.6,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.3,
+        "solarYesterday": 83,
         "temp": 20.3,
         "rh": 76,
         "pressure": 1015.7,
@@ -3078,6 +3601,12 @@ const DATA = {
       {
         "time": "0715",
         "x": 435,
+        "tempYesterday": 18.9,
+        "rhYesterday": 85,
+        "pressureYesterday": 1020.6,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.4,
+        "solarYesterday": 107,
         "temp": 21.1,
         "rh": 74,
         "pressure": 1015.6,
@@ -3088,6 +3617,12 @@ const DATA = {
       {
         "time": "0720",
         "x": 440,
+        "tempYesterday": 18.9,
+        "rhYesterday": 85,
+        "pressureYesterday": 1020.6,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.3,
+        "solarYesterday": 122,
         "temp": 20.8,
         "rh": 72,
         "pressure": 1015.6,
@@ -3098,6 +3633,12 @@ const DATA = {
       {
         "time": "0725",
         "x": 445,
+        "tempYesterday": 18.9,
+        "rhYesterday": 85,
+        "pressureYesterday": 1020.6,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.3,
+        "solarYesterday": 42,
         "temp": 21.4,
         "rh": 71,
         "pressure": 1015.5,
@@ -3108,6 +3649,12 @@ const DATA = {
       {
         "time": "0730",
         "x": 450,
+        "tempYesterday": 19.0,
+        "rhYesterday": 85,
+        "pressureYesterday": 1020.6,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.0,
+        "solarYesterday": 39,
         "temp": 21.3,
         "rh": 71,
         "pressure": 1015.5,
@@ -3118,6 +3665,12 @@ const DATA = {
       {
         "time": "0735",
         "x": 455,
+        "tempYesterday": 18.9,
+        "rhYesterday": 85,
+        "pressureYesterday": 1020.7,
+        "rainYesterday": 0.0,
+        "windYesterday": 1.8,
+        "solarYesterday": 40,
         "temp": 21.6,
         "rh": 68,
         "pressure": 1015.5,
@@ -3128,6 +3681,12 @@ const DATA = {
       {
         "time": "0740",
         "x": 460,
+        "tempYesterday": 19.0,
+        "rhYesterday": 85,
+        "pressureYesterday": 1020.7,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.1,
+        "solarYesterday": 115,
         "temp": 21.7,
         "rh": 67,
         "pressure": 1015.4,
@@ -3138,6 +3697,12 @@ const DATA = {
       {
         "time": "0745",
         "x": 465,
+        "tempYesterday": 19.1,
+        "rhYesterday": 85,
+        "pressureYesterday": 1020.7,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.3,
+        "solarYesterday": 142,
         "temp": 21.9,
         "rh": 64,
         "pressure": 1015.3,
@@ -3148,6 +3713,12 @@ const DATA = {
       {
         "time": "0750",
         "x": 470,
+        "tempYesterday": 19.3,
+        "rhYesterday": 84,
+        "pressureYesterday": 1020.7,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.1,
+        "solarYesterday": 113,
         "temp": 22.2,
         "rh": 64,
         "pressure": 1015.3,
@@ -3158,6 +3729,12 @@ const DATA = {
       {
         "time": "0755",
         "x": 475,
+        "tempYesterday": 19.2,
+        "rhYesterday": 83,
+        "pressureYesterday": 1020.8,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.5,
+        "solarYesterday": 89,
         "temp": 22.5,
         "rh": 62,
         "pressure": 1015.3,
@@ -3168,6 +3745,12 @@ const DATA = {
       {
         "time": "0800",
         "x": 480,
+        "tempYesterday": 19.1,
+        "rhYesterday": 83,
+        "pressureYesterday": 1020.8,
+        "rainYesterday": 0.0,
+        "windYesterday": 3.0,
+        "solarYesterday": 145,
         "temp": 22.7,
         "rh": 61,
         "pressure": 1015.3,
@@ -3178,6 +3761,12 @@ const DATA = {
       {
         "time": "0805",
         "x": 485,
+        "tempYesterday": 19.3,
+        "rhYesterday": 83,
+        "pressureYesterday": 1020.8,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.7,
+        "solarYesterday": 163,
         "temp": 23.1,
         "rh": 61,
         "pressure": 1015.2,
@@ -3188,6 +3777,12 @@ const DATA = {
       {
         "time": "0810",
         "x": 490,
+        "tempYesterday": 19.4,
+        "rhYesterday": 82,
+        "pressureYesterday": 1020.8,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.4,
+        "solarYesterday": 209,
         "temp": 23.6,
         "rh": 60,
         "pressure": 1015.2,
@@ -3198,6 +3793,12 @@ const DATA = {
       {
         "time": "0815",
         "x": 495,
+        "tempYesterday": 19.9,
+        "rhYesterday": 82,
+        "pressureYesterday": 1020.7,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.1,
+        "solarYesterday": 237,
         "temp": 24.0,
         "rh": 58,
         "pressure": 1015.1,
@@ -3208,6 +3809,12 @@ const DATA = {
       {
         "time": "0820",
         "x": 500,
+        "tempYesterday": 19.8,
+        "rhYesterday": 80,
+        "pressureYesterday": 1020.7,
+        "rainYesterday": 0.0,
+        "windYesterday": 1.8,
+        "solarYesterday": 289,
         "temp": 24.0,
         "rh": 56,
         "pressure": 1015.1,
@@ -3218,6 +3825,12 @@ const DATA = {
       {
         "time": "0825",
         "x": 505,
+        "tempYesterday": 20.1,
+        "rhYesterday": 79,
+        "pressureYesterday": 1020.6,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.3,
+        "solarYesterday": 341,
         "temp": 23.9,
         "rh": 56,
         "pressure": 1015.1,
@@ -3228,6 +3841,12 @@ const DATA = {
       {
         "time": "0830",
         "x": 510,
+        "tempYesterday": 20.5,
+        "rhYesterday": 78,
+        "pressureYesterday": 1020.6,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.2,
+        "solarYesterday": 243,
         "temp": 24.0,
         "rh": 55,
         "pressure": 1015.1,
@@ -3238,6 +3857,12 @@ const DATA = {
       {
         "time": "0835",
         "x": 515,
+        "tempYesterday": 20.3,
+        "rhYesterday": 77,
+        "pressureYesterday": 1020.6,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.0,
+        "solarYesterday": 190,
         "temp": 24.4,
         "rh": 52,
         "pressure": 1015.0,
@@ -3248,6 +3873,12 @@ const DATA = {
       {
         "time": "0840",
         "x": 520,
+        "tempYesterday": 20.3,
+        "rhYesterday": 77,
+        "pressureYesterday": 1020.6,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.4,
+        "solarYesterday": 164,
         "temp": 24.1,
         "rh": 50,
         "pressure": 1015.0,
@@ -3258,6 +3889,12 @@ const DATA = {
       {
         "time": "0845",
         "x": 525,
+        "tempYesterday": 20.4,
+        "rhYesterday": 77,
+        "pressureYesterday": 1020.5,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.1,
+        "solarYesterday": 233,
         "temp": 24.6,
         "rh": 48,
         "pressure": 1015.0,
@@ -3268,6 +3905,12 @@ const DATA = {
       {
         "time": "0850",
         "x": 530,
+        "tempYesterday": 20.9,
+        "rhYesterday": 76,
+        "pressureYesterday": 1020.5,
+        "rainYesterday": 0.0,
+        "windYesterday": 1.8,
+        "solarYesterday": 312,
         "temp": 24.5,
         "rh": 47,
         "pressure": 1015.0,
@@ -3278,6 +3921,12 @@ const DATA = {
       {
         "time": "0855",
         "x": 535,
+        "tempYesterday": 21.0,
+        "rhYesterday": 75,
+        "pressureYesterday": 1020.4,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.0,
+        "solarYesterday": 371,
         "temp": 24.6,
         "rh": 48,
         "pressure": 1015.0,
@@ -3288,6 +3937,12 @@ const DATA = {
       {
         "time": "0900",
         "x": 540,
+        "tempYesterday": 21.2,
+        "rhYesterday": 74,
+        "pressureYesterday": 1020.4,
+        "rainYesterday": 0.0,
+        "windYesterday": 1.9,
+        "solarYesterday": 264,
         "temp": 24.7,
         "rh": 48,
         "pressure": 1015.0,
@@ -3298,6 +3953,12 @@ const DATA = {
       {
         "time": "0905",
         "x": 545,
+        "tempYesterday": 21.2,
+        "rhYesterday": 74,
+        "pressureYesterday": 1020.4,
+        "rainYesterday": 0.0,
+        "windYesterday": 1.9,
+        "solarYesterday": 237,
         "temp": 25.0,
         "rh": 48,
         "pressure": 1014.9,
@@ -3308,6 +3969,12 @@ const DATA = {
       {
         "time": "0910",
         "x": 550,
+        "tempYesterday": 21.2,
+        "rhYesterday": 74,
+        "pressureYesterday": 1020.4,
+        "rainYesterday": 0.0,
+        "windYesterday": 1.7,
+        "solarYesterday": 215,
         "temp": 25.7,
         "rh": 46,
         "pressure": 1014.8,
@@ -3318,6 +3985,12 @@ const DATA = {
       {
         "time": "0915",
         "x": 555,
+        "tempYesterday": 21.0,
+        "rhYesterday": 74,
+        "pressureYesterday": 1020.4,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.0,
+        "solarYesterday": 330,
         "temp": 25.6,
         "rh": 45,
         "pressure": 1014.7,
@@ -3328,6 +4001,12 @@ const DATA = {
       {
         "time": "0920",
         "x": 560,
+        "tempYesterday": 21.3,
+        "rhYesterday": 74,
+        "pressureYesterday": 1020.4,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.4,
+        "solarYesterday": 356,
         "temp": 26.3,
         "rh": 45,
         "pressure": 1014.6,
@@ -3338,6 +4017,12 @@ const DATA = {
       {
         "time": "0925",
         "x": 565,
+        "tempYesterday": 21.5,
+        "rhYesterday": 73,
+        "pressureYesterday": 1020.4,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.3,
+        "solarYesterday": 317,
         "temp": 26.5,
         "rh": 43,
         "pressure": 1014.6,
@@ -3348,6 +4033,12 @@ const DATA = {
       {
         "time": "0930",
         "x": 570,
+        "tempYesterday": 21.6,
+        "rhYesterday": 73,
+        "pressureYesterday": 1020.4,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.3,
+        "solarYesterday": 420,
         "temp": 26.1,
         "rh": 43,
         "pressure": 1014.6,
@@ -3358,6 +4049,12 @@ const DATA = {
       {
         "time": "0935",
         "x": 575,
+        "tempYesterday": 21.5,
+        "rhYesterday": 72,
+        "pressureYesterday": 1020.4,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.3,
+        "solarYesterday": 287,
         "temp": 26.3,
         "rh": 43,
         "pressure": 1014.6,
@@ -3368,6 +4065,12 @@ const DATA = {
       {
         "time": "0940",
         "x": 580,
+        "tempYesterday": 21.5,
+        "rhYesterday": 72,
+        "pressureYesterday": 1020.4,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.3,
+        "solarYesterday": 569,
         "temp": 26.2,
         "rh": 44,
         "pressure": 1014.5,
@@ -3378,6 +4081,12 @@ const DATA = {
       {
         "time": "0945",
         "x": 585,
+        "tempYesterday": 21.8,
+        "rhYesterday": 71,
+        "pressureYesterday": 1020.4,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.0,
+        "solarYesterday": 925,
         "temp": 26.9,
         "rh": 42,
         "pressure": 1014.5,
@@ -3388,6 +4097,12 @@ const DATA = {
       {
         "time": "0950",
         "x": 590,
+        "tempYesterday": 22.3,
+        "rhYesterday": 69,
+        "pressureYesterday": 1020.4,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.2,
+        "solarYesterday": 410,
         "temp": 26.9,
         "rh": 41,
         "pressure": 1014.5,
@@ -3398,6 +4113,12 @@ const DATA = {
       {
         "time": "0955",
         "x": 595,
+        "tempYesterday": 21.9,
+        "rhYesterday": 69,
+        "pressureYesterday": 1020.3,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.2,
+        "solarYesterday": 364,
         "temp": 27.2,
         "rh": 40,
         "pressure": 1014.4,
@@ -3408,6 +4129,12 @@ const DATA = {
       {
         "time": "1000",
         "x": 600,
+        "tempYesterday": 22.1,
+        "rhYesterday": 70,
+        "pressureYesterday": 1020.3,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.1,
+        "solarYesterday": 387,
         "temp": 27.6,
         "rh": 40,
         "pressure": 1014.4,
@@ -3418,6 +4145,12 @@ const DATA = {
       {
         "time": "1005",
         "x": 605,
+        "tempYesterday": 22.3,
+        "rhYesterday": 69,
+        "pressureYesterday": 1020.3,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.1,
+        "solarYesterday": 384,
         "temp": 27.6,
         "rh": 39,
         "pressure": 1014.4,
@@ -3428,6 +4161,12 @@ const DATA = {
       {
         "time": "1010",
         "x": 610,
+        "tempYesterday": 22.8,
+        "rhYesterday": 67,
+        "pressureYesterday": 1020.3,
+        "rainYesterday": 0.0,
+        "windYesterday": 1.9,
+        "solarYesterday": 432,
         "temp": 27.6,
         "rh": 38,
         "pressure": 1014.3,
@@ -3438,6 +4177,12 @@ const DATA = {
       {
         "time": "1015",
         "x": 615,
+        "tempYesterday": 22.5,
+        "rhYesterday": 66,
+        "pressureYesterday": 1020.2,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.0,
+        "solarYesterday": 742,
         "temp": 28.1,
         "rh": 38,
         "pressure": 1014.3,
@@ -3448,6 +4193,12 @@ const DATA = {
       {
         "time": "1020",
         "x": 620,
+        "tempYesterday": 22.8,
+        "rhYesterday": 66,
+        "pressureYesterday": 1020.2,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.0,
+        "solarYesterday": 970,
         "temp": 27.9,
         "rh": 38,
         "pressure": 1014.2,
@@ -3458,6 +4209,12 @@ const DATA = {
       {
         "time": "1025",
         "x": 625,
+        "tempYesterday": 24.2,
+        "rhYesterday": 62,
+        "pressureYesterday": 1020.1,
+        "rainYesterday": 0.0,
+        "windYesterday": 1.6,
+        "solarYesterday": 974,
         "temp": 28.3,
         "rh": 38,
         "pressure": 1014.1,
@@ -3468,6 +4225,12 @@ const DATA = {
       {
         "time": "1030",
         "x": 630,
+        "tempYesterday": 23.4,
+        "rhYesterday": 63,
+        "pressureYesterday": 1020.1,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.1,
+        "solarYesterday": 815,
         "temp": 28.5,
         "rh": 37,
         "pressure": 1014.1,
@@ -3478,6 +4241,12 @@ const DATA = {
       {
         "time": "1035",
         "x": 635,
+        "tempYesterday": 23.2,
+        "rhYesterday": 63,
+        "pressureYesterday": 1020.1,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.3,
+        "solarYesterday": 934,
         "temp": 28.9,
         "rh": 36,
         "pressure": 1014.1,
@@ -3488,6 +4257,12 @@ const DATA = {
       {
         "time": "1040",
         "x": 640,
+        "tempYesterday": 24.0,
+        "rhYesterday": 62,
+        "pressureYesterday": 1020.0,
+        "rainYesterday": 0.0,
+        "windYesterday": 1.7,
+        "solarYesterday": 872,
         "temp": 28.5,
         "rh": 37,
         "pressure": 1014.2,
@@ -3498,6 +4273,12 @@ const DATA = {
       {
         "time": "1045",
         "x": 645,
+        "tempYesterday": 24.4,
+        "rhYesterday": 59,
+        "pressureYesterday": 1020.0,
+        "rainYesterday": 0.0,
+        "windYesterday": 1.8,
+        "solarYesterday": 843,
         "temp": 28.7,
         "rh": 38,
         "pressure": 1014.1,
@@ -3508,6 +4289,12 @@ const DATA = {
       {
         "time": "1050",
         "x": 650,
+        "tempYesterday": 24.4,
+        "rhYesterday": 60,
+        "pressureYesterday": 1019.9,
+        "rainYesterday": 0.0,
+        "windYesterday": 1.9,
+        "solarYesterday": 906,
         "temp": 28.8,
         "rh": 36,
         "pressure": 1014.0,
@@ -3518,6 +4305,12 @@ const DATA = {
       {
         "time": "1055",
         "x": 655,
+        "tempYesterday": 23.9,
+        "rhYesterday": 59,
+        "pressureYesterday": 1019.8,
+        "rainYesterday": 0.0,
+        "windYesterday": 1.8,
+        "solarYesterday": 947,
         "temp": 28.8,
         "rh": 36,
         "pressure": 1013.9,
@@ -3528,6 +4321,12 @@ const DATA = {
       {
         "time": "1100",
         "x": 660,
+        "tempYesterday": 25.3,
+        "rhYesterday": 58,
+        "pressureYesterday": 1019.7,
+        "rainYesterday": 0.0,
+        "windYesterday": 1.7,
+        "solarYesterday": 1022,
         "temp": 29.4,
         "rh": 36,
         "pressure": 1013.9,
@@ -3538,6 +4337,12 @@ const DATA = {
       {
         "time": "1105",
         "x": 665,
+        "tempYesterday": 24.7,
+        "rhYesterday": 57,
+        "pressureYesterday": 1019.7,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.2,
+        "solarYesterday": 975,
         "temp": 29.7,
         "rh": 34,
         "pressure": 1013.8,
@@ -3548,6 +4353,12 @@ const DATA = {
       {
         "time": "1110",
         "x": 670,
+        "tempYesterday": 25.1,
+        "rhYesterday": 57,
+        "pressureYesterday": 1019.7,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.2,
+        "solarYesterday": 684,
         "temp": 29.2,
         "rh": 35,
         "pressure": 1013.8,
@@ -3558,6 +4369,12 @@ const DATA = {
       {
         "time": "1115",
         "x": 675,
+        "tempYesterday": 25.6,
+        "rhYesterday": 55,
+        "pressureYesterday": 1019.7,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.1,
+        "solarYesterday": 617,
         "temp": 29.6,
         "rh": 35,
         "pressure": 1013.7,
@@ -3568,6 +4385,12 @@ const DATA = {
       {
         "time": "1120",
         "x": 680,
+        "tempYesterday": 25.1,
+        "rhYesterday": 54,
+        "pressureYesterday": 1019.6,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.3,
+        "solarYesterday": 1094,
         "temp": 29.2,
         "rh": 35,
         "pressure": 1013.6,
@@ -3578,6 +4401,12 @@ const DATA = {
       {
         "time": "1125",
         "x": 685,
+        "tempYesterday": 25.4,
+        "rhYesterday": 54,
+        "pressureYesterday": 1019.6,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.4,
+        "solarYesterday": 1098,
         "temp": 29.3,
         "rh": 36,
         "pressure": 1013.5,
@@ -3588,6 +4417,12 @@ const DATA = {
       {
         "time": "1130",
         "x": 690,
+        "tempYesterday": 25.5,
+        "rhYesterday": 53,
+        "pressureYesterday": 1019.5,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.5,
+        "solarYesterday": 406,
         "temp": 30.3,
         "rh": 34,
         "pressure": 1013.5,
@@ -3598,6 +4433,12 @@ const DATA = {
       {
         "time": "1135",
         "x": 695,
+        "tempYesterday": 26.4,
+        "rhYesterday": 51,
+        "pressureYesterday": 1019.5,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.4,
+        "solarYesterday": 1133,
         "temp": 29.6,
         "rh": 34,
         "pressure": 1013.5,
@@ -3608,6 +4449,12 @@ const DATA = {
       {
         "time": "1140",
         "x": 700,
+        "tempYesterday": 26.4,
+        "rhYesterday": 48,
+        "pressureYesterday": 1019.4,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.5,
+        "solarYesterday": 642,
         "temp": 30.1,
         "rh": 34,
         "pressure": 1013.4,
@@ -3618,6 +4465,12 @@ const DATA = {
       {
         "time": "1145",
         "x": 705,
+        "tempYesterday": 25.9,
+        "rhYesterday": 49,
+        "pressureYesterday": 1019.4,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.4,
+        "solarYesterday": 418,
         "temp": 30.2,
         "rh": 33,
         "pressure": 1013.4,
@@ -3628,6 +4481,12 @@ const DATA = {
       {
         "time": "1150",
         "x": 710,
+        "tempYesterday": 26.4,
+        "rhYesterday": 48,
+        "pressureYesterday": 1019.4,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.4,
+        "solarYesterday": 437,
         "temp": 30.1,
         "rh": 32,
         "pressure": 1013.3,
@@ -3638,6 +4497,12 @@ const DATA = {
       {
         "time": "1155",
         "x": 715,
+        "tempYesterday": 25.9,
+        "rhYesterday": 48,
+        "pressureYesterday": 1019.4,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.4,
+        "solarYesterday": 568,
         "temp": 30.7,
         "rh": 32,
         "pressure": 1013.3,
@@ -3648,6 +4513,12 @@ const DATA = {
       {
         "time": "1200",
         "x": 720,
+        "tempYesterday": 26.0,
+        "rhYesterday": 48,
+        "pressureYesterday": 1019.4,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.6,
+        "solarYesterday": 406,
         "temp": 30.6,
         "rh": 32,
         "pressure": 1013.3,
@@ -3658,6 +4529,12 @@ const DATA = {
       {
         "time": "1205",
         "x": 725,
+        "tempYesterday": 26.2,
+        "rhYesterday": 47,
+        "pressureYesterday": 1019.4,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.8,
+        "solarYesterday": 409,
         "temp": 30.8,
         "rh": 32,
         "pressure": 1013.2,
@@ -3668,6 +4545,12 @@ const DATA = {
       {
         "time": "1210",
         "x": 730,
+        "tempYesterday": 26.1,
+        "rhYesterday": 47,
+        "pressureYesterday": 1019.3,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.7,
+        "solarYesterday": 964,
         "temp": 31.2,
         "rh": 31,
         "pressure": 1013.2,
@@ -3678,6 +4561,12 @@ const DATA = {
       {
         "time": "1215",
         "x": 735,
+        "tempYesterday": 26.2,
+        "rhYesterday": 47,
+        "pressureYesterday": 1019.4,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.6,
+        "solarYesterday": 922,
         "temp": 31.2,
         "rh": 31,
         "pressure": 1013.1,
@@ -3688,6 +4577,12 @@ const DATA = {
       {
         "time": "1220",
         "x": 740,
+        "tempYesterday": 26.2,
+        "rhYesterday": 45,
+        "pressureYesterday": 1019.4,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.7,
+        "solarYesterday": 263,
         "temp": 31.1,
         "rh": 31,
         "pressure": 1013.0,
@@ -3698,6 +4593,12 @@ const DATA = {
       {
         "time": "1225",
         "x": 745,
+        "tempYesterday": 26.3,
+        "rhYesterday": 46,
+        "pressureYesterday": 1019.2,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.7,
+        "solarYesterday": 336,
         "temp": 30.8,
         "rh": 31,
         "pressure": 1012.9,
@@ -3708,6 +4609,12 @@ const DATA = {
       {
         "time": "1230",
         "x": 750,
+        "tempYesterday": 26.1,
+        "rhYesterday": 46,
+        "pressureYesterday": 1019.2,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.9,
+        "solarYesterday": 404,
         "temp": 31.3,
         "rh": 31,
         "pressure": 1012.9,
@@ -3718,6 +4625,12 @@ const DATA = {
       {
         "time": "1235",
         "x": 755,
+        "tempYesterday": 27.0,
+        "rhYesterday": 44,
+        "pressureYesterday": 1019.2,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.8,
+        "solarYesterday": 280,
         "temp": 31.0,
         "rh": 31,
         "pressure": 1012.8,
@@ -3728,6 +4641,12 @@ const DATA = {
       {
         "time": "1240",
         "x": 760,
+        "tempYesterday": 26.8,
+        "rhYesterday": 44,
+        "pressureYesterday": 1019.1,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.5,
+        "solarYesterday": 1006,
         "temp": 31.6,
         "rh": 30,
         "pressure": 1012.6,
@@ -3738,6 +4657,12 @@ const DATA = {
       {
         "time": "1245",
         "x": 765,
+        "tempYesterday": 27.6,
+        "rhYesterday": 42,
+        "pressureYesterday": 1019.0,
+        "rainYesterday": 0.0,
+        "windYesterday": 3.3,
+        "solarYesterday": 1068,
         "temp": 31.9,
         "rh": 28,
         "pressure": 1012.6,
@@ -3748,6 +4673,12 @@ const DATA = {
       {
         "time": "1250",
         "x": 770,
+        "tempYesterday": 26.8,
+        "rhYesterday": 43,
+        "pressureYesterday": 1019.1,
+        "rainYesterday": 0.0,
+        "windYesterday": 4.2,
+        "solarYesterday": 344,
         "temp": 31.4,
         "rh": 28,
         "pressure": 1012.6,
@@ -3758,6 +4689,12 @@ const DATA = {
       {
         "time": "1255",
         "x": 775,
+        "tempYesterday": 26.1,
+        "rhYesterday": 44,
+        "pressureYesterday": 1019.1,
+        "rainYesterday": 0.0,
+        "windYesterday": 4.2,
+        "solarYesterday": 310,
         "temp": 31.9,
         "rh": 28,
         "pressure": 1012.5,
@@ -3768,6 +4705,12 @@ const DATA = {
       {
         "time": "1300",
         "x": 780,
+        "tempYesterday": 26.8,
+        "rhYesterday": 44,
+        "pressureYesterday": 1019.1,
+        "rainYesterday": 0.0,
+        "windYesterday": 3.4,
+        "solarYesterday": 858,
         "temp": 31.8,
         "rh": 27,
         "pressure": 1012.5,
@@ -3778,6 +4721,12 @@ const DATA = {
       {
         "time": "1305",
         "x": 785,
+        "tempYesterday": 27.0,
+        "rhYesterday": 43,
+        "pressureYesterday": 1019.0,
+        "rainYesterday": 0.0,
+        "windYesterday": 3.0,
+        "solarYesterday": 470,
         "temp": 32.1,
         "rh": 28,
         "pressure": 1012.4,
@@ -3788,6 +4737,12 @@ const DATA = {
       {
         "time": "1310",
         "x": 790,
+        "tempYesterday": 27.1,
+        "rhYesterday": 43,
+        "pressureYesterday": 1018.9,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.7,
+        "solarYesterday": 674,
         "temp": 32.0,
         "rh": 27,
         "pressure": 1012.4,
@@ -3798,6 +4753,12 @@ const DATA = {
       {
         "time": "1315",
         "x": 795,
+        "tempYesterday": 27.3,
+        "rhYesterday": 42,
+        "pressureYesterday": 1018.8,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.4,
+        "solarYesterday": 523,
         "temp": 32.5,
         "rh": 26,
         "pressure": 1012.3,
@@ -3808,6 +4769,12 @@ const DATA = {
       {
         "time": "1320",
         "x": 800,
+        "tempYesterday": 27.2,
+        "rhYesterday": 42,
+        "pressureYesterday": 1018.8,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.7,
+        "solarYesterday": 370,
         "temp": 32.1,
         "rh": 25,
         "pressure": 1012.4,
@@ -3818,6 +4785,12 @@ const DATA = {
       {
         "time": "1325",
         "x": 805,
+        "tempYesterday": 26.5,
+        "rhYesterday": 43,
+        "pressureYesterday": 1018.8,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.8,
+        "solarYesterday": 324,
         "temp": 31.8,
         "rh": 25,
         "pressure": 1012.5,
@@ -3828,20 +4801,1298 @@ const DATA = {
       {
         "time": "1330",
         "x": 810,
+        "tempYesterday": 27.2,
+        "rhYesterday": 43,
+        "pressureYesterday": 1018.8,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.4,
+        "solarYesterday": 838,
         "temp": 32.7,
         "rh": 24,
         "pressure": 1012.3,
         "rain": 0.0,
         "wind": 3.6,
         "solar": 788
+      },
+      {
+        "time": "1335",
+        "x": 815,
+        "tempYesterday": 27.6,
+        "rhYesterday": 42,
+        "pressureYesterday": 1018.7,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.5,
+        "solarYesterday": 431,
+        "temp": 32.6,
+        "rh": 25,
+        "pressure": 1012.4,
+        "rain": 0.0,
+        "wind": 2.9,
+        "solar": 788
+      },
+      {
+        "time": "1340",
+        "x": 820,
+        "tempYesterday": 27.5,
+        "rhYesterday": 41,
+        "pressureYesterday": 1018.7,
+        "rainYesterday": 0.0,
+        "windYesterday": 3.2,
+        "solarYesterday": 347,
+        "temp": 32.3,
+        "rh": 26,
+        "pressure": 1012.3,
+        "rain": 0.0,
+        "wind": 3.4,
+        "solar": 777
+      },
+      {
+        "time": "1345",
+        "x": 825,
+        "tempYesterday": 27.0,
+        "rhYesterday": 42,
+        "pressureYesterday": 1018.8,
+        "rainYesterday": 0.0,
+        "windYesterday": 3.4,
+        "solarYesterday": 298
+      },
+      {
+        "time": "1350",
+        "x": 830,
+        "tempYesterday": 26.8,
+        "rhYesterday": 42,
+        "pressureYesterday": 1018.7,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.8,
+        "solarYesterday": 312
+      },
+      {
+        "time": "1355",
+        "x": 835,
+        "tempYesterday": 26.9,
+        "rhYesterday": 42,
+        "pressureYesterday": 1018.5,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.5,
+        "solarYesterday": 550
+      },
+      {
+        "time": "1400",
+        "x": 840,
+        "tempYesterday": 27.9,
+        "rhYesterday": 40,
+        "pressureYesterday": 1018.5,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.5,
+        "solarYesterday": 986
+      },
+      {
+        "time": "1405",
+        "x": 845,
+        "tempYesterday": 28.3,
+        "rhYesterday": 38,
+        "pressureYesterday": 1018.4,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.5,
+        "solarYesterday": 796
+      },
+      {
+        "time": "1410",
+        "x": 850,
+        "tempYesterday": 28.6,
+        "rhYesterday": 37,
+        "pressureYesterday": 1018.4,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.3,
+        "solarYesterday": 866
+      },
+      {
+        "time": "1415",
+        "x": 855,
+        "tempYesterday": 28.2,
+        "rhYesterday": 37,
+        "pressureYesterday": 1018.3,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.6,
+        "solarYesterday": 286
+      },
+      {
+        "time": "1420",
+        "x": 860,
+        "tempYesterday": 27.9,
+        "rhYesterday": 38,
+        "pressureYesterday": 1018.3,
+        "rainYesterday": 0.0,
+        "windYesterday": 3.2,
+        "solarYesterday": 837
+      },
+      {
+        "time": "1425",
+        "x": 865,
+        "tempYesterday": 28.3,
+        "rhYesterday": 38,
+        "pressureYesterday": 1018.2,
+        "rainYesterday": 0.0,
+        "windYesterday": 3.3,
+        "solarYesterday": 815
+      },
+      {
+        "time": "1430",
+        "x": 870,
+        "tempYesterday": 28.3,
+        "rhYesterday": 38,
+        "pressureYesterday": 1018.2,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.8,
+        "solarYesterday": 786
+      },
+      {
+        "time": "1435",
+        "x": 875,
+        "tempYesterday": 28.8,
+        "rhYesterday": 37,
+        "pressureYesterday": 1018.1,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.6,
+        "solarYesterday": 808
+      },
+      {
+        "time": "1440",
+        "x": 880,
+        "tempYesterday": 29.1,
+        "rhYesterday": 36,
+        "pressureYesterday": 1018.1,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.6,
+        "solarYesterday": 697
+      },
+      {
+        "time": "1445",
+        "x": 885,
+        "tempYesterday": 28.7,
+        "rhYesterday": 36,
+        "pressureYesterday": 1018.1,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.7,
+        "solarYesterday": 709
+      },
+      {
+        "time": "1450",
+        "x": 890,
+        "tempYesterday": 28.1,
+        "rhYesterday": 37,
+        "pressureYesterday": 1018.1,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.7,
+        "solarYesterday": 333
+      },
+      {
+        "time": "1455",
+        "x": 895,
+        "tempYesterday": 28.2,
+        "rhYesterday": 38,
+        "pressureYesterday": 1018.1,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.7,
+        "solarYesterday": 845
+      },
+      {
+        "time": "1500",
+        "x": 900,
+        "tempYesterday": 28.8,
+        "rhYesterday": 36,
+        "pressureYesterday": 1018.0,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.8,
+        "solarYesterday": 796
+      },
+      {
+        "time": "1505",
+        "x": 905,
+        "tempYesterday": 28.8,
+        "rhYesterday": 36,
+        "pressureYesterday": 1017.9,
+        "rainYesterday": 0.0,
+        "windYesterday": 3.0,
+        "solarYesterday": 729
+      },
+      {
+        "time": "1510",
+        "x": 910,
+        "tempYesterday": 29.0,
+        "rhYesterday": 37,
+        "pressureYesterday": 1017.8,
+        "rainYesterday": 0.0,
+        "windYesterday": 3.2,
+        "solarYesterday": 758
+      },
+      {
+        "time": "1515",
+        "x": 915,
+        "tempYesterday": 28.5,
+        "rhYesterday": 36,
+        "pressureYesterday": 1017.8,
+        "rainYesterday": 0.0,
+        "windYesterday": 3.1,
+        "solarYesterday": 719
+      },
+      {
+        "time": "1520",
+        "x": 920,
+        "tempYesterday": 28.5,
+        "rhYesterday": 36,
+        "pressureYesterday": 1017.7,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.6,
+        "solarYesterday": 686
+      },
+      {
+        "time": "1525",
+        "x": 925,
+        "tempYesterday": 29.1,
+        "rhYesterday": 36,
+        "pressureYesterday": 1017.6,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.0,
+        "solarYesterday": 729
+      },
+      {
+        "time": "1530",
+        "x": 930,
+        "tempYesterday": 29.4,
+        "rhYesterday": 35,
+        "pressureYesterday": 1017.5,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.2,
+        "solarYesterday": 688
+      },
+      {
+        "time": "1535",
+        "x": 935,
+        "tempYesterday": 29.0,
+        "rhYesterday": 35,
+        "pressureYesterday": 1017.5,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.5,
+        "solarYesterday": 617
+      },
+      {
+        "time": "1540",
+        "x": 940,
+        "tempYesterday": 29.1,
+        "rhYesterday": 36,
+        "pressureYesterday": 1017.5,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.8,
+        "solarYesterday": 570
+      },
+      {
+        "time": "1545",
+        "x": 945,
+        "tempYesterday": 28.0,
+        "rhYesterday": 38,
+        "pressureYesterday": 1017.5,
+        "rainYesterday": 0.0,
+        "windYesterday": 3.1,
+        "solarYesterday": 221
+      },
+      {
+        "time": "1550",
+        "x": 950,
+        "tempYesterday": 27.7,
+        "rhYesterday": 39,
+        "pressureYesterday": 1017.5,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.9,
+        "solarYesterday": 237
+      },
+      {
+        "time": "1555",
+        "x": 955,
+        "tempYesterday": 28.6,
+        "rhYesterday": 39,
+        "pressureYesterday": 1017.4,
+        "rainYesterday": 0.0,
+        "windYesterday": 1.9,
+        "solarYesterday": 649
+      },
+      {
+        "time": "1600",
+        "x": 960,
+        "tempYesterday": 28.6,
+        "rhYesterday": 37,
+        "pressureYesterday": 1017.3,
+        "rainYesterday": 0.0,
+        "windYesterday": 1.9,
+        "solarYesterday": 230
+      },
+      {
+        "time": "1605",
+        "x": 965,
+        "tempYesterday": 28.4,
+        "rhYesterday": 38,
+        "pressureYesterday": 1017.3,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.4,
+        "solarYesterday": 595
+      },
+      {
+        "time": "1610",
+        "x": 970,
+        "tempYesterday": 29.0,
+        "rhYesterday": 38,
+        "pressureYesterday": 1017.2,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.3,
+        "solarYesterday": 578
+      },
+      {
+        "time": "1615",
+        "x": 975,
+        "tempYesterday": 29.1,
+        "rhYesterday": 37,
+        "pressureYesterday": 1017.3,
+        "rainYesterday": 0.0,
+        "windYesterday": 3.0,
+        "solarYesterday": 562
+      },
+      {
+        "time": "1620",
+        "x": 980,
+        "tempYesterday": 28.7,
+        "rhYesterday": 37,
+        "pressureYesterday": 1017.2,
+        "rainYesterday": 0.0,
+        "windYesterday": 3.1,
+        "solarYesterday": 162
+      },
+      {
+        "time": "1625",
+        "x": 985,
+        "tempYesterday": 27.9,
+        "rhYesterday": 39,
+        "pressureYesterday": 1017.1,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.3,
+        "solarYesterday": 176
+      },
+      {
+        "time": "1630",
+        "x": 990,
+        "tempYesterday": 27.8,
+        "rhYesterday": 40,
+        "pressureYesterday": 1017.1,
+        "rainYesterday": 0.0,
+        "windYesterday": 1.9,
+        "solarYesterday": 346
+      },
+      {
+        "time": "1635",
+        "x": 995,
+        "tempYesterday": 28.0,
+        "rhYesterday": 40,
+        "pressureYesterday": 1017.1,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.4,
+        "solarYesterday": 237
+      },
+      {
+        "time": "1640",
+        "x": 1000,
+        "tempYesterday": 27.9,
+        "rhYesterday": 40,
+        "pressureYesterday": 1017.0,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.7,
+        "solarYesterday": 292
+      },
+      {
+        "time": "1645",
+        "x": 1005,
+        "tempYesterday": 28.9,
+        "rhYesterday": 38,
+        "pressureYesterday": 1017.0,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.1,
+        "solarYesterday": 410
+      },
+      {
+        "time": "1650",
+        "x": 1010,
+        "tempYesterday": 28.0,
+        "rhYesterday": 39,
+        "pressureYesterday": 1017.0,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.2,
+        "solarYesterday": 136
+      },
+      {
+        "time": "1655",
+        "x": 1015,
+        "tempYesterday": 27.9,
+        "rhYesterday": 40,
+        "pressureYesterday": 1016.9,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.2,
+        "solarYesterday": 388
+      },
+      {
+        "time": "1700",
+        "x": 1020,
+        "tempYesterday": 28.1,
+        "rhYesterday": 39,
+        "pressureYesterday": 1016.9,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.1,
+        "solarYesterday": 357
+      },
+      {
+        "time": "1705",
+        "x": 1025,
+        "tempYesterday": 28.1,
+        "rhYesterday": 40,
+        "pressureYesterday": 1016.8,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.2,
+        "solarYesterday": 374
+      },
+      {
+        "time": "1710",
+        "x": 1030,
+        "tempYesterday": 28.4,
+        "rhYesterday": 39,
+        "pressureYesterday": 1016.7,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.2,
+        "solarYesterday": 354
+      },
+      {
+        "time": "1715",
+        "x": 1035,
+        "tempYesterday": 28.2,
+        "rhYesterday": 39,
+        "pressureYesterday": 1016.7,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.2,
+        "solarYesterday": 340
+      },
+      {
+        "time": "1720",
+        "x": 1040,
+        "tempYesterday": 28.2,
+        "rhYesterday": 40,
+        "pressureYesterday": 1016.7,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.6,
+        "solarYesterday": 322
+      },
+      {
+        "time": "1725",
+        "x": 1045,
+        "tempYesterday": 28.2,
+        "rhYesterday": 40,
+        "pressureYesterday": 1016.7,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.6,
+        "solarYesterday": 278
+      },
+      {
+        "time": "1730",
+        "x": 1050,
+        "tempYesterday": 28.1,
+        "rhYesterday": 40,
+        "pressureYesterday": 1016.6,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.5,
+        "solarYesterday": 287
+      },
+      {
+        "time": "1735",
+        "x": 1055,
+        "tempYesterday": 28.3,
+        "rhYesterday": 41,
+        "pressureYesterday": 1016.6,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.2,
+        "solarYesterday": 268
+      },
+      {
+        "time": "1740",
+        "x": 1060,
+        "tempYesterday": 28.0,
+        "rhYesterday": 41,
+        "pressureYesterday": 1016.7,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.2,
+        "solarYesterday": 262
+      },
+      {
+        "time": "1745",
+        "x": 1065,
+        "tempYesterday": 27.8,
+        "rhYesterday": 42,
+        "pressureYesterday": 1016.6,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.6,
+        "solarYesterday": 247
+      },
+      {
+        "time": "1750",
+        "x": 1070,
+        "tempYesterday": 28.0,
+        "rhYesterday": 42,
+        "pressureYesterday": 1016.5,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.2,
+        "solarYesterday": 181
+      },
+      {
+        "time": "1755",
+        "x": 1075,
+        "tempYesterday": 28.1,
+        "rhYesterday": 41,
+        "pressureYesterday": 1016.5,
+        "rainYesterday": 0.0,
+        "windYesterday": 1.7,
+        "solarYesterday": 227
+      },
+      {
+        "time": "1800",
+        "x": 1080,
+        "tempYesterday": 27.9,
+        "rhYesterday": 41,
+        "pressureYesterday": 1016.5,
+        "rainYesterday": 0.0,
+        "windYesterday": 1.9,
+        "solarYesterday": 208
+      },
+      {
+        "time": "1805",
+        "x": 1085,
+        "tempYesterday": 27.8,
+        "rhYesterday": 42,
+        "pressureYesterday": 1016.5,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.3,
+        "solarYesterday": 197
+      },
+      {
+        "time": "1810",
+        "x": 1090,
+        "tempYesterday": 27.7,
+        "rhYesterday": 42,
+        "pressureYesterday": 1016.5,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.3,
+        "solarYesterday": 178
+      },
+      {
+        "time": "1815",
+        "x": 1095,
+        "tempYesterday": 27.6,
+        "rhYesterday": 42,
+        "pressureYesterday": 1016.6,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.3,
+        "solarYesterday": 165
+      },
+      {
+        "time": "1820",
+        "x": 1100,
+        "tempYesterday": 27.5,
+        "rhYesterday": 43,
+        "pressureYesterday": 1016.6,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.3,
+        "solarYesterday": 157
+      },
+      {
+        "time": "1825",
+        "x": 1105,
+        "tempYesterday": 27.4,
+        "rhYesterday": 44,
+        "pressureYesterday": 1016.7,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.4,
+        "solarYesterday": 146
+      },
+      {
+        "time": "1830",
+        "x": 1110,
+        "tempYesterday": 27.2,
+        "rhYesterday": 45,
+        "pressureYesterday": 1016.7,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.3,
+        "solarYesterday": 134
+      },
+      {
+        "time": "1835",
+        "x": 1115,
+        "tempYesterday": 27.1,
+        "rhYesterday": 45,
+        "pressureYesterday": 1016.7,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.2,
+        "solarYesterday": 93
+      },
+      {
+        "time": "1840",
+        "x": 1120,
+        "tempYesterday": 26.8,
+        "rhYesterday": 46,
+        "pressureYesterday": 1016.6,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.6,
+        "solarYesterday": 50
+      },
+      {
+        "time": "1845",
+        "x": 1125,
+        "tempYesterday": 26.5,
+        "rhYesterday": 46,
+        "pressureYesterday": 1016.7,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.8,
+        "solarYesterday": 50
+      },
+      {
+        "time": "1850",
+        "x": 1130,
+        "tempYesterday": 26.4,
+        "rhYesterday": 47,
+        "pressureYesterday": 1016.7,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.4,
+        "solarYesterday": 47
+      },
+      {
+        "time": "1855",
+        "x": 1135,
+        "tempYesterday": 26.2,
+        "rhYesterday": 47,
+        "pressureYesterday": 1016.8,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.5,
+        "solarYesterday": 39
+      },
+      {
+        "time": "1900",
+        "x": 1140,
+        "tempYesterday": 26.1,
+        "rhYesterday": 48,
+        "pressureYesterday": 1016.8,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.5,
+        "solarYesterday": 28
+      },
+      {
+        "time": "1905",
+        "x": 1145,
+        "tempYesterday": 26.0,
+        "rhYesterday": 48,
+        "pressureYesterday": 1016.8,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.5,
+        "solarYesterday": 24
+      },
+      {
+        "time": "1910",
+        "x": 1150,
+        "tempYesterday": 25.9,
+        "rhYesterday": 48,
+        "pressureYesterday": 1016.8,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.8,
+        "solarYesterday": 16
+      },
+      {
+        "time": "1915",
+        "x": 1155,
+        "tempYesterday": 25.8,
+        "rhYesterday": 48,
+        "pressureYesterday": 1016.8,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.8,
+        "solarYesterday": 18
+      },
+      {
+        "time": "1920",
+        "x": 1160,
+        "tempYesterday": 25.6,
+        "rhYesterday": 48,
+        "pressureYesterday": 1016.9,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.8,
+        "solarYesterday": 15
+      },
+      {
+        "time": "1925",
+        "x": 1165,
+        "tempYesterday": 25.4,
+        "rhYesterday": 49,
+        "pressureYesterday": 1016.9,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.5,
+        "solarYesterday": 14
+      },
+      {
+        "time": "1930",
+        "x": 1170,
+        "tempYesterday": 25.4,
+        "rhYesterday": 49,
+        "pressureYesterday": 1016.9,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.2,
+        "solarYesterday": 14
+      },
+      {
+        "time": "1935",
+        "x": 1175,
+        "tempYesterday": 25.2,
+        "rhYesterday": 49,
+        "pressureYesterday": 1016.9,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.4,
+        "solarYesterday": 12
+      },
+      {
+        "time": "1940",
+        "x": 1180,
+        "tempYesterday": 25.1,
+        "rhYesterday": 49,
+        "pressureYesterday": 1016.9,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.3,
+        "solarYesterday": 9
+      },
+      {
+        "time": "1945",
+        "x": 1185,
+        "tempYesterday": 24.9,
+        "rhYesterday": 49,
+        "pressureYesterday": 1017.0,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.4,
+        "solarYesterday": 5
+      },
+      {
+        "time": "1950",
+        "x": 1190,
+        "tempYesterday": 24.7,
+        "rhYesterday": 50,
+        "pressureYesterday": 1017.1,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.5,
+        "solarYesterday": 3
+      },
+      {
+        "time": "1955",
+        "x": 1195,
+        "tempYesterday": 24.4,
+        "rhYesterday": 51,
+        "pressureYesterday": 1017.1,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.5,
+        "solarYesterday": 2
+      },
+      {
+        "time": "2000",
+        "x": 1200,
+        "tempYesterday": 24.2,
+        "rhYesterday": 52,
+        "pressureYesterday": 1017.2,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.4,
+        "solarYesterday": 0
+      },
+      {
+        "time": "2005",
+        "x": 1205,
+        "tempYesterday": 24.0,
+        "rhYesterday": 53,
+        "pressureYesterday": 1017.2,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.4,
+        "solarYesterday": -2
+      },
+      {
+        "time": "2010",
+        "x": 1210,
+        "tempYesterday": 23.9,
+        "rhYesterday": 54,
+        "pressureYesterday": 1017.3,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.2,
+        "solarYesterday": -3
+      },
+      {
+        "time": "2015",
+        "x": 1215,
+        "tempYesterday": 23.7,
+        "rhYesterday": 55,
+        "pressureYesterday": 1017.3,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.2,
+        "solarYesterday": -3
+      },
+      {
+        "time": "2020",
+        "x": 1220,
+        "tempYesterday": 23.6,
+        "rhYesterday": 55,
+        "pressureYesterday": 1017.4,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.0,
+        "solarYesterday": -4
+      },
+      {
+        "time": "2025",
+        "x": 1225,
+        "tempYesterday": 23.4,
+        "rhYesterday": 56,
+        "pressureYesterday": 1017.4,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.0,
+        "solarYesterday": -4
+      },
+      {
+        "time": "2030",
+        "x": 1230,
+        "tempYesterday": 23.3,
+        "rhYesterday": 57,
+        "pressureYesterday": 1017.5,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.0,
+        "solarYesterday": -4
+      },
+      {
+        "time": "2035",
+        "x": 1235,
+        "tempYesterday": 23.1,
+        "rhYesterday": 58,
+        "pressureYesterday": 1017.5,
+        "rainYesterday": 0.0,
+        "windYesterday": 1.9,
+        "solarYesterday": -4
+      },
+      {
+        "time": "2040",
+        "x": 1240,
+        "tempYesterday": 23.1,
+        "rhYesterday": 58,
+        "pressureYesterday": 1017.5,
+        "rainYesterday": 0.0,
+        "windYesterday": 1.8,
+        "solarYesterday": -4
+      },
+      {
+        "time": "2045",
+        "x": 1245,
+        "tempYesterday": 22.9,
+        "rhYesterday": 59,
+        "pressureYesterday": 1017.5,
+        "rainYesterday": 0.0,
+        "windYesterday": 1.9,
+        "solarYesterday": -4
+      },
+      {
+        "time": "2050",
+        "x": 1250,
+        "tempYesterday": 22.9,
+        "rhYesterday": 60,
+        "pressureYesterday": 1017.5,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.0,
+        "solarYesterday": -4
+      },
+      {
+        "time": "2055",
+        "x": 1255,
+        "tempYesterday": 22.8,
+        "rhYesterday": 60,
+        "pressureYesterday": 1017.5,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.0,
+        "solarYesterday": -3
+      },
+      {
+        "time": "2100",
+        "x": 1260,
+        "tempYesterday": 22.7,
+        "rhYesterday": 61,
+        "pressureYesterday": 1017.5,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.0,
+        "solarYesterday": -3
+      },
+      {
+        "time": "2105",
+        "x": 1265,
+        "tempYesterday": 22.6,
+        "rhYesterday": 61,
+        "pressureYesterday": 1017.6,
+        "rainYesterday": 0.0,
+        "windYesterday": 1.9,
+        "solarYesterday": -3
+      },
+      {
+        "time": "2110",
+        "x": 1270,
+        "tempYesterday": 22.4,
+        "rhYesterday": 62,
+        "pressureYesterday": 1017.6,
+        "rainYesterday": 0.0,
+        "windYesterday": 2.0,
+        "solarYesterday": -3
+      },
+      {
+        "time": "2115",
+        "x": 1275,
+        "tempYesterday": 22.3,
+        "rhYesterday": 62,
+        "pressureYesterday": 1017.6,
+        "rainYesterday": 0.0,
+        "windYesterday": 1.7,
+        "solarYesterday": -4
+      },
+      {
+        "time": "2120",
+        "x": 1280,
+        "tempYesterday": 22.2,
+        "rhYesterday": 63,
+        "pressureYesterday": 1017.6,
+        "rainYesterday": 0.0,
+        "windYesterday": 1.4,
+        "solarYesterday": -4
+      },
+      {
+        "time": "2125",
+        "x": 1285,
+        "tempYesterday": 21.9,
+        "rhYesterday": 64,
+        "pressureYesterday": 1017.6,
+        "rainYesterday": 0.0,
+        "windYesterday": 1.4,
+        "solarYesterday": -4
+      },
+      {
+        "time": "2130",
+        "x": 1290,
+        "tempYesterday": 21.8,
+        "rhYesterday": 64,
+        "pressureYesterday": 1017.6,
+        "rainYesterday": 0.0,
+        "windYesterday": 1.5,
+        "solarYesterday": -4
+      },
+      {
+        "time": "2135",
+        "x": 1295,
+        "tempYesterday": 21.8,
+        "rhYesterday": 65,
+        "pressureYesterday": 1017.5,
+        "rainYesterday": 0.0,
+        "windYesterday": 1.7,
+        "solarYesterday": -4
+      },
+      {
+        "time": "2140",
+        "x": 1300,
+        "tempYesterday": 21.8,
+        "rhYesterday": 65,
+        "pressureYesterday": 1017.5,
+        "rainYesterday": 0.0,
+        "windYesterday": 1.6,
+        "solarYesterday": -4
+      },
+      {
+        "time": "2145",
+        "x": 1305,
+        "tempYesterday": 21.5,
+        "rhYesterday": 65,
+        "pressureYesterday": 1017.5,
+        "rainYesterday": 0.0,
+        "windYesterday": 1.5,
+        "solarYesterday": -4
+      },
+      {
+        "time": "2150",
+        "x": 1310,
+        "tempYesterday": 21.6,
+        "rhYesterday": 66,
+        "pressureYesterday": 1017.5,
+        "rainYesterday": 0.0,
+        "windYesterday": 1.4,
+        "solarYesterday": -4
+      },
+      {
+        "time": "2155",
+        "x": 1315,
+        "tempYesterday": 21.4,
+        "rhYesterday": 67,
+        "pressureYesterday": 1017.5,
+        "rainYesterday": 0.0,
+        "windYesterday": 1.3,
+        "solarYesterday": -4
+      },
+      {
+        "time": "2200",
+        "x": 1320,
+        "tempYesterday": 21.4,
+        "rhYesterday": 67,
+        "pressureYesterday": 1017.5,
+        "rainYesterday": 0.0,
+        "windYesterday": 1.3,
+        "solarYesterday": -4
+      },
+      {
+        "time": "2205",
+        "x": 1325,
+        "tempYesterday": 21.2,
+        "rhYesterday": 68,
+        "pressureYesterday": 1017.5,
+        "rainYesterday": 0.0,
+        "windYesterday": 1.2,
+        "solarYesterday": -4
+      },
+      {
+        "time": "2210",
+        "x": 1330,
+        "tempYesterday": 21.3,
+        "rhYesterday": 68,
+        "pressureYesterday": 1017.5,
+        "rainYesterday": 0.0,
+        "windYesterday": 1.1,
+        "solarYesterday": -4
+      },
+      {
+        "time": "2215",
+        "x": 1335,
+        "tempYesterday": 21.1,
+        "rhYesterday": 68,
+        "pressureYesterday": 1017.5,
+        "rainYesterday": 0.0,
+        "windYesterday": 1.1,
+        "solarYesterday": -4
+      },
+      {
+        "time": "2220",
+        "x": 1340,
+        "tempYesterday": 21.1,
+        "rhYesterday": 69,
+        "pressureYesterday": 1017.5,
+        "rainYesterday": 0.0,
+        "windYesterday": 1.2,
+        "solarYesterday": -4
+      },
+      {
+        "time": "2225",
+        "x": 1345,
+        "tempYesterday": 20.9,
+        "rhYesterday": 69,
+        "pressureYesterday": 1017.5,
+        "rainYesterday": 0.0,
+        "windYesterday": 1.4,
+        "solarYesterday": -4
+      },
+      {
+        "time": "2230",
+        "x": 1350,
+        "tempYesterday": 20.8,
+        "rhYesterday": 70,
+        "pressureYesterday": 1017.4,
+        "rainYesterday": 0.0,
+        "windYesterday": 1.3,
+        "solarYesterday": -3
+      },
+      {
+        "time": "2235",
+        "x": 1355,
+        "tempYesterday": 20.9,
+        "rhYesterday": 70,
+        "pressureYesterday": 1017.4,
+        "rainYesterday": 0.0,
+        "windYesterday": 1.5,
+        "solarYesterday": -3
+      },
+      {
+        "time": "2240",
+        "x": 1360,
+        "tempYesterday": 20.9,
+        "rhYesterday": 70,
+        "pressureYesterday": 1017.4,
+        "rainYesterday": 0.0,
+        "windYesterday": 1.6,
+        "solarYesterday": -3
+      },
+      {
+        "time": "2245",
+        "x": 1365,
+        "tempYesterday": 20.8,
+        "rhYesterday": 70,
+        "pressureYesterday": 1017.5,
+        "rainYesterday": 0.0,
+        "windYesterday": 1.6,
+        "solarYesterday": -3
+      },
+      {
+        "time": "2250",
+        "x": 1370,
+        "tempYesterday": 20.6,
+        "rhYesterday": 70,
+        "pressureYesterday": 1017.4,
+        "rainYesterday": 0.0,
+        "windYesterday": 1.4,
+        "solarYesterday": -3
+      },
+      {
+        "time": "2255",
+        "x": 1375,
+        "tempYesterday": 20.6,
+        "rhYesterday": 70,
+        "pressureYesterday": 1017.4,
+        "rainYesterday": 0.0,
+        "windYesterday": 1.3,
+        "solarYesterday": -3
+      },
+      {
+        "time": "2300",
+        "x": 1380,
+        "tempYesterday": 20.5,
+        "rhYesterday": 71,
+        "pressureYesterday": 1017.4,
+        "rainYesterday": 0.0,
+        "windYesterday": 1.2,
+        "solarYesterday": -3
+      },
+      {
+        "time": "2305",
+        "x": 1385,
+        "tempYesterday": 20.4,
+        "rhYesterday": 71,
+        "pressureYesterday": 1017.3,
+        "rainYesterday": 0.0,
+        "windYesterday": 1.0,
+        "solarYesterday": -3
+      },
+      {
+        "time": "2310",
+        "x": 1390,
+        "tempYesterday": 20.3,
+        "rhYesterday": 71,
+        "pressureYesterday": 1017.3,
+        "rainYesterday": 0.0,
+        "windYesterday": 1.1,
+        "solarYesterday": -3
+      },
+      {
+        "time": "2315",
+        "x": 1395,
+        "tempYesterday": 20.3,
+        "rhYesterday": 71,
+        "pressureYesterday": 1017.2,
+        "rainYesterday": 0.0,
+        "windYesterday": 1.1,
+        "solarYesterday": -3
+      },
+      {
+        "time": "2320",
+        "x": 1400,
+        "tempYesterday": 20.3,
+        "rhYesterday": 72,
+        "pressureYesterday": 1017.2,
+        "rainYesterday": 0.0,
+        "windYesterday": 1.0,
+        "solarYesterday": -3
+      },
+      {
+        "time": "2325",
+        "x": 1405,
+        "tempYesterday": 20.3,
+        "rhYesterday": 72,
+        "pressureYesterday": 1017.3,
+        "rainYesterday": 0.0,
+        "windYesterday": 0.9,
+        "solarYesterday": -3
+      },
+      {
+        "time": "2330",
+        "x": 1410,
+        "tempYesterday": 20.1,
+        "rhYesterday": 71,
+        "pressureYesterday": 1017.2,
+        "rainYesterday": 0.0,
+        "windYesterday": 0.6,
+        "solarYesterday": -4
+      },
+      {
+        "time": "2335",
+        "x": 1415,
+        "tempYesterday": 19.9,
+        "rhYesterday": 71,
+        "pressureYesterday": 1017.1,
+        "rainYesterday": 0.0,
+        "windYesterday": 0.3,
+        "solarYesterday": -4
+      },
+      {
+        "time": "2340",
+        "x": 1420,
+        "tempYesterday": 19.6,
+        "rhYesterday": 73,
+        "pressureYesterday": 1017.1,
+        "rainYesterday": 0.0,
+        "windYesterday": 0.3,
+        "solarYesterday": -4
+      },
+      {
+        "time": "2345",
+        "x": 1425,
+        "tempYesterday": 19.5,
+        "rhYesterday": 75,
+        "pressureYesterday": 1017.0,
+        "rainYesterday": 0.0,
+        "windYesterday": 0.5,
+        "solarYesterday": -5
+      },
+      {
+        "time": "2350",
+        "x": 1430,
+        "tempYesterday": 19.1,
+        "rhYesterday": 76,
+        "pressureYesterday": 1017.0,
+        "rainYesterday": 0.0,
+        "windYesterday": 0.4,
+        "solarYesterday": -4
+      },
+      {
+        "time": "2355",
+        "x": 1435,
+        "tempYesterday": 18.8,
+        "rhYesterday": 78,
+        "pressureYesterday": 1016.9,
+        "rainYesterday": 0.0,
+        "windYesterday": 0.2,
+        "solarYesterday": -4
+      },
+      {
+        "time": "2400",
+        "x": 1440,
+        "tempYesterday": 18.5,
+        "rhYesterday": 79,
+        "pressureYesterday": 1016.9,
+        "rainYesterday": 0.0,
+        "windYesterday": 0.0,
+        "solarYesterday": -4
       }
     ],
-    "Tgrass": 50.6,
-    "Tconc": 48.8,
-    "Tsoil": 48.5,
+    "Tgrass": 52.4,
+    "Tconc": 48.7,
+    "Tsoil": 48.2,
     "soil": {
-      "c5": 26.8,
-      "c10": 23.6,
+      "c5": 26.9,
+      "c10": 23.7,
       "c20": null,
       "c30": 21.1,
       "c50": null,
@@ -3853,26 +6104,26 @@ const DATA = {
     "rain6h": 0.0,
     "rainAccum": 0.0,
     "cloudBase": null,
-    "vis": 75000,
+    "vis": 51598,
     "Sdur5": 5.0,
-    "SdurAccum": 8.6,
-    "Sg": 788,
-    "SgAccum": 16.89,
-    "Sb": 198,
-    "Sd": 404,
-    "Rn": 439,
+    "SdurAccum": 8.7,
+    "Sg": 777,
+    "SgAccum": 17.36,
+    "Sb": 197,
+    "Sd": 376,
+    "Rn": 455,
     "G": 48,
     "Pmsl": 1012.3,
-    "delP1": -0.5,
-    "delP3": -1.8,
-    "dir": 204,
-    "U10": 3.6,
-    "U10max": 5.2,
-    "U10maxAcc": 7.1,
+    "delP1": -0.3,
+    "delP3": -1.9,
+    "dir": 216,
+    "U10": 3.4,
+    "U10max": 7.6,
+    "U10maxAcc": 7.6,
     "U2run": 0.9,
     "U10run": 1.0,
     "ae": {
-      "pg": 38.0,
+      "pg": 39.0,
       "unit": "V/m"
     },
     "clim": {
@@ -3881,36 +6132,36 @@ const DATA = {
         "name": "July",
         "source": "/storage/silver/metweb/new-web/VirtualSites/met-secure/Data/climat/monthly_datafiles",
         "variables": {
-          "sunshine": {
-            "label": "Daily sunshine",
-            "unit": "h",
+          "tmean": {
+            "label": "Daily mean temperature",
+            "unit": "°C",
             "recordLow": {
-              "value": 0.0,
-              "date": "1956-07-13"
+              "value": 10.3,
+              "date": "1965-07-04"
             },
-            "p05": 0.1,
-            "mean": 203.8,
-            "p95": 13.8,
+            "p05": 14.1,
+            "mean": 17.8,
+            "p95": 22.3,
             "recordHigh": {
-              "value": 15.8,
-              "date": "1959-07-04"
+              "value": 28.9,
+              "date": "2022-07-19"
             },
-            "meanKind": "monthTotal",
+            "meanKind": "dailyMean",
             "baselineCount": 930
           },
-          "pressure": {
-            "label": "MSL pressure",
-            "unit": "hPa",
+          "tmax": {
+            "label": "Daily maximum temperature",
+            "unit": "°C",
             "recordLow": {
-              "value": 982.8,
-              "date": "1956-07-29"
+              "value": 13.3,
+              "date": "1910-07-07"
             },
-            "p05": 1005.1,
-            "mean": 1015.9,
-            "p95": 1026.3,
+            "p05": 17.6,
+            "mean": 22.7,
+            "p95": 29.5,
             "recordHigh": {
-              "value": 1035.2,
-              "date": "1911-07-10"
+              "value": 37.6,
+              "date": "2022-07-19"
             },
             "meanKind": "dailyMean",
             "baselineCount": 930
@@ -3949,38 +6200,38 @@ const DATA = {
             "meanKind": "monthTotal",
             "baselineCount": 930
           },
-          "tmax": {
-            "label": "Daily maximum temperature",
-            "unit": "°C",
+          "pressure": {
+            "label": "MSL pressure",
+            "unit": "hPa",
             "recordLow": {
-              "value": 13.3,
-              "date": "1910-07-07"
+              "value": 982.8,
+              "date": "1956-07-29"
             },
-            "p05": 17.6,
-            "mean": 22.7,
-            "p95": 29.5,
+            "p05": 1005.1,
+            "mean": 1015.9,
+            "p95": 1026.3,
             "recordHigh": {
-              "value": 37.6,
-              "date": "2022-07-19"
+              "value": 1035.2,
+              "date": "1911-07-10"
             },
             "meanKind": "dailyMean",
             "baselineCount": 930
           },
-          "tmean": {
-            "label": "Daily mean temperature",
-            "unit": "°C",
+          "sunshine": {
+            "label": "Daily sunshine",
+            "unit": "h",
             "recordLow": {
-              "value": 10.3,
-              "date": "1965-07-04"
+              "value": 0.0,
+              "date": "1956-07-13"
             },
-            "p05": 14.1,
-            "mean": 17.8,
-            "p95": 22.3,
+            "p05": 0.1,
+            "mean": 203.8,
+            "p95": 13.8,
             "recordHigh": {
-              "value": 28.9,
-              "date": "2022-07-19"
+              "value": 15.8,
+              "date": "1959-07-04"
             },
-            "meanKind": "dailyMean",
+            "meanKind": "monthTotal",
             "baselineCount": 930
           }
         }
@@ -4130,13 +6381,13 @@ const DATA = {
         "mx": 97,
         "mxt": "0607",
         "mn": 24,
-        "mnt": "1324"
+        "mnt": "1332"
       },
       "Pmsl": {
         "mx": 1016.9,
         "mxt": "0116",
         "mn": 1012.3,
-        "mnt": "1316"
+        "mnt": "1333"
       },
       "Tgrass": {
         "mn": 10.8,
@@ -4760,15 +7011,17 @@ function traceAxisValue(key, value){
   return String(Math.round(value));
 }
 function tracePanel(rows, key, label, cls){
-  const pts=rows
-    .filter(p=>isNum(p?.x) && isNum(p[key]))
-    .map(p=>({x:p.x,time:p.time,raw:p[key],v:traceValue(key,p[key])}))
+  const pointsFor=valueKey=>rows
+    .filter(p=>isNum(p?.x) && isNum(p[valueKey]))
+    .map(p=>({x:p.x,time:p.time,raw:p[valueKey],v:traceValue(key,p[valueKey])}))
     .filter(p=>isNum(p.v))
     .sort((a,b)=>a.x-b.x);
-  if(pts.length<2){
+  const today=pointsFor(key);
+  const yesterday=pointsFor(`${key}Yesterday`);
+  if(today.length<2 && yesterday.length<2){
     return `<div class="trace-panel ${cls}"><div class="trace-title"><span>${label}</span><b>n/a</b></div><div class="trace-empty">trace unavailable</div></div>`;
   }
-  const values=pts.map(p=>p.v);
+  const values=[...today,...yesterday].map(p=>p.v);
   let lo=Math.min(...values), hi=Math.max(...values);
   if(key==='rain') lo=Math.min(0,lo);
   if(hi===lo){ hi+=1; lo-=key==='rain'?0:1; }
@@ -4776,29 +7029,34 @@ function tracePanel(rows, key, label, cls){
   lo-=key==='rain'?0:pad; hi+=pad;
   if(key==='rh'){ lo=Math.max(0,lo); hi=Math.min(100,hi); }
   const W=240,H=74,L=24,R=8,T=8,B=17,plotW=W-L-R,plotH=H-T-B;
-  const xMax=Math.max(60,pts[pts.length-1].x);
+  const xMax=24*60;
   const xFor=x=>L+(Math.max(0,Math.min(xMax,x))/xMax)*plotW;
   const yFor=v=>T+(hi-v)/(hi-lo)*plotH;
-  const d=pts.map((p,i)=>`${i?'L':'M'}${xFor(p.x).toFixed(1)} ${yFor(p.v).toFixed(1)}`).join(' ');
-  const latest=pts[pts.length-1];
+  const pathFor=(pts,lineClass)=>{
+    if(pts.length<2) return '';
+    const d=pts.map((p,i)=>`${i?'L':'M'}${xFor(p.x).toFixed(1)} ${yFor(p.v).toFixed(1)}`).join(' ');
+    return `<path class="series-line ${lineClass}" d="${d}"/>`;
+  };
+  const latest=today[today.length-1];
   return `<div class="trace-panel ${cls}">
-    <div class="trace-title"><span>${label}</span><b>${traceFormat(key, latest.raw)}</b></div>
-    <svg class="trace-spark" viewBox="0 0 ${W} ${H}" aria-label="${label} trace since 00 UTC">
+    <div class="trace-title"><span>${label}</span><b>${latest?traceFormat(key,latest.raw):'n/a'}</b></div>
+    <svg class="trace-spark" viewBox="0 0 ${W} ${H}" aria-label="${label} today and yesterday on the same UTC time axis">
       <line class="gridline" x1="${L}" y1="${T}" x2="${W-R}" y2="${T}"/>
       <line class="gridline" x1="${L}" y1="${T+plotH}" x2="${W-R}" y2="${T+plotH}"/>
-      <path class="series-line" d="${d}"/>
-      <circle class="latest-dot" cx="${xFor(latest.x).toFixed(1)}" cy="${yFor(latest.v).toFixed(1)}" r="3"/>
+      ${pathFor(yesterday,'yesterday-line')}${pathFor(today,'today-line')}
+      ${latest?`<circle class="latest-dot" cx="${xFor(latest.x).toFixed(1)}" cy="${yFor(latest.v).toFixed(1)}" r="3"/>`:''}
       <text class="axis-label" x="${L-4}" y="${T+3}" text-anchor="end">${traceAxisValue(key,hi)}</text>
       <text class="axis-label" x="${L-4}" y="${T+plotH+3}" text-anchor="end">${traceAxisValue(key,lo)}</text>
       <text class="axis-label" x="${L}" y="${H-3}">0000</text>
-      <text class="axis-label" x="${W-R}" y="${H-3}" text-anchor="end">${hhmm(latest.time)}</text>
+      <text class="axis-label" x="${W-R}" y="${H-3}" text-anchor="end">2400</text>
     </svg>
   </div>`;
 }
 function renderTraceDrawer(s){
   const rows=(Array.isArray(s.dayTraces)?s.dayTraces:[]).filter(p=>isNum(p?.x)).sort((a,b)=>a.x-b.x);
   if(rows.length<2) return `<div class="trace-empty">Daily traces unavailable.</div>`;
-  const latest=rows[rows.length-1];
+  const currentRows=rows.filter(p=>['temp','rh','pressure','rain','wind','solar'].some(key=>isNum(p[key])));
+  const latest=currentRows[currentRows.length-1];
   const panels=[
     tracePanel(rows,'temp','Air temperature','trace-temp'),
     tracePanel(rows,'rh','Relative humidity','trace-rh'),
@@ -4807,9 +7065,11 @@ function renderTraceDrawer(s){
     tracePanel(rows,'wind','Mean wind','trace-wind'),
     tracePanel(rows,'solar','Solar radiation','trace-solar')
   ].join('');
-  return `<details class="trace-drawer">
-    <summary><span>Today since 00 UTC</span><span>${hhmm(latest.time)} UTC</span></summary>
+  const desktopOpen=window.matchMedia?.('(min-width:761px)').matches;
+  return `<details class="trace-drawer"${desktopOpen?' open':''}>
+    <summary><span>Today / yesterday</span><span>${latest?`${hhmm(latest.time)} UTC now`:'current unavailable'}</span></summary>
     <div class="trace-grid">${panels}</div>
+    <div class="trace-legend"><span class="today"><i></i>today</span><span class="yesterday"><i></i>yesterday</span></div>
   </details>`;
 }
 function climPct(v, lo, hi){
@@ -5325,7 +7585,7 @@ function renderGrid(s, sun, times){
         ${visWord(s.vis)} &middot; <span class="k">present wx</span> <b>${WW[s.ww]||'—'}</b>
       </div>`},
     {h:['Air quality','Open-Meteo / CAMS'], body:renderAirQualityCard(s.airQuality)},
-    {h:['Daily traces','00 UTC to now'], cls:'trace-wide', body:renderTraceDrawer(s)},
+    {h:['Daily traces','Today / yesterday'], cls:'trace-wide', body:renderTraceDrawer(s)},
     {h:['Forecast','Met Office / IFS'], cls:'forecast-wide', body:renderForecastCard(s.forecast)},
     {h:['Aurora forecast','NOAA SWPC'], cls:'aurora-wide', body:renderAuroraCard(s.spaceWeather,sun,times)}
   ];
@@ -5485,7 +7745,7 @@ function selfTest(){
   assert(tempWord(-10)==='Bitterly cold','tempWord cold');
   assert(fmtDeltaT(1).startsWith('+'),'delta temperature sign');
   { const chart=tempHistoryChart([{x:0,time:'0000',today:10,yesterday:8},{x:720,time:'1200',today:12,yesterday:11},{x:1440,time:'2400',yesterday:9}],1); assert(chart.includes('temp-chart') && chart.includes('Today / yesterday') && chart.includes('2400'), 'temperature history chart'); }
-  { const drawer=renderTraceDrawer({dayTraces:[{x:0,time:'0000',temp:10,rh:80,pressure:1010,rain:0,wind:1,solar:0},{x:60,time:'0100',temp:11,rh:82,pressure:1011,rain:.2,wind:2,solar:5}]}); assert(drawer.includes('trace-grid') && drawer.includes('Air temperature') && drawer.includes('Rain since 0000'), 'daily trace drawer'); }
+  { const drawer=renderTraceDrawer({dayTraces:[{x:0,time:'0000',temp:10,tempYesterday:8,rh:80,pressure:1010,rain:0,wind:1,solar:0},{x:60,time:'0100',temp:11,tempYesterday:9,rh:82,pressure:1011,rain:.2,wind:2,solar:5},{x:1440,time:'2400',tempYesterday:7}]}); assert(drawer.includes('trace-grid') && drawer.includes('Air temperature') && drawer.includes('Rain since 0000') && drawer.includes('yesterday-line') && drawer.includes('2400'), 'daily trace drawer'); }
   { const now=new Date(), p=n=>String(n).padStart(2,'0'); const sample={y:now.getUTCFullYear(),mo:now.getUTCMonth()+1,d:now.getUTCDate(),time:`${p(now.getUTCHours())}${p(now.getUTCMinutes())}`,Td:29,Tdew:19,RH:91,rain1h:5,U10max:14,Sg:800}; const b=thresholdBadges(sample,{key:'sunny'},{}); assert(b.some(x=>x.t==='Hot') && b.some(x=>x.t==='5.0 mm last hour') && b.length<=8, 'threshold badges'); }
   { const fc=renderForecastCard({days:[{date:'2026-06-23',tmax:23,tmin:12,rain:1.2,pop:45}],source:'UKMO seamless + ECMWF IFS ensemble',fetchedAt:'2026-06-23T12:00:00Z'}); const oldModelTag=['<span class="forecast-label">','UKV','</span>'].join(''); assert(fc.includes('forecast-grid') && fc.includes('UKV days 1-2') && fc.includes('UKMO days 3-4') && fc.includes('rain: UKMO total, IFS chance') && !fc.includes(oldModelTag), 'forecast card'); }
   { const fc=renderForecastCard({days:[{date:'2026-06-23',tmax:23,tmin:12,rain:0,pop:70}],source:'UKMO seamless + ECMWF IFS ensemble',fetchedAt:'2026-06-23T12:00:00Z'}); assert(fc.includes('&lt;0.1 mm') && fc.includes('less than 0.1 mm forecast rain'), 'forecast trace rain'); }
