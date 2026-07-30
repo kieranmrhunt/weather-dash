@@ -603,18 +603,18 @@ const LAT = 51.4414, LON = -0.9418;
 
 const DATA = {
   "live": {
-    "label": "Live now · 30 Jul 2026 0510 UTC",
+    "label": "Live now · 30 Jul 2026 0520 UTC",
     "y": 2026,
     "mo": 7,
     "d": 30,
-    "time": "0510",
+    "time": "0520",
     "ww": 22,
-    "Td": 15.0,
-    "Tw": 14.5,
-    "Tdew": 14.3,
-    "VP": 16.3,
+    "Td": 15.2,
+    "Tw": 14.7,
+    "Tdew": 14.6,
+    "VP": 16.6,
     "RH": 96,
-    "delT": -0.7,
+    "delT": -0.3,
     "tempHistory": [
       {
         "time": "0005",
@@ -991,12 +991,14 @@ const DATA = {
       {
         "time": "0515",
         "x": 315,
-        "yesterday": 14.7
+        "yesterday": 14.7,
+        "today": 15.3
       },
       {
         "time": "0520",
         "x": 320,
-        "yesterday": 14.9
+        "yesterday": 14.9,
+        "today": 15.2
       },
       {
         "time": "0525",
@@ -3120,7 +3122,13 @@ const DATA = {
         "pressureYesterday": 1015.5,
         "rainYesterday": 0.0,
         "windYesterday": 0.0,
-        "solarYesterday": 72
+        "solarYesterday": 72,
+        "temp": 15.3,
+        "rh": 96,
+        "pressure": 1015.2,
+        "rain": 0.0,
+        "wind": 0.3,
+        "solar": 49
       },
       {
         "time": "0520",
@@ -3130,7 +3138,13 @@ const DATA = {
         "pressureYesterday": 1015.5,
         "rainYesterday": 0.0,
         "windYesterday": 0.0,
-        "solarYesterday": 75
+        "solarYesterday": 75,
+        "temp": 15.2,
+        "rh": 96,
+        "pressure": 1015.3,
+        "rain": 0.0,
+        "wind": 0.6,
+        "solar": 38
       },
       {
         "time": "0525",
@@ -5373,12 +5387,12 @@ const DATA = {
         "solarYesterday": -4
       }
     ],
-    "Tgrass": 13.4,
-    "Tconc": 18.4,
-    "Tsoil": 14.9,
+    "Tgrass": 14.0,
+    "Tconc": 18.8,
+    "Tsoil": 15.4,
     "soil": {
-      "c5": 22.6,
-      "c10": 22.8,
+      "c5": 22.5,
+      "c10": 22.7,
       "c20": null,
       "c30": 22.1,
       "c50": null,
@@ -5390,26 +5404,26 @@ const DATA = {
     "rain6h": 0.0,
     "rainAccum": 0.0,
     "cloudBase": null,
-    "vis": 54095,
-    "Sdur5": 5.0,
-    "SdurAccum": 0.2,
-    "Sg": 32,
-    "SgAccum": 0.04,
-    "Sb": -2,
-    "Sd": 32,
-    "Rn": -10,
+    "vis": 75000,
+    "Sdur5": 3.9,
+    "SdurAccum": 0.3,
+    "Sg": 38,
+    "SgAccum": 0.07,
+    "Sb": 3,
+    "Sd": 38,
+    "Rn": -12,
     "G": -12,
-    "Pmsl": 1015.2,
-    "delP1": 0.1,
-    "delP3": 0.3,
-    "dir": 260,
-    "U10": 0.4,
-    "U10max": 0.7,
+    "Pmsl": 1015.3,
+    "delP1": 0.2,
+    "delP3": 0.4,
+    "dir": 251,
+    "U10": 0.6,
+    "U10max": 1.0,
     "U10maxAcc": 3.4,
     "U2run": 0.6,
-    "U10run": 1.1,
+    "U10run": 1.0,
     "ae": {
-      "pg": 38.0,
+      "pg": 40.0,
       "unit": "V/m"
     },
     "clim": {
@@ -5435,23 +5449,6 @@ const DATA = {
             "meanKind": "monthTotal",
             "baselineCount": 930
           },
-          "tmin": {
-            "label": "Daily minimum temperature",
-            "unit": "°C",
-            "recordLow": {
-              "value": 4.9,
-              "date": "1978-07-25"
-            },
-            "p05": 8.6,
-            "mean": 12.8,
-            "p95": 16.7,
-            "recordHigh": {
-              "value": 20.1,
-              "date": "2022-07-19"
-            },
-            "meanKind": "dailyMean",
-            "baselineCount": 930
-          },
           "pressure": {
             "label": "MSL pressure",
             "unit": "hPa",
@@ -5465,23 +5462,6 @@ const DATA = {
             "recordHigh": {
               "value": 1035.2,
               "date": "1911-07-10"
-            },
-            "meanKind": "dailyMean",
-            "baselineCount": 930
-          },
-          "tmean": {
-            "label": "Daily mean temperature",
-            "unit": "°C",
-            "recordLow": {
-              "value": 10.3,
-              "date": "1965-07-04"
-            },
-            "p05": 14.1,
-            "mean": 17.8,
-            "p95": 22.3,
-            "recordHigh": {
-              "value": 28.9,
-              "date": "2022-07-19"
             },
             "meanKind": "dailyMean",
             "baselineCount": 930
@@ -5518,6 +5498,40 @@ const DATA = {
               "date": "1941-07-25"
             },
             "meanKind": "monthTotal",
+            "baselineCount": 930
+          },
+          "tmin": {
+            "label": "Daily minimum temperature",
+            "unit": "°C",
+            "recordLow": {
+              "value": 4.9,
+              "date": "1978-07-25"
+            },
+            "p05": 8.6,
+            "mean": 12.8,
+            "p95": 16.7,
+            "recordHigh": {
+              "value": 20.1,
+              "date": "2022-07-19"
+            },
+            "meanKind": "dailyMean",
+            "baselineCount": 930
+          },
+          "tmean": {
+            "label": "Daily mean temperature",
+            "unit": "°C",
+            "recordLow": {
+              "value": 10.3,
+              "date": "1965-07-04"
+            },
+            "p05": 14.1,
+            "mean": 17.8,
+            "p95": 22.3,
+            "recordHigh": {
+              "value": 28.9,
+              "date": "2022-07-19"
+            },
+            "meanKind": "dailyMean",
             "baselineCount": 930
           }
         }
@@ -5631,8 +5645,8 @@ const DATA = {
       "readingProbability": 0,
       "ukProbability": 0,
       "ukPeakLatitude": 49.0,
-      "observationTime": "2026-07-30T04:52:00Z",
-      "validTime": "2026-07-30T06:09:00Z",
+      "observationTime": "2026-07-30T05:22:00Z",
+      "validTime": "2026-07-30T06:38:00Z",
       "currentKp": 1.7,
       "kpPeak": 4.3,
       "kpDays": [
@@ -5653,7 +5667,7 @@ const DATA = {
         }
       ],
       "source": "NOAA SWPC OVATION + Kp",
-      "fetchedAt": "2026-07-30T05:00:02Z",
+      "fetchedAt": "2026-07-30T05:30:03Z",
       "stale": false
     },
     "ext": {
@@ -5665,7 +5679,7 @@ const DATA = {
       },
       "RH": {
         "mx": 96,
-        "mxt": "0510",
+        "mxt": "0520",
         "mn": 70,
         "mnt": "0002"
       },
@@ -5680,8 +5694,8 @@ const DATA = {
         "mnt": "0423"
       },
       "Sg": {
-        "mx": 32,
-        "mxt": "0510"
+        "mx": 72,
+        "mxt": "0516"
       }
     }
   }
