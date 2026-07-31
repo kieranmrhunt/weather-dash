@@ -6566,23 +6566,6 @@ const DATA = {
         "name": "July",
         "source": "/storage/silver/metweb/new-web/VirtualSites/met-secure/Data/climat/monthly_datafiles",
         "variables": {
-          "sunshine": {
-            "label": "Daily sunshine",
-            "unit": "h",
-            "recordLow": {
-              "value": 0.0,
-              "date": "1956-07-13"
-            },
-            "p05": 0.1,
-            "mean": 203.8,
-            "p95": 13.8,
-            "recordHigh": {
-              "value": 15.8,
-              "date": "1959-07-04"
-            },
-            "meanKind": "monthTotal",
-            "baselineCount": 930
-          },
           "rain": {
             "label": "Daily rainfall",
             "unit": "mm",
@@ -6596,6 +6579,23 @@ const DATA = {
             "recordHigh": {
               "value": 50.3,
               "date": "1941-07-25"
+            },
+            "meanKind": "monthTotal",
+            "baselineCount": 930
+          },
+          "sunshine": {
+            "label": "Daily sunshine",
+            "unit": "h",
+            "recordLow": {
+              "value": 0.0,
+              "date": "1956-07-13"
+            },
+            "p05": 0.1,
+            "mean": 203.8,
+            "p95": 13.8,
+            "recordHigh": {
+              "value": 15.8,
+              "date": "1959-07-04"
             },
             "meanKind": "monthTotal",
             "baselineCount": 930
@@ -6714,40 +6714,40 @@ const DATA = {
     "forecast": {
       "days": [
         {
-          "date": "2026-07-30",
-          "tmax": 26.4,
-          "tmin": 16.5,
-          "rain": 0.0,
-          "pop": 100,
-          "model": "UKV"
-        },
-        {
           "date": "2026-07-31",
           "tmax": 24.5,
-          "tmin": 17.3,
+          "tmin": 16.9,
           "rain": 0.0,
-          "pop": 16,
+          "pop": 44,
           "model": "UKV"
         },
         {
           "date": "2026-08-01",
-          "tmax": 24.0,
-          "tmin": 13.4,
+          "tmax": 24.5,
+          "tmin": 13.2,
           "rain": 0.0,
-          "pop": 0,
-          "model": "UKMO global"
+          "pop": 2,
+          "model": "UKV"
         },
         {
           "date": "2026-08-02",
-          "tmax": 24.8,
-          "tmin": 14.3,
+          "tmax": 24.3,
+          "tmin": 14.6,
           "rain": 0.0,
-          "pop": 10,
+          "pop": 2,
+          "model": "UKMO global"
+        },
+        {
+          "date": "2026-08-03",
+          "tmax": 28.6,
+          "tmin": 17.2,
+          "rain": 0.0,
+          "pop": 66,
           "model": "UKMO global"
         }
       ],
       "source": "UKMO seamless + ECMWF IFS ensemble",
-      "fetchedAt": "2026-07-30T18:10:03Z",
+      "fetchedAt": "2026-07-31T00:20:02Z",
       "stale": false
     },
     "airQuality": {
