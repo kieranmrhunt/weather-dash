@@ -603,18 +603,18 @@ const LAT = 51.4414, LON = -0.9418;
 
 const DATA = {
   "live": {
-    "label": "Live now · 02 Aug 2026 0210 UTC",
+    "label": "Live now · 02 Aug 2026 0220 UTC",
     "y": 2026,
     "mo": 8,
     "d": 2,
-    "time": "0210",
+    "time": "0220",
     "ww": 51,
-    "Td": 13.6,
-    "Tw": 10.6,
-    "Tdew": 5.9,
-    "VP": 9.3,
-    "RH": 60,
-    "delT": -1.5,
+    "Td": 13.2,
+    "Tw": 10.3,
+    "Tdew": 5.8,
+    "VP": 9.2,
+    "RH": 61,
+    "delT": -1.7,
     "tempHistory": [
       {
         "time": "0005",
@@ -775,12 +775,14 @@ const DATA = {
       {
         "time": "0215",
         "x": 135,
-        "yesterday": 14.9
+        "yesterday": 14.9,
+        "today": 13.4
       },
       {
         "time": "0220",
         "x": 140,
-        "yesterday": 14.9
+        "yesterday": 14.9,
+        "today": 13.2
       },
       {
         "time": "0225",
@@ -2508,7 +2510,13 @@ const DATA = {
         "pressureYesterday": 1020.7,
         "rainYesterday": 0.0,
         "windYesterday": 1.1,
-        "solarYesterday": -3
+        "solarYesterday": -3,
+        "temp": 13.4,
+        "rh": 61,
+        "pressure": 1020.1,
+        "rain": 0.0,
+        "wind": 0.6,
+        "solar": -4
       },
       {
         "time": "0220",
@@ -2518,7 +2526,13 @@ const DATA = {
         "pressureYesterday": 1020.7,
         "rainYesterday": 0.0,
         "windYesterday": 1.5,
-        "solarYesterday": -3
+        "solarYesterday": -3,
+        "temp": 13.2,
+        "rh": 61,
+        "pressure": 1020.2,
+        "rain": 0.0,
+        "wind": 0.5,
+        "solar": -4
       },
       {
         "time": "0225",
@@ -5121,11 +5135,11 @@ const DATA = {
         "solarYesterday": -4
       }
     ],
-    "Tgrass": 8.6,
-    "Tconc": 16.0,
-    "Tsoil": 10.6,
+    "Tgrass": 8.7,
+    "Tconc": 15.9,
+    "Tsoil": 10.4,
     "soil": {
-      "c5": 21.9,
+      "c5": 21.8,
       "c10": 22.2,
       "c20": null,
       "c30": 21.5,
@@ -5138,21 +5152,21 @@ const DATA = {
     "rain6h": 0.0,
     "rainAccum": 0.0,
     "cloudBase": null,
-    "vis": 61870,
+    "vis": 61315,
     "Sdur5": 0.0,
     "SdurAccum": 0.0,
     "Sg": -4,
     "SgAccum": 0.0,
     "Sb": 1,
     "Sd": -3,
-    "Rn": -32,
+    "Rn": -36,
     "G": -15,
     "Pmsl": 1020.2,
-    "delP1": -0.0,
-    "delP3": 0.0,
-    "dir": 5,
-    "U10": 0.8,
-    "U10max": 1.6,
+    "delP1": 0.1,
+    "delP3": 0.1,
+    "dir": 10,
+    "U10": 0.5,
+    "U10max": 1.4,
     "U10maxAcc": 2.9,
     "U2run": 0.3,
     "U10run": 0.8,
@@ -5181,23 +5195,6 @@ const DATA = {
               "date": "2011-08-18"
             },
             "meanKind": "monthTotal",
-            "baselineCount": 930
-          },
-          "tmax": {
-            "label": "Daily maximum temperature",
-            "unit": "°C",
-            "recordLow": {
-              "value": 13.5,
-              "date": "1977-08-19"
-            },
-            "p05": 17.8,
-            "mean": 22.3,
-            "p95": 28.9,
-            "recordHigh": {
-              "value": 36.4,
-              "date": "2003-08-10"
-            },
-            "meanKind": "dailyMean",
             "baselineCount": 930
           },
           "pressure": {
@@ -5249,6 +5246,23 @@ const DATA = {
               "date": "1981-08-02"
             },
             "meanKind": "monthTotal",
+            "baselineCount": 930
+          },
+          "tmax": {
+            "label": "Daily maximum temperature",
+            "unit": "°C",
+            "recordLow": {
+              "value": 13.5,
+              "date": "1977-08-19"
+            },
+            "p05": 17.8,
+            "mean": 22.3,
+            "p95": 28.9,
+            "recordHigh": {
+              "value": 36.4,
+              "date": "2003-08-10"
+            },
+            "meanKind": "dailyMean",
             "baselineCount": 930
           },
           "tmin": {
@@ -5408,12 +5422,12 @@ const DATA = {
       "Td": {
         "mx": 15.4,
         "mxt": "0053",
-        "mn": 13.6,
-        "mnt": "0202"
+        "mn": 13.2,
+        "mnt": "0218"
       },
       "RH": {
-        "mx": 60,
-        "mxt": "0158",
+        "mx": 61,
+        "mxt": "0215",
         "mn": 54,
         "mnt": "0001"
       },
@@ -5424,8 +5438,8 @@ const DATA = {
         "mnt": "0124"
       },
       "Tgrass": {
-        "mn": 8.5,
-        "mnt": "0154"
+        "mn": 7.9,
+        "mnt": "0217"
       },
       "Sg": {
         "mx": -2,
