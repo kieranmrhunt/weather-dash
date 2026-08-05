@@ -603,18 +603,18 @@ const LAT = 51.4414, LON = -0.9418;
 
 const DATA = {
   "live": {
-    "label": "Live now · 05 Aug 2026 2330 UTC",
+    "label": "Live now · 05 Aug 2026 2340 UTC",
     "y": 2026,
     "mo": 8,
     "d": 5,
-    "time": "2330",
+    "time": "2340",
     "ww": 51,
-    "Td": 14.4,
-    "Tw": 11.9,
-    "Tdew": 9.3,
+    "Td": 14.2,
+    "Tw": 11.8,
+    "Tdew": 9.2,
     "VP": 11.7,
-    "RH": 71,
-    "delT": -0.7,
+    "RH": 72,
+    "delT": -0.8,
     "tempHistory": [
       {
         "time": "0005",
@@ -2311,12 +2311,14 @@ const DATA = {
       {
         "time": "2335",
         "x": 1415,
-        "yesterday": 18.2
+        "yesterday": 18.2,
+        "today": 14.3
       },
       {
         "time": "2340",
         "x": 1420,
-        "yesterday": 18.2
+        "yesterday": 18.2,
+        "today": 14.2
       },
       {
         "time": "2345",
@@ -6860,7 +6862,13 @@ const DATA = {
         "pressureYesterday": 1012.0,
         "rainYesterday": 0.0,
         "windYesterday": 2.4,
-        "solarYesterday": -4
+        "solarYesterday": -4,
+        "temp": 14.3,
+        "rh": 72,
+        "pressure": 1020.1,
+        "rain": 0.0,
+        "wind": 1.8,
+        "solar": -4
       },
       {
         "time": "2340",
@@ -6870,7 +6878,13 @@ const DATA = {
         "pressureYesterday": 1012.0,
         "rainYesterday": 0.0,
         "windYesterday": 2.4,
-        "solarYesterday": -3
+        "solarYesterday": -3,
+        "temp": 14.2,
+        "rh": 72,
+        "pressure": 1020.1,
+        "rain": 0.0,
+        "wind": 1.6,
+        "solar": -4
       },
       {
         "time": "2345",
@@ -6913,12 +6927,12 @@ const DATA = {
         "solarYesterday": -3
       }
     ],
-    "Tgrass": 11.8,
+    "Tgrass": 11.1,
     "Tconc": 16.5,
-    "Tsoil": 12.8,
+    "Tsoil": 12.4,
     "soil": {
-      "c5": 22.6,
-      "c10": 22.5,
+      "c5": 22.5,
+      "c10": 22.4,
       "c20": null,
       "c30": 21.6,
       "c50": null,
@@ -6930,26 +6944,26 @@ const DATA = {
     "rain6h": 0.0,
     "rainAccum": 0.0,
     "cloudBase": null,
-    "vis": 44108,
+    "vis": 50086,
     "Sdur5": 0.0,
     "SdurAccum": 9.4,
     "Sg": -4,
     "SgAccum": 21.2,
-    "Sb": -1,
+    "Sb": 0,
     "Sd": -4,
-    "Rn": -64,
+    "Rn": -68,
     "G": -11,
     "Pmsl": 1020.1,
     "delP1": 0.3,
     "delP3": 1.0,
-    "dir": 263,
+    "dir": 265,
     "U10": 1.6,
-    "U10max": 3.0,
+    "U10max": 3.2,
     "U10maxAcc": 12.6,
     "U2run": 2.7,
     "U10run": 3.5,
     "ae": {
-      "pg": 42.0,
+      "pg": 45.0,
       "unit": "V/m"
     },
     "clim": {
@@ -6973,23 +6987,6 @@ const DATA = {
               "date": "1995-08-02"
             },
             "meanKind": "dailyMean",
-            "baselineCount": 930
-          },
-          "sunshine": {
-            "label": "Daily sunshine",
-            "unit": "h",
-            "recordLow": {
-              "value": 0.0,
-              "date": "1956-08-10"
-            },
-            "p05": 0.0,
-            "mean": 192.4,
-            "p95": 12.4,
-            "recordHigh": {
-              "value": 14.5,
-              "date": "1981-08-02"
-            },
-            "meanKind": "monthTotal",
             "baselineCount": 930
           },
           "tmax": {
@@ -7041,6 +7038,23 @@ const DATA = {
               "date": "1940-08-17"
             },
             "meanKind": "dailyMean",
+            "baselineCount": 930
+          },
+          "sunshine": {
+            "label": "Daily sunshine",
+            "unit": "h",
+            "recordLow": {
+              "value": 0.0,
+              "date": "1956-08-10"
+            },
+            "p05": 0.0,
+            "mean": 192.4,
+            "p95": 12.4,
+            "recordHigh": {
+              "value": 14.5,
+              "date": "1981-08-02"
+            },
+            "meanKind": "monthTotal",
             "baselineCount": 930
           },
           "rain": {
@@ -7200,8 +7214,8 @@ const DATA = {
       "Td": {
         "mx": 24.7,
         "mxt": "1306",
-        "mn": 14.3,
-        "mnt": "2325"
+        "mn": 14.1,
+        "mnt": "2339"
       },
       "RH": {
         "mx": 89,
