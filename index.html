@@ -603,18 +603,18 @@ const LAT = 51.4414, LON = -0.9418;
 
 const DATA = {
   "live": {
-    "label": "Live now · 07 Aug 2026 1920 UTC",
+    "label": "Live now · 07 Aug 2026 1930 UTC",
     "y": 2026,
     "mo": 8,
     "d": 7,
-    "time": "1920",
+    "time": "1930",
     "ww": 0,
-    "Td": 22.0,
-    "Tw": 13.9,
-    "Tdew": 2.6,
-    "VP": 7.4,
-    "RH": 28,
-    "delT": -1.4,
+    "Td": 21.5,
+    "Tw": 13.4,
+    "Tdew": 2.9,
+    "VP": 7.5,
+    "RH": 29,
+    "delT": -1.9,
     "tempHistory": [
       {
         "time": "0005",
@@ -2011,12 +2011,14 @@ const DATA = {
       {
         "time": "1925",
         "x": 1165,
-        "yesterday": 18.5
+        "yesterday": 18.5,
+        "today": 21.6
       },
       {
         "time": "1930",
         "x": 1170,
-        "yesterday": 18.3
+        "yesterday": 18.3,
+        "today": 21.5
       },
       {
         "time": "1935",
@@ -6010,7 +6012,13 @@ const DATA = {
         "pressureYesterday": 1024.5,
         "rainYesterday": 0.0,
         "windYesterday": 1.2,
-        "solarYesterday": 8
+        "solarYesterday": 8,
+        "temp": 21.6,
+        "rh": 29,
+        "pressure": 1021.6,
+        "rain": 0.0,
+        "wind": 0.6,
+        "solar": 5
       },
       {
         "time": "1930",
@@ -6020,7 +6028,13 @@ const DATA = {
         "pressureYesterday": 1024.5,
         "rainYesterday": 0.0,
         "windYesterday": 1.1,
-        "solarYesterday": 5
+        "solarYesterday": 5,
+        "temp": 21.5,
+        "rh": 29,
+        "pressure": 1021.7,
+        "rain": 0.0,
+        "wind": 0.6,
+        "solar": 3
       },
       {
         "time": "1935",
@@ -6563,11 +6577,11 @@ const DATA = {
         "solarYesterday": -4
       }
     ],
-    "Tgrass": 19.2,
-    "Tconc": 27.9,
-    "Tsoil": 20.7,
+    "Tgrass": 17.7,
+    "Tconc": 26.9,
+    "Tsoil": 19.4,
     "soil": {
-      "c5": 24.7,
+      "c5": 24.6,
       "c10": 22.8,
       "c20": null,
       "c30": 20.1,
@@ -6580,26 +6594,26 @@ const DATA = {
     "rain6h": 0.0,
     "rainAccum": 0.0,
     "cloudBase": null,
-    "vis": 55358,
-    "Sdur5": 5.0,
+    "vis": 75000,
+    "Sdur5": 0.0,
     "SdurAccum": 14.3,
-    "Sg": 8,
+    "Sg": 3,
     "SgAccum": 26.02,
-    "Sb": 4,
-    "Sd": 9,
-    "Rn": -41,
-    "G": 11,
+    "Sb": 2,
+    "Sd": 4,
+    "Rn": -49,
+    "G": 9,
     "Pmsl": 1021.7,
-    "delP1": -0.0,
-    "delP3": -0.3,
-    "dir": 352,
-    "U10": 0.8,
-    "U10max": 1.5,
+    "delP1": 0.1,
+    "delP3": -0.1,
+    "dir": 354,
+    "U10": 0.6,
+    "U10max": 1.4,
     "U10maxAcc": 5.6,
     "U2run": 0.9,
     "U10run": 1.1,
     "ae": {
-      "pg": 49.0,
+      "pg": 47.0,
       "unit": "V/m"
     },
     "clim": {
@@ -6608,6 +6622,23 @@ const DATA = {
         "name": "August",
         "source": "/storage/silver/metweb/new-web/VirtualSites/met-secure/Data/climat/monthly_datafiles",
         "variables": {
+          "sunshine": {
+            "label": "Daily sunshine",
+            "unit": "h",
+            "recordLow": {
+              "value": 0.0,
+              "date": "1956-08-10"
+            },
+            "p05": 0.0,
+            "mean": 192.4,
+            "p95": 12.4,
+            "recordHigh": {
+              "value": 14.5,
+              "date": "1981-08-02"
+            },
+            "meanKind": "monthTotal",
+            "baselineCount": 930
+          },
           "tmax": {
             "label": "Daily maximum temperature",
             "unit": "°C",
@@ -6621,57 +6652,6 @@ const DATA = {
             "recordHigh": {
               "value": 36.4,
               "date": "2003-08-10"
-            },
-            "meanKind": "dailyMean",
-            "baselineCount": 930
-          },
-          "tmean": {
-            "label": "Daily mean temperature",
-            "unit": "°C",
-            "recordLow": {
-              "value": 9.9,
-              "date": "1978-08-31"
-            },
-            "p05": 13.7,
-            "mean": 17.5,
-            "p95": 22.2,
-            "recordHigh": {
-              "value": 27.4,
-              "date": "2020-08-12"
-            },
-            "meanKind": "dailyMean",
-            "baselineCount": 930
-          },
-          "rain": {
-            "label": "Daily rainfall",
-            "unit": "mm",
-            "recordLow": {
-              "value": 0.0,
-              "date": "1908-08-01"
-            },
-            "p05": 0.0,
-            "mean": 56.8,
-            "p95": 9.9,
-            "recordHigh": {
-              "value": 59.5,
-              "date": "2011-08-18"
-            },
-            "meanKind": "monthTotal",
-            "baselineCount": 930
-          },
-          "pressure": {
-            "label": "MSL pressure",
-            "unit": "hPa",
-            "recordLow": {
-              "value": 975.4,
-              "date": "1917-08-28"
-            },
-            "p05": 1004.1,
-            "mean": 1015.7,
-            "p95": 1025.1,
-            "recordHigh": {
-              "value": 1034.0,
-              "date": "1940-08-17"
             },
             "meanKind": "dailyMean",
             "baselineCount": 930
@@ -6693,19 +6673,53 @@ const DATA = {
             "meanKind": "dailyMean",
             "baselineCount": 930
           },
-          "sunshine": {
-            "label": "Daily sunshine",
-            "unit": "h",
+          "tmean": {
+            "label": "Daily mean temperature",
+            "unit": "°C",
+            "recordLow": {
+              "value": 9.9,
+              "date": "1978-08-31"
+            },
+            "p05": 13.7,
+            "mean": 17.5,
+            "p95": 22.2,
+            "recordHigh": {
+              "value": 27.4,
+              "date": "2020-08-12"
+            },
+            "meanKind": "dailyMean",
+            "baselineCount": 930
+          },
+          "pressure": {
+            "label": "MSL pressure",
+            "unit": "hPa",
+            "recordLow": {
+              "value": 975.4,
+              "date": "1917-08-28"
+            },
+            "p05": 1004.1,
+            "mean": 1015.7,
+            "p95": 1025.1,
+            "recordHigh": {
+              "value": 1034.0,
+              "date": "1940-08-17"
+            },
+            "meanKind": "dailyMean",
+            "baselineCount": 930
+          },
+          "rain": {
+            "label": "Daily rainfall",
+            "unit": "mm",
             "recordLow": {
               "value": 0.0,
-              "date": "1956-08-10"
+              "date": "1908-08-01"
             },
             "p05": 0.0,
-            "mean": 192.4,
-            "p95": 12.4,
+            "mean": 56.8,
+            "p95": 9.9,
             "recordHigh": {
-              "value": 14.5,
-              "date": "1981-08-02"
+              "value": 59.5,
+              "date": "2011-08-18"
             },
             "meanKind": "monthTotal",
             "baselineCount": 930
@@ -6793,36 +6807,36 @@ const DATA = {
       "stale": false
     },
     "airQuality": {
-      "aqi": 37,
-      "time": "2026-08-07T18:00",
-      "pm25": 4.7,
-      "pm10": 6.8,
-      "no2": 5.5,
-      "o3": 93.0,
+      "aqi": 35,
+      "time": "2026-08-07T19:00",
+      "pm25": 5.0,
+      "pm10": 8.7,
+      "no2": 7.0,
+      "o3": 88.0,
       "components": {
         "pm25": 10,
         "pm10": 9,
-        "no2": 3,
-        "o3": 37
+        "no2": 4,
+        "o3": 35
       },
       "uv": {
-        "now": 0.3,
-        "clearNow": 0.3,
+        "now": 0.1,
+        "clearNow": 0.1,
         "max": 6.0,
         "maxTime": "2026-08-07T12:00",
         "clearMax": 6.0,
         "source": "Open-Meteo / CAMS Global"
       },
       "source": "Open-Meteo / CAMS",
-      "fetchedAt": "2026-08-07T18:40:02Z",
+      "fetchedAt": "2026-08-07T19:40:02Z",
       "stale": false
     },
     "spaceWeather": {
       "readingProbability": 0,
-      "ukProbability": 1,
+      "ukProbability": 0,
       "ukPeakLatitude": 49.0,
-      "observationTime": "2026-08-07T19:01:00Z",
-      "validTime": "2026-08-07T20:37:00Z",
+      "observationTime": "2026-08-07T19:31:00Z",
+      "validTime": "2026-08-07T21:08:00Z",
       "currentKp": 3.7,
       "kpPeak": 3.7,
       "kpDays": [
@@ -6843,7 +6857,7 @@ const DATA = {
         }
       ],
       "source": "NOAA SWPC OVATION + Kp",
-      "fetchedAt": "2026-08-07T19:10:02Z",
+      "fetchedAt": "2026-08-07T19:40:02Z",
       "stale": false
     },
     "ext": {
