@@ -603,18 +603,18 @@ const LAT = 51.4414, LON = -0.9418;
 
 const DATA = {
   "live": {
-    "label": "Live now · 08 Aug 2026 0750 UTC",
+    "label": "Live now · 08 Aug 2026 0800 UTC",
     "y": 2026,
     "mo": 8,
     "d": 8,
-    "time": "0750",
+    "time": "0800",
     "ww": 0,
-    "Td": 18.1,
-    "Tw": 14.4,
-    "Tdew": 11.9,
-    "VP": 14.0,
-    "RH": 67,
-    "delT": 3.6,
+    "Td": 18.8,
+    "Tw": 14.5,
+    "Tdew": 11.3,
+    "VP": 13.4,
+    "RH": 62,
+    "delT": 3.5,
     "tempHistory": [
       {
         "time": "0005",
@@ -1183,12 +1183,14 @@ const DATA = {
       {
         "time": "0755",
         "x": 475,
-        "yesterday": 17.2
+        "yesterday": 17.2,
+        "today": 18.1
       },
       {
         "time": "0800",
         "x": 480,
-        "yesterday": 17.8
+        "yesterday": 17.8,
+        "today": 18.8
       },
       {
         "time": "0805",
@@ -3664,7 +3666,13 @@ const DATA = {
         "pressureYesterday": 1025.2,
         "rainYesterday": 0.0,
         "windYesterday": 0.6,
-        "solarYesterday": 459
+        "solarYesterday": 459,
+        "temp": 18.1,
+        "rh": 65,
+        "pressure": 1021.2,
+        "rain": 0.0,
+        "wind": 1.2,
+        "solar": 482
       },
       {
         "time": "0800",
@@ -3674,7 +3682,13 @@ const DATA = {
         "pressureYesterday": 1025.2,
         "rainYesterday": 0.0,
         "windYesterday": 1.1,
-        "solarYesterday": 473
+        "solarYesterday": 473,
+        "temp": 18.8,
+        "rh": 62,
+        "pressure": 1021.2,
+        "rain": 0.0,
+        "wind": 1.4,
+        "solar": 497
       },
       {
         "time": "0805",
@@ -5597,14 +5611,14 @@ const DATA = {
         "solarYesterday": -4
       }
     ],
-    "Tgrass": 31.7,
-    "Tconc": 27.3,
-    "Tsoil": 32.0,
+    "Tgrass": 32.1,
+    "Tconc": 27.9,
+    "Tsoil": 33.7,
     "soil": {
       "c5": 19.1,
       "c10": 19.6,
       "c20": null,
-      "c30": 20.2,
+      "c30": 20.1,
       "c50": null,
       "c100": 18.6
     },
@@ -5614,26 +5628,26 @@ const DATA = {
     "rain6h": 0.0,
     "rainAccum": 0.0,
     "cloudBase": null,
-    "vis": 66054,
+    "vis": 75000,
     "Sdur5": 5.0,
-    "SdurAccum": 2.8,
-    "Sg": 469,
-    "SgAccum": 2.04,
-    "Sb": 43,
-    "Sd": 470,
-    "Rn": 239,
-    "G": -7,
+    "SdurAccum": 3.0,
+    "Sg": 497,
+    "SgAccum": 2.34,
+    "Sb": 46,
+    "Sd": 498,
+    "Rn": 260,
+    "G": -6,
     "Pmsl": 1021.2,
-    "delP1": -0.3,
+    "delP1": -0.2,
     "delP3": -0.4,
-    "dir": 138,
-    "U10": 1.1,
-    "U10max": 2.0,
-    "U10maxAcc": 2.8,
+    "dir": 172,
+    "U10": 1.4,
+    "U10max": 3.0,
+    "U10maxAcc": 3.0,
     "U2run": 0.3,
     "U10run": 0.4,
     "ae": {
-      "pg": 69.0,
+      "pg": 62.0,
       "unit": "V/m"
     },
     "clim": {
@@ -5642,23 +5656,6 @@ const DATA = {
         "name": "August",
         "source": "/storage/silver/metweb/new-web/VirtualSites/met-secure/Data/climat/monthly_datafiles",
         "variables": {
-          "tmin": {
-            "label": "Daily minimum temperature",
-            "unit": "°C",
-            "recordLow": {
-              "value": 2.9,
-              "date": "1934-08-31"
-            },
-            "p05": 8.2,
-            "mean": 12.7,
-            "p95": 16.8,
-            "recordHigh": {
-              "value": 20.8,
-              "date": "1995-08-02"
-            },
-            "meanKind": "dailyMean",
-            "baselineCount": 930
-          },
           "tmax": {
             "label": "Daily maximum temperature",
             "unit": "°C",
@@ -5676,21 +5673,21 @@ const DATA = {
             "meanKind": "dailyMean",
             "baselineCount": 930
           },
-          "sunshine": {
-            "label": "Daily sunshine",
-            "unit": "h",
+          "pressure": {
+            "label": "MSL pressure",
+            "unit": "hPa",
             "recordLow": {
-              "value": 0.0,
-              "date": "1956-08-10"
+              "value": 975.4,
+              "date": "1917-08-28"
             },
-            "p05": 0.0,
-            "mean": 192.4,
-            "p95": 12.4,
+            "p05": 1004.1,
+            "mean": 1015.7,
+            "p95": 1025.1,
             "recordHigh": {
-              "value": 14.5,
-              "date": "1981-08-02"
+              "value": 1034.0,
+              "date": "1940-08-17"
             },
-            "meanKind": "monthTotal",
+            "meanKind": "dailyMean",
             "baselineCount": 930
           },
           "tmean": {
@@ -5727,21 +5724,38 @@ const DATA = {
             "meanKind": "monthTotal",
             "baselineCount": 930
           },
-          "pressure": {
-            "label": "MSL pressure",
-            "unit": "hPa",
+          "tmin": {
+            "label": "Daily minimum temperature",
+            "unit": "°C",
             "recordLow": {
-              "value": 975.4,
-              "date": "1917-08-28"
+              "value": 2.9,
+              "date": "1934-08-31"
             },
-            "p05": 1004.1,
-            "mean": 1015.7,
-            "p95": 1025.1,
+            "p05": 8.2,
+            "mean": 12.7,
+            "p95": 16.8,
             "recordHigh": {
-              "value": 1034.0,
-              "date": "1940-08-17"
+              "value": 20.8,
+              "date": "1995-08-02"
             },
             "meanKind": "dailyMean",
+            "baselineCount": 930
+          },
+          "sunshine": {
+            "label": "Daily sunshine",
+            "unit": "h",
+            "recordLow": {
+              "value": 0.0,
+              "date": "1956-08-10"
+            },
+            "p05": 0.0,
+            "mean": 192.4,
+            "p95": 12.4,
+            "recordHigh": {
+              "value": 14.5,
+              "date": "1981-08-02"
+            },
+            "meanKind": "monthTotal",
             "baselineCount": 930
           }
         }
@@ -5750,23 +5764,6 @@ const DATA = {
         "name": "Summer",
         "source": "/storage/silver/metweb/new-web/VirtualSites/met-secure/Data/climat/monthly_datafiles",
         "variables": {
-          "tmin": {
-            "label": "Daily minimum temperature",
-            "unit": "°C",
-            "recordLow": {
-              "value": 0.6,
-              "date": "1923-06-03"
-            },
-            "p05": 7.5,
-            "mean": 12.1,
-            "p95": 16.5,
-            "recordHigh": {
-              "value": 21.3,
-              "date": "2026-06-26"
-            },
-            "meanKind": "dailyMean",
-            "baselineCount": 2760
-          },
           "tmax": {
             "label": "Daily maximum temperature",
             "unit": "°C",
@@ -5780,6 +5777,23 @@ const DATA = {
             "recordHigh": {
               "value": 37.6,
               "date": "2022-07-19"
+            },
+            "meanKind": "dailyMean",
+            "baselineCount": 2760
+          },
+          "tmin": {
+            "label": "Daily minimum temperature",
+            "unit": "°C",
+            "recordLow": {
+              "value": 0.6,
+              "date": "1923-06-03"
+            },
+            "p05": 7.5,
+            "mean": 12.1,
+            "p95": 16.5,
+            "recordHigh": {
+              "value": 21.3,
+              "date": "2026-06-26"
             },
             "meanKind": "dailyMean",
             "baselineCount": 2760
@@ -5882,30 +5896,30 @@ const DATA = {
     },
     "ext": {
       "Td": {
-        "mx": 18.2,
-        "mxt": "0747",
+        "mx": 18.9,
+        "mxt": "0759",
         "mn": 9.2,
         "mnt": "0506"
       },
       "RH": {
         "mx": 98,
         "mxt": "0309",
-        "mn": 67,
-        "mnt": "0749"
+        "mn": 62,
+        "mnt": "0800"
       },
       "Pmsl": {
         "mx": 1022.5,
         "mxt": "0001",
-        "mn": 1021.2,
-        "mnt": "0745"
+        "mn": 1021.1,
+        "mnt": "0758"
       },
       "Tgrass": {
         "mn": 3.6,
         "mnt": "0428"
       },
       "Sg": {
-        "mx": 469,
-        "mxt": "0750"
+        "mx": 497,
+        "mxt": "0800"
       }
     }
   }
