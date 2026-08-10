@@ -603,18 +603,18 @@ const LAT = 51.4414, LON = -0.9418;
 
 const DATA = {
   "live": {
-    "label": "Live now · 10 Aug 2026 0910 UTC",
+    "label": "Live now · 10 Aug 2026 0920 UTC",
     "y": 2026,
     "mo": 8,
     "d": 10,
-    "time": "0910",
+    "time": "0920",
     "ww": 0,
-    "Td": 20.2,
-    "Tw": 14.7,
-    "Tdew": 10.3,
-    "VP": 12.5,
-    "RH": 53,
-    "delT": 0.9,
+    "Td": 20.8,
+    "Tw": 15.1,
+    "Tdew": 10.5,
+    "VP": 12.7,
+    "RH": 52,
+    "delT": 1.0,
     "tempHistory": [
       {
         "time": "0005",
@@ -1279,12 +1279,14 @@ const DATA = {
       {
         "time": "0915",
         "x": 555,
-        "yesterday": 21.9
+        "yesterday": 21.9,
+        "today": 21.0
       },
       {
         "time": "0920",
         "x": 560,
-        "yesterday": 22.3
+        "yesterday": 22.3,
+        "today": 20.8
       },
       {
         "time": "0925",
@@ -3936,7 +3938,13 @@ const DATA = {
         "pressureYesterday": 1014.5,
         "rainYesterday": 0.0,
         "windYesterday": 0.8,
-        "solarYesterday": 367
+        "solarYesterday": 367,
+        "temp": 21.0,
+        "rh": 53,
+        "pressure": 1019.7,
+        "rain": 0.0,
+        "wind": 2.9,
+        "solar": 658
       },
       {
         "time": "0920",
@@ -3946,7 +3954,13 @@ const DATA = {
         "pressureYesterday": 1014.5,
         "rainYesterday": 0.0,
         "windYesterday": 0.8,
-        "solarYesterday": 698
+        "solarYesterday": 698,
+        "temp": 20.8,
+        "rh": 52,
+        "pressure": 1019.7,
+        "rain": 0.0,
+        "wind": 2.8,
+        "solar": 668
       },
       {
         "time": "0925",
@@ -5709,11 +5723,11 @@ const DATA = {
         "solarYesterday": -4
       }
     ],
-    "Tgrass": 34.0,
-    "Tconc": 32.3,
-    "Tsoil": 34.6,
+    "Tgrass": 36.0,
+    "Tconc": 34.0,
+    "Tsoil": 35.7,
     "soil": {
-      "c5": 21.5,
+      "c5": 21.6,
       "c10": 21.0,
       "c20": null,
       "c30": 20.8,
@@ -5728,24 +5742,24 @@ const DATA = {
     "cloudBase": null,
     "vis": 75000,
     "Sdur5": 5.0,
-    "SdurAccum": 4.0,
-    "Sg": 647,
-    "SgAccum": 4.43,
-    "Sb": 57,
-    "Sd": 649,
-    "Rn": 385,
-    "G": 6,
+    "SdurAccum": 4.2,
+    "Sg": 668,
+    "SgAccum": 4.83,
+    "Sb": 61,
+    "Sd": 669,
+    "Rn": 376,
+    "G": 7,
     "Pmsl": 1019.7,
-    "delP1": 0.5,
+    "delP1": 0.4,
     "delP3": 1.8,
-    "dir": 355,
-    "U10": 2.7,
-    "U10max": 5.8,
+    "dir": 329,
+    "U10": 2.8,
+    "U10max": 3.9,
     "U10maxAcc": 5.8,
     "U2run": 1.1,
     "U10run": 1.6,
     "ae": {
-      "pg": 48.0,
+      "pg": 56.0,
       "unit": "V/m"
     },
     "clim": {
@@ -5771,21 +5785,21 @@ const DATA = {
             "meanKind": "dailyMean",
             "baselineCount": 930
           },
-          "pressure": {
-            "label": "MSL pressure",
-            "unit": "hPa",
+          "rain": {
+            "label": "Daily rainfall",
+            "unit": "mm",
             "recordLow": {
-              "value": 975.4,
-              "date": "1917-08-28"
+              "value": 0.0,
+              "date": "1908-08-01"
             },
-            "p05": 1004.1,
-            "mean": 1015.7,
-            "p95": 1025.1,
+            "p05": 0.0,
+            "mean": 56.8,
+            "p95": 9.9,
             "recordHigh": {
-              "value": 1034.0,
-              "date": "1940-08-17"
+              "value": 59.5,
+              "date": "2011-08-18"
             },
-            "meanKind": "dailyMean",
+            "meanKind": "monthTotal",
             "baselineCount": 930
           },
           "tmean": {
@@ -5805,19 +5819,19 @@ const DATA = {
             "meanKind": "dailyMean",
             "baselineCount": 930
           },
-          "rain": {
-            "label": "Daily rainfall",
-            "unit": "mm",
+          "sunshine": {
+            "label": "Daily sunshine",
+            "unit": "h",
             "recordLow": {
               "value": 0.0,
-              "date": "1908-08-01"
+              "date": "1956-08-10"
             },
             "p05": 0.0,
-            "mean": 56.8,
-            "p95": 9.9,
+            "mean": 192.4,
+            "p95": 12.4,
             "recordHigh": {
-              "value": 59.5,
-              "date": "2011-08-18"
+              "value": 14.5,
+              "date": "1981-08-02"
             },
             "meanKind": "monthTotal",
             "baselineCount": 930
@@ -5839,21 +5853,21 @@ const DATA = {
             "meanKind": "dailyMean",
             "baselineCount": 930
           },
-          "sunshine": {
-            "label": "Daily sunshine",
-            "unit": "h",
+          "pressure": {
+            "label": "MSL pressure",
+            "unit": "hPa",
             "recordLow": {
-              "value": 0.0,
-              "date": "1956-08-10"
+              "value": 975.4,
+              "date": "1917-08-28"
             },
-            "p05": 0.0,
-            "mean": 192.4,
-            "p95": 12.4,
+            "p05": 1004.1,
+            "mean": 1015.7,
+            "p95": 1025.1,
             "recordHigh": {
-              "value": 14.5,
-              "date": "1981-08-02"
+              "value": 1034.0,
+              "date": "1940-08-17"
             },
-            "meanKind": "monthTotal",
+            "meanKind": "dailyMean",
             "baselineCount": 930
           }
         }
@@ -5994,20 +6008,20 @@ const DATA = {
     },
     "ext": {
       "Td": {
-        "mx": 20.8,
-        "mxt": "0855",
+        "mx": 21.1,
+        "mxt": "0914",
         "mn": 14.7,
         "mnt": "0353"
       },
       "RH": {
         "mx": 95,
         "mxt": "0515",
-        "mn": 53,
-        "mnt": "0910"
+        "mn": 52,
+        "mnt": "0919"
       },
       "Pmsl": {
-        "mx": 1019.7,
-        "mxt": "0857",
+        "mx": 1019.8,
+        "mxt": "0917",
         "mn": 1015.1,
         "mnt": "0011"
       },
@@ -6016,8 +6030,8 @@ const DATA = {
         "mnt": "0353"
       },
       "Sg": {
-        "mx": 647,
-        "mxt": "0910"
+        "mx": 668,
+        "mxt": "0919"
       }
     }
   }
