@@ -603,18 +603,18 @@ const LAT = 51.4414, LON = -0.9418;
 
 const DATA = {
   "live": {
-    "label": "Live now · 20 Aug 2026 0120 UTC",
+    "label": "Live now · 20 Aug 2026 0130 UTC",
     "y": 2026,
     "mo": 8,
     "d": 20,
-    "time": "0120",
+    "time": "0130",
     "ww": 51,
-    "Td": 15.2,
-    "Tw": 13.1,
-    "Tdew": 11.4,
-    "VP": 13.5,
-    "RH": 78,
-    "delT": -0.7,
+    "Td": 15.1,
+    "Tw": 13.0,
+    "Tdew": 11.3,
+    "VP": 13.4,
+    "RH": 79,
+    "delT": -0.6,
     "tempHistory": [
       {
         "time": "0005",
@@ -715,12 +715,14 @@ const DATA = {
       {
         "time": "0125",
         "x": 85,
-        "yesterday": 17.0
+        "yesterday": 17.0,
+        "today": 15.1
       },
       {
         "time": "0130",
         "x": 90,
-        "yesterday": 16.9
+        "yesterday": 16.9,
+        "today": 15.1
       },
       {
         "time": "0135",
@@ -2338,7 +2340,13 @@ const DATA = {
         "pressureYesterday": 1008.7,
         "rainYesterday": 0.0,
         "windYesterday": 2.3,
-        "solarYesterday": -4
+        "solarYesterday": -4,
+        "temp": 15.1,
+        "rh": 78,
+        "pressure": 1005.2,
+        "rain": 0.0,
+        "wind": 1.6,
+        "solar": -3
       },
       {
         "time": "0130",
@@ -2348,7 +2356,13 @@ const DATA = {
         "pressureYesterday": 1008.7,
         "rainYesterday": 0.0,
         "windYesterday": 2.1,
-        "solarYesterday": -4
+        "solarYesterday": -4,
+        "temp": 15.1,
+        "rh": 79,
+        "pressure": 1005.2,
+        "rain": 0.0,
+        "wind": 1.4,
+        "solar": -3
       },
       {
         "time": "0135",
@@ -5051,11 +5065,11 @@ const DATA = {
         "solarYesterday": -4
       }
     ],
-    "Tgrass": 15.0,
+    "Tgrass": 14.6,
     "Tconc": 16.5,
-    "Tsoil": 14.7,
+    "Tsoil": 14.6,
     "soil": {
-      "c5": 21.3,
+      "c5": 21.2,
       "c10": 21.4,
       "c20": null,
       "c30": 21.3,
@@ -5068,26 +5082,26 @@ const DATA = {
     "rain6h": 0.0,
     "rainAccum": 0.0,
     "cloudBase": 2085,
-    "vis": 75000,
+    "vis": 63433,
     "Sdur5": 0.0,
     "SdurAccum": 0.0,
     "Sg": -3,
     "SgAccum": 0.0,
-    "Sb": -2,
+    "Sb": -1,
     "Sd": -2,
-    "Rn": -25,
+    "Rn": -23,
     "G": -10,
     "Pmsl": 1005.2,
     "delP1": -0.2,
-    "delP3": -0.3,
-    "dir": 204,
-    "U10": 1.5,
-    "U10max": 2.5,
+    "delP3": -0.4,
+    "dir": 211,
+    "U10": 1.4,
+    "U10max": 2.0,
     "U10maxAcc": 5.1,
     "U2run": 1.2,
     "U10run": 1.7,
     "ae": {
-      "pg": 27.0,
+      "pg": 29.0,
       "unit": "V/m"
     },
     "clim": {
@@ -5096,23 +5110,6 @@ const DATA = {
         "name": "August",
         "source": "/storage/silver/metweb/new-web/VirtualSites/met-secure/Data/climat/monthly_datafiles",
         "variables": {
-          "sunshine": {
-            "label": "Daily sunshine",
-            "unit": "h",
-            "recordLow": {
-              "value": 0.0,
-              "date": "1956-08-10"
-            },
-            "p05": 0.0,
-            "mean": 192.4,
-            "p95": 12.4,
-            "recordHigh": {
-              "value": 14.5,
-              "date": "1981-08-02"
-            },
-            "meanKind": "monthTotal",
-            "baselineCount": 930
-          },
           "pressure": {
             "label": "MSL pressure",
             "unit": "hPa",
@@ -5145,6 +5142,23 @@ const DATA = {
               "date": "1995-08-02"
             },
             "meanKind": "dailyMean",
+            "baselineCount": 930
+          },
+          "sunshine": {
+            "label": "Daily sunshine",
+            "unit": "h",
+            "recordLow": {
+              "value": 0.0,
+              "date": "1956-08-10"
+            },
+            "p05": 0.0,
+            "mean": 192.4,
+            "p95": 12.4,
+            "recordHigh": {
+              "value": 14.5,
+              "date": "1981-08-02"
+            },
+            "meanKind": "monthTotal",
             "baselineCount": 930
           },
           "tmean": {
@@ -5338,12 +5352,12 @@ const DATA = {
       "Td": {
         "mx": 15.9,
         "mxt": "0018",
-        "mn": 15.2,
-        "mnt": "0120"
+        "mn": 15.1,
+        "mnt": "0130"
       },
       "RH": {
-        "mx": 78,
-        "mxt": "0120",
+        "mx": 79,
+        "mxt": "0130",
         "mn": 73,
         "mnt": "0001"
       },
@@ -5351,7 +5365,7 @@ const DATA = {
         "mx": 1005.5,
         "mxt": "0003",
         "mn": 1005.2,
-        "mnt": "0110"
+        "mnt": "0130"
       },
       "Tgrass": {
         "mn": 13.5,
