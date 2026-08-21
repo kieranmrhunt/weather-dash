@@ -603,18 +603,18 @@ const LAT = 51.4414, LON = -0.9418;
 
 const DATA = {
   "live": {
-    "label": "Live now · 21 Aug 2026 0800 UTC",
+    "label": "Live now · 21 Aug 2026 0810 UTC",
     "y": 2026,
     "mo": 8,
     "d": 21,
-    "time": "0800",
+    "time": "0810",
     "ww": 0,
-    "Td": 15.1,
-    "Tw": 12.6,
-    "Tdew": 11.2,
-    "VP": 13.3,
-    "RH": 78,
-    "delT": 1.2,
+    "Td": 14.8,
+    "Tw": 12.3,
+    "Tdew": 10.5,
+    "VP": 12.7,
+    "RH": 75,
+    "delT": 0.7,
     "tempHistory": [
       {
         "time": "0005",
@@ -1195,12 +1195,14 @@ const DATA = {
       {
         "time": "0805",
         "x": 485,
-        "yesterday": 17.6
+        "yesterday": 17.6,
+        "today": 15.0
       },
       {
         "time": "0810",
         "x": 490,
-        "yesterday": 17.6
+        "yesterday": 17.6,
+        "today": 14.8
       },
       {
         "time": "0815",
@@ -3698,7 +3700,13 @@ const DATA = {
         "pressureYesterday": 1005.2,
         "rainYesterday": 0.2,
         "windYesterday": 2.6,
-        "solarYesterday": 296
+        "solarYesterday": 296,
+        "temp": 15.0,
+        "rh": 76,
+        "pressure": 1013.5,
+        "rain": 0.0,
+        "wind": 2.0,
+        "solar": 193
       },
       {
         "time": "0810",
@@ -3708,7 +3716,13 @@ const DATA = {
         "pressureYesterday": 1005.2,
         "rainYesterday": 0.2,
         "windYesterday": 2.7,
-        "solarYesterday": 242
+        "solarYesterday": 242,
+        "temp": 14.8,
+        "rh": 75,
+        "pressure": 1013.5,
+        "rain": 0.0,
+        "wind": 2.2,
+        "solar": 203
       },
       {
         "time": "0815",
@@ -5611,14 +5625,14 @@ const DATA = {
         "solarYesterday": -2
       }
     ],
-    "Tgrass": 21.8,
-    "Tconc": 20.4,
-    "Tsoil": 20.6,
+    "Tgrass": 19.9,
+    "Tconc": 19.0,
+    "Tsoil": 19.3,
     "soil": {
       "c5": 19.6,
-      "c10": 19.9,
+      "c10": 19.8,
       "c20": null,
-      "c30": 20.4,
+      "c30": 20.3,
       "c50": null,
       "c100": 19.2
     },
@@ -5627,27 +5641,27 @@ const DATA = {
     "rain3h": 0.0,
     "rain6h": 0.0,
     "rainAccum": 0.0,
-    "cloudBase": 521,
-    "vis": 67045,
+    "cloudBase": 622,
+    "vis": 58523,
     "Sdur5": 5.0,
-    "SdurAccum": 1.0,
-    "Sg": 237,
-    "SgAccum": 1.24,
-    "Sb": -2,
-    "Sd": 238,
-    "Rn": 177,
+    "SdurAccum": 1.2,
+    "Sg": 203,
+    "SgAccum": 1.37,
+    "Sb": 1,
+    "Sd": 204,
+    "Rn": 144,
     "G": -6,
     "Pmsl": 1013.5,
-    "delP1": 0.6,
-    "delP3": 1.5,
-    "dir": 31,
-    "U10": 2.1,
-    "U10max": 4.4,
-    "U10maxAcc": 4.4,
-    "U2run": 0.8,
-    "U10run": 1.2,
+    "delP1": 0.7,
+    "delP3": 1.6,
+    "dir": 37,
+    "U10": 2.2,
+    "U10max": 4.8,
+    "U10maxAcc": 4.8,
+    "U2run": 0.9,
+    "U10run": 1.3,
     "ae": {
-      "pg": 30.0,
+      "pg": 31.0,
       "unit": "V/m"
     },
     "clim": {
@@ -5673,19 +5687,19 @@ const DATA = {
             "meanKind": "monthTotal",
             "baselineCount": 930
           },
-          "pressure": {
-            "label": "MSL pressure",
-            "unit": "hPa",
+          "tmean": {
+            "label": "Daily mean temperature",
+            "unit": "°C",
             "recordLow": {
-              "value": 975.4,
-              "date": "1917-08-28"
+              "value": 9.9,
+              "date": "1978-08-31"
             },
-            "p05": 1004.1,
-            "mean": 1015.7,
-            "p95": 1025.1,
+            "p05": 13.7,
+            "mean": 17.5,
+            "p95": 22.2,
             "recordHigh": {
-              "value": 1034.0,
-              "date": "1940-08-17"
+              "value": 27.4,
+              "date": "2020-08-12"
             },
             "meanKind": "dailyMean",
             "baselineCount": 930
@@ -5707,6 +5721,23 @@ const DATA = {
             "meanKind": "dailyMean",
             "baselineCount": 930
           },
+          "pressure": {
+            "label": "MSL pressure",
+            "unit": "hPa",
+            "recordLow": {
+              "value": 975.4,
+              "date": "1917-08-28"
+            },
+            "p05": 1004.1,
+            "mean": 1015.7,
+            "p95": 1025.1,
+            "recordHigh": {
+              "value": 1034.0,
+              "date": "1940-08-17"
+            },
+            "meanKind": "dailyMean",
+            "baselineCount": 930
+          },
           "tmin": {
             "label": "Daily minimum temperature",
             "unit": "°C",
@@ -5720,23 +5751,6 @@ const DATA = {
             "recordHigh": {
               "value": 20.8,
               "date": "1995-08-02"
-            },
-            "meanKind": "dailyMean",
-            "baselineCount": 930
-          },
-          "tmean": {
-            "label": "Daily mean temperature",
-            "unit": "°C",
-            "recordLow": {
-              "value": 9.9,
-              "date": "1978-08-31"
-            },
-            "p05": 13.7,
-            "mean": 17.5,
-            "p95": 22.2,
-            "recordHigh": {
-              "value": 27.4,
-              "date": "2020-08-12"
             },
             "meanKind": "dailyMean",
             "baselineCount": 930
@@ -5869,8 +5883,8 @@ const DATA = {
       "readingProbability": 0,
       "ukProbability": 0,
       "ukPeakLatitude": 49.0,
-      "observationTime": "2026-08-21T07:30:00Z",
-      "validTime": "2026-08-21T08:25:00Z",
+      "observationTime": "2026-08-21T08:09:00Z",
+      "validTime": "2026-08-21T09:05:00Z",
       "currentKp": 2.7,
       "kpPeak": 4.0,
       "kpDays": [
@@ -5891,7 +5905,7 @@ const DATA = {
         }
       ],
       "source": "NOAA SWPC OVATION + Kp",
-      "fetchedAt": "2026-08-21T07:40:03Z",
+      "fetchedAt": "2026-08-21T08:20:03Z",
       "stale": false
     },
     "ext": {
@@ -5904,12 +5918,12 @@ const DATA = {
       "RH": {
         "mx": 90,
         "mxt": "0001",
-        "mn": 78,
-        "mnt": "0800"
+        "mn": 75,
+        "mnt": "0810"
       },
       "Pmsl": {
         "mx": 1013.5,
-        "mxt": "0800",
+        "mxt": "0810",
         "mn": 1010.9,
         "mnt": "0007"
       },
