@@ -299,12 +299,13 @@
 
   /* live lightning */
   .lightning-wrap{width:100%;margin-top:14px;text-align:left}
-  .lightning-map{position:relative;width:100%;height:132px;overflow:hidden;border:1px solid var(--line);border-radius:8px;background:#080b11;isolation:isolate}
-  .lightning-map iframe{display:block;width:100%;height:100%;border:0;pointer-events:none;filter:saturate(.78) brightness(.88) contrast(1.08)}
-  .lightning-map::after{content:'';position:absolute;inset:0;pointer-events:none;box-shadow:inset 0 0 24px rgba(8,11,17,.34)}
-  .lightning-pin{position:absolute;left:50%;top:50%;z-index:2;width:11px;height:11px;border:2px solid var(--accent);border-radius:50%;box-shadow:0 0 0 3px rgba(8,11,17,.62),0 0 12px rgba(230,179,74,.55);transform:translate(-50%,-50%);pointer-events:none}
+  .lightning-map{position:relative;width:100%;height:132px;overflow:hidden;border:1px solid var(--line);border-radius:2px;background:#101820;isolation:isolate;display:grid;place-items:center}
+  .lightning-map img{position:absolute;z-index:1;left:50%;top:50%;width:200%;max-width:none;height:auto;transform:translate(-29.2%,-47.8%);filter:saturate(.74) brightness(.78) contrast(1.12)}
+  .lightning-fallback{position:relative;z-index:0;padding:12px;font-family:var(--mono);font-size:10px;line-height:1.45;letter-spacing:.06em;text-align:center;text-transform:uppercase;color:var(--ink-faint)}
+  .lightning-map::after{content:'';position:absolute;z-index:2;inset:0;pointer-events:none;border:1px solid rgba(255,255,255,.025)}
+  .lightning-pin{position:absolute;left:50%;top:50%;z-index:3;width:11px;height:11px;border:2px solid var(--accent);border-radius:50%;box-shadow:0 0 0 3px rgba(8,11,17,.72);transform:translate(-50%,-50%);pointer-events:none}
   .lightning-pin::after{content:'';position:absolute;left:50%;top:50%;width:3px;height:3px;border-radius:50%;background:var(--ink);transform:translate(-50%,-50%)}
-  .lightning-info-link{position:absolute;right:0;bottom:0;z-index:3;width:42px;height:42px;border-radius:8px 0 7px 0;cursor:pointer}
+  .lightning-info-link{position:absolute;inset:0;z-index:4;cursor:pointer}
   .lightning-info-link:focus-visible{outline:2px solid var(--accent);outline-offset:-4px}
   .lightning-credit{margin-top:6px;font-family:var(--mono);font-size:8.5px;line-height:1.35;color:var(--ink-faint);letter-spacing:.03em;text-align:center}
   .lightning-credit a{color:var(--ink-dim);text-decoration:none;border-bottom:1px solid var(--line-strong)}
@@ -463,6 +464,50 @@
   .tip.on{opacity:1;transform:translateY(0)}
   .tip .tt{color:var(--accent)}
 
+  /* Restrained observatory-console visual treatment. */
+  :root{
+    --panel:#0f141c;
+    --panel-2:#0c1118;
+    --line:rgba(255,255,255,.09);
+    --line-strong:rgba(255,255,255,.18);
+    --serif:'Source Sans 3',Arial,Helvetica,sans-serif;
+    --r:2px;
+    --shadow:none;
+  }
+  body{background:var(--bg);font-size:17px}
+  .wrap{max-width:1240px}
+  .uor-crest{border-radius:0;background:transparent;box-shadow:none}
+  .brand h1{font-size:29px;font-weight:600;letter-spacing:.01em}
+  .controls{margin-bottom:20px}
+  .seg{border-radius:2px;padding:2px;background:transparent;gap:0}
+  .seg button{border-radius:0;border-bottom:2px solid transparent;padding:6px 11px}
+  .seg button[aria-pressed="true"]{background:transparent;border-bottom-color:var(--accent)}
+  .hero,.card,.soil,.extremes{border-radius:2px;box-shadow:none;border-top:2px solid var(--line-strong)}
+  .hero{margin-bottom:10px}
+  .grid{gap:10px;margin-bottom:10px}
+  .card{padding:16px;min-height:182px}
+  .card h2{justify-content:flex-start;text-align:left;border-bottom:1px solid var(--line);padding-bottom:9px;margin-bottom:14px}
+  .bigtemp{font-weight:400;letter-spacing:-.05em}
+  .cond-word{font-family:var(--body);font-style:normal;font-weight:500}
+  .narr{font-size:16px;color:var(--ink-dim)}
+  .badge{border-radius:1px;padding:3px 7px}
+  .badge .dot{border-radius:0}
+  .hero-extreme{border-radius:0;background:rgba(5,7,11,.72);box-shadow:none;backdrop-filter:none}
+  .radar-map,.radar-play,.lightning-map{border-radius:1px}
+  .radar-status,.radar-credit{border-radius:1px}
+  .rb .bar,.forecast-rain span,.aurora-kp-fill{border-radius:1px;box-shadow:none}
+  .rb .bar{background:var(--cool)}
+  .forecast-rain span{background:#8bbcff}
+  .aq-ring{box-shadow:none}
+  .clim-track,.clim-band,.uv-track{border-radius:1px}
+  .clim-band,.clim-now,.clim-now.high,.clim-now.low{box-shadow:none}
+  .soil-item,.surface-glyph{border-radius:0}
+  .soil-item .profile-bar{border-radius:0;box-shadow:none}
+  .surface-glyph{box-shadow:none}
+  footer .status .led{box-shadow:none}
+  .tip{border-radius:1px;box-shadow:none}
+  :focus-visible{border-radius:0}
+
   /* atmospherics */
   @keyframes spin{to{transform:rotate(360deg)}}
   @keyframes fall{0%{transform:translateY(-12px);opacity:0}10%{opacity:.7}100%{transform:translateY(120px);opacity:0}}
@@ -585,7 +630,7 @@
 
   <footer>
     <div class="status"><span class="led" id="led"></span><span id="statusTxt">self-check &mdash; running&hellip;</span><span aria-hidden="true">&middot;</span><span id="feedStatus">live feed &mdash; loading&hellip;</span></div>
-    <div>Observations are populated automatically from the live METFiDAS, ceilometer and SWS-250 feeds. Weather, air-quality and UV values are modelled via <a href="https://open-meteo.com/">Open-Meteo</a>, the Met Office, ECMWF IFS and CAMS; aurora guidance uses <a href="https://www.swpc.noaa.gov/products/aurora-30-minute-forecast">NOAA SWPC OVATION and Kp forecasts</a>; live lightning is embedded from Blitzortung.org contributors. The dashboard application is served by GitHub Pages and loads observations from a separately published live-data feed.</div>
+    <div>Observations are populated automatically from the live METFiDAS, ceilometer and SWS-250 feeds. Weather, air-quality and UV values are modelled via <a href="https://open-meteo.com/">Open-Meteo</a>, the Met Office, ECMWF IFS and CAMS; aurora guidance uses <a href="https://www.swpc.noaa.gov/products/aurora-30-minute-forecast">NOAA SWPC OVATION and Kp forecasts</a>; the lightning image is provided by Blitzortung.org contributors. The dashboard application is served by GitHub Pages and loads observations from a separately published live-data feed.</div>
     <div style="margin-top:6px">Provided without guarantee of accuracy. &middot; <a href="http://www.met.reading.ac.uk/weatherdata/Reading_AWS_weather_report.html">Reading current conditions</a> &middot; <a href="http://www.met.reading.ac.uk/weatherdata/Reading_AWS_weather_yesterday.html">yesterday summary</a></div>
   </footer>
 
@@ -7424,15 +7469,17 @@ function renderUvStrip(uv){
 		</div>
   </div>`;
 }
-const LIGHTNING_MAP_URL='https://map.blitzortung.org/index.php?interactive=0&NavigationControl=0&FullScreenControl=0&Cookies=0&InfoDiv=0&MenuButtonDiv=0&ScaleControl=0&LinksCheckboxChecked=0&MapStyle=1&MapStyleRangeValue=0&Advertisment=0#6/51.4414/-0.9418';
+const LIGHTNING_IMAGE_URL='https://www.blitzortung.org/Images/image_b_eu.png';
 function renderLightningMap(){
+  const refresh=Math.floor(Date.now()/300000);
   return `<div class="lightning-wrap">
     <div class="lightning-map" aria-label="Live lightning strikes near Reading">
-      <iframe src="${LIGHTNING_MAP_URL}" title="Live lightning strikes near Reading" loading="lazy" tabindex="-1" referrerpolicy="no-referrer" sandbox="allow-scripts allow-same-origin"></iframe>
+      <span class="lightning-fallback">Lightning image unavailable<br>Open the interactive map</span>
+      <img src="${LIGHTNING_IMAGE_URL}?v=${refresh}" alt="Blitzortung Europe lightning strikes during the last two hours" loading="lazy" referrerpolicy="no-referrer" onerror="this.style.display='none'">
       <span class="lightning-pin" aria-label="Reading Atmospheric Observatory"></span>
       <a class="lightning-info-link" href="https://map.blitzortung.org/#6/51.4414/-0.9418" target="_blank" rel="noopener noreferrer" aria-label="Open the interactive Blitzortung lightning map" title="Open interactive lightning map"></a>
     </div>
-    <div class="lightning-credit"><a href="https://map.blitzortung.org/#7/51.4414/-0.9418" target="_blank" rel="noopener noreferrer">Blitzortung.org contributors</a> &middot; not for safety use</div>
+    <div class="lightning-credit"><a href="https://www.blitzortung.org/" target="_blank" rel="noopener noreferrer">Blitzortung.org contributors</a> &middot; CC BY-SA 4.0 &middot; not for safety use</div>
   </div>`;
 }
 function renderGrid(s, sun, times){
@@ -7739,7 +7786,7 @@ function selfTest(){
   { const aurora=renderAuroraCard({readingProbability:4,ukProbability:18,currentKp:3.3,kpPeak:5.7,validTime:'2026-07-14T22:10:00Z',fetchedAt:'2026-07-14T21:20:00Z',kpDays:[{date:'2026-07-14',max:4.0},{date:'2026-07-15',max:5.7},{date:'2026-07-16',max:3.3}]},{alt:-12},{set:1220}); assert(aurora.includes('Reading &middot; 30 min') && aurora.includes('UK max 18%') && aurora.includes('Kp <b>5.7</b>') && aurora.includes('OVATION') && aurora.includes('valid 22:10 UTC'), 'aurora forecast card'); }
   { const aq=renderAirQualityCard({aqi:37,pm25:8.1,pm10:13.2,no2:18.4,o3:62.5,components:{pm25:37,pm10:22,no2:18,o3:31},time:'2026-07-11T12:00',source:'Open-Meteo / CAMS',stale:false}); assert(aq.includes('European AQI') && aq.includes('Fair') && aq.includes('model 12:00 UTC') && aq.includes('PM<sub>2.5</sub>'), 'air quality card'); }
   { const uv=renderUvStrip({now:2.4,max:6.5,maxTime:'2026-07-13T12:00',clearMax:7.2}); assert(uv.includes('UV now') && uv.includes('Low') && uv.includes('forecast max 6.5 12:00') && uv.includes('clear 7.2'), 'UV strip'); }
-  { const lightning=renderLightningMap(); assert(lightning.includes('map.blitzortung.org') && lightning.includes('interactive=0') && lightning.includes('MapStyle=1') && lightning.includes('#6/51.4414/-0.9418') && lightning.includes('lightning-info-link') && lightning.includes('Open the interactive Blitzortung lightning map') && lightning.includes('Live lightning strikes near Reading') && lightning.includes('not for safety use'), 'lightning map'); }
+  { const lightning=renderLightningMap(); assert(lightning.includes('www.blitzortung.org/Images/image_b_eu.png') && lightning.includes('#6/51.4414/-0.9418') && lightning.includes('lightning-info-link') && lightning.includes('Open the interactive Blitzortung lightning map') && lightning.includes('Live lightning strikes near Reading') && lightning.includes('CC BY-SA 4.0') && lightning.includes('not for safety use') && !lightning.includes('<iframe'), 'lightning map'); }
   // pressure tendency signs
   assert(pressureTendency(4).dir==='up' && pressureTendency(-4).dir==='down','tendency sign');
   assert(pressureTendency(0.1).dir==='flat','tendency flat');
