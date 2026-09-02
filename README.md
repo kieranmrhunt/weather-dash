@@ -17,6 +17,11 @@ Public endpoints:
 - Dashboard: <https://kieranmrhunt.github.io/weather-dash/>
 - Live data: <https://gws-access.jasmin.ac.uk/public/incompass/kieran/weather-dash/latest.json>
 - Reading mirror: <https://www.met.reading.ac.uk/~rz908899/weather-dash/latest.php>
+- Page views: CounterAPI namespace `kieranmrhunt.github.io`, key `weather-dash`
+
+The footer page-view counter starts at 500 and records production page loads
+through CounterAPI. The request omits browser credentials and the counter is not
+called from local previews.
 
 ## Operations
 
