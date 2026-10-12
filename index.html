@@ -7822,7 +7822,8 @@ function renderRadar(){
     <span class="radar-status">loading radar...</span>`;
   const img=el.querySelector('.radar-img');
   const status=el.querySelector('.radar-status');
-  fetch('https://api.rainviewer.com/public/weather-maps.json')
+  img.onerror=()=>{ status.textContent='radar image unavailable · retrying'; if(controls) controls.hidden=true; setTimeout(()=>{ if(document.getElementById('rainRadar')===el) renderRadar(); },15000); };
+  fetch('https://api.rainviewer.com/public/weather-maps.json',{cache:'no-store'})
     .then(r=>r.ok?r.json():Promise.reject(new Error('radar metadata unavailable')))
     .then(api=>{
       const past=api.radar?.past||[];
@@ -7870,7 +7871,7 @@ function renderRadar(){
       if(controls) controls.hidden=false;
       setFrame(useFrames.length-1);
     })
-    .catch(()=>{ status.textContent='radar unavailable'; if(controls) controls.hidden=true; });
+    .catch(()=>{ status.textContent='radar unavailable · retrying'; if(controls) controls.hidden=true; setTimeout(()=>{ if(document.getElementById('rainRadar')===el) renderRadar(); },15000); });
 }
 function forecastDayLabel(dateStr, i){
   if(i===0) return 'Today';
